@@ -1,0 +1,42 @@
+<div class="background--gallery border-top--mercury-lg margin-top--6">
+    <div class="wrapper">
+        <h2>Did you find this page helpful?</h2>
+        <form class="margin-bottom--6">
+
+            <div class="form__group">
+                <fieldset>
+                    <legend>Did you find what you were looking for?</legend>
+                    <input id="found-yes" type="radio" name="found" value="yes">
+                    <label for="found-yes">Yes</label>
+                    <input id="found-no" type="radio" name="found" value="no">
+                    <label for="found-no">No</label>
+                </fieldset>
+            </div>
+
+            <div class="form__group">
+                <fieldset>
+                    <legend>Was the site easy to understand?</legend>
+                    <input id="understood-yes" type="radio" name="understood" value="yes">
+                    <label for="understood-yes">Yes</label>
+                    <input id="understood-no" type="radio" name="understood" value="no">
+                    <label for="understood-no">No</label>
+                </fieldset>
+            </div>
+
+            <div class="form__group">
+                <label for="email" class="block">Email address</label>
+                <input id="email" type="text" name="emailfield" class="width-md--26">
+            </div>
+
+            <div class="form__group">
+                <label for="feedback">Any other feedback</label>
+                <textarea id="feedback" name="feedbackfield" class="width-md--26"></textarea>
+            </div>
+
+            <input id="uri" type="hidden" name="uri" value="{{uri}}" class="width-md--26">
+
+            <button class="btn btn--primary margin-top--2">Send</button>
+
+        </form>
+    </div>
+</div>
