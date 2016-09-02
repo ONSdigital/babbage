@@ -1,7 +1,6 @@
 package com.github.onsdigital.babbage.feedback;
 
 import com.github.davidcarboni.httpino.Endpoint;
-import com.github.davidcarboni.httpino.Host;
 import com.github.davidcarboni.httpino.Response;
 import com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm;
 import com.github.onsdigital.babbage.feedback.slack.Attachment;
@@ -15,6 +14,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getMaxNotificationTokens;
+import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getMsUntilNewNotificationToken;
+import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getSlackEndpoint;
+
 /**
  * Created by dave on 8/23/16.
  */
@@ -22,7 +25,7 @@ public class SlackFeedbackNotifier {
 
     private static final Path ROOT = Paths.get("/");
     private static final String SLACK_MSG_TEMPLATE = "User feedback Received";
-    private static Endpoint SLACK_ENDPOINT = new Endpoint(new Host("https://hooks.slack.com"), "/services/T02KLUDD9/B23HZ3K1B/kYzvmO4K9cdDSGRTMKm7SNEb");
+    private static Endpoint SLACK_ENDPOINT = getSlackEndpoint();
     private static final String CODE_TAG = "`";
     private Throttle throttle;
 
@@ -30,8 +33,9 @@ public class SlackFeedbackNotifier {
     private SlackMessage throttledMsg;
 
     public SlackFeedbackNotifier() {
-        this.throttle = new Throttle(1, 1, null);
-        this.throttledMsg = new SlackMessage().setText("Currently receiving a large amount of feedback. Notifications will be throttled.");
+        this.throttle = new Throttle(getMaxNotificationTokens(), getMsUntilNewNotificationToken());
+        this.throttledMsg = new SlackMessage()
+                .setText("Currently receiving a large amount of feedback. Notifications will be throttled.");
     }
 
     /**
@@ -44,8 +48,6 @@ public class SlackFeedbackNotifier {
      * @throws IOException
      */
     public void sendNotification(Path location, FeedbackForm form) {
-
-
         throttle.executeTask(new ThrottleTask() {
             @Override
             public void tokensAvailableTask() {
@@ -75,8 +77,9 @@ public class SlackFeedbackNotifier {
                                 .setText(location(path))
                                 .setFallback(location(path))
                                 .setColor("#36a64f")
-                                .addField("Option One", strBool(form.isOptionOne()), true)
-                                .addField("Option Two", strBool(form.isOptionTwo()), true)
+                                .addField("Option One", form.getQuestionOne(), true)
+                                .addField("Option Two", form.getQuestionTwo(), true)
+                                .addField("Email", form.getEmailAddress(), true)
                                 .addField("Comments", comments(form), false)
                                 .addMarkDown("text"));
     }

@@ -3,6 +3,7 @@ package com.github.onsdigital.babbage.feedback.slack;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,9 @@ public class Attachment {
     }
 
     public Attachment addField(String title, Object value, boolean isShort) {
-        this.fields.add(createField(title, value, isShort));
+        if (value != null) {
+            this.fields.add(createField(title, value, isShort));
+        }
         return this;
     }
 
@@ -65,10 +68,10 @@ public class Attachment {
     }
 
     private Map<String, Object> createField(String title, Object value, boolean isShort) {
-        return new ImmutableMap.Builder<String, Object>()
-                .put("title", title)
-                .put("value", value)
-                .put("short", isShort)
-                .build();
+        Map<String, Object> map = new HashMap<>();
+        map.put("title", title);
+        map.put("value", value);
+        map.put("short", isShort);
+        return map;
     }
 }

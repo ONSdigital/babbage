@@ -8,38 +8,55 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class FeedbackForm extends PostForm {
 
+    private String uri;
+    private String emailAddress;
     private String comments;
-    private boolean optionOne;
-    private boolean optionTwo;
+    private String questionOne;
+    private String questionTwo;
 
-    public FeedbackForm(String comments, boolean optionOne, boolean optionTwo) {
-        this.comments = comments;
-        this.optionOne = optionOne;
-        this.optionTwo = optionTwo;
+    public String getUri() {
+        return uri;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
     public String getComments() {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public String getQuestionOne() {
+        return questionOne;
+    }
+
+    public String getQuestionTwo() {
+        return questionTwo;
+    }
+
+    public FeedbackForm uri(String uri) {
+        this.uri = uri;
+        return this;
+    }
+
+    public FeedbackForm emailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+        return this;
+    }
+
+    public FeedbackForm comments(String comments) {
         this.comments = comments;
+        return this;
     }
 
-    public boolean isOptionOne() {
-        return optionOne;
+    public FeedbackForm questionOne(String questionOne) {
+        this.questionOne = questionOne;
+        return this;
     }
 
-    public void setOptionOne(boolean optionOne) {
-        this.optionOne = optionOne;
-    }
-
-    public boolean isOptionTwo() {
-        return optionTwo;
-    }
-
-    public void setOptionTwo(boolean optionTwo) {
-        this.optionTwo = optionTwo;
+    public FeedbackForm questionTwo(String questionTwo) {
+        this.questionTwo = questionTwo;
+        return this;
     }
 
     public String toJSON() throws JsonProcessingException {
