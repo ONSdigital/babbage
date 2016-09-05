@@ -1,4 +1,4 @@
-<div class="background--gallery border-top--mercury-lg margin-top--6">
+<div class="background--gallery margin-top--6">
     <div class="wrapper">
         <div class="js-show-hide">
             <div class="show-hide show-hide--light">
@@ -8,7 +8,7 @@
                     </h2>
                 </div>
                 <div class="js-show-hide__content">
-                    <form class="margin-bottom--6 js-feedback-form">
+                    <form class="margin-bottom--6 js-feedback-form" action="/feedback" method="post">
 
                         <div class="form__group">
                             <fieldset>
@@ -31,13 +31,13 @@
                         </div>
 
                         <div class="form__group">
-                            <label for="email" class="block">Email address</label>
-                            <input id="email" type="text" name="email" class="width-md--26">
+                            <label for="email" class="block">Email address (optional)</label>
+                            <input id="email" type="email" name="email" class="input input--padded width-md--26">
                         </div>
 
                         <div class="form__group">
-                            <label for="feedback">Any other feedback</label>
-                            <textarea id="feedback" name="feedback" class="width-md--26"></textarea>
+                            <label for="feedback">Any other feedback (optional)</label>
+                            <textarea id="feedback" name="feedback" class="input input--padded width-md--26"></textarea>
                         </div>
 
                         <input id="uri" type="hidden" name="uri" value="{{uri}}">
