@@ -1,6 +1,9 @@
-{{#if_ne type "home_page"}}
-    {{> partials/feedback}}
-{{/if_ne}}
+{{#if (containsAny type "home_page" "feedback_received")}}
+    <span/>
+{{else}}
+    {{> partials/feedback-form}}
+{{/if}}
+
 <footer class="print--hide">
 	<h2 class="visuallyhidden">Footer links</h2>
 	<div class="footer">

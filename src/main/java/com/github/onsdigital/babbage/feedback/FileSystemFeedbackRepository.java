@@ -23,10 +23,10 @@ public class FileSystemFeedbackRepository extends FeedbackRepository {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
 
     private static Predicate<FeedbackForm> formIsNull = (form) -> form == null;
-    private static Predicate<FeedbackForm> formCommentsNull = (form) -> isEmpty(form.getComments());
+    private static Predicate<FeedbackForm> formCommentsNull = (form) -> isEmpty(form.getFeedback());
     private static Predicate<FeedbackForm> formEmailNull = (form) -> isEmpty(form.getEmailAddress());
-    private static Predicate<FeedbackForm> formQuestionOneNull = (form) -> isEmpty(form.getQuestionOne());
-    private static Predicate<FeedbackForm> formQuestionTwoNull = (form) -> isEmpty(form.getQuestionTwo());
+    private static Predicate<FeedbackForm> formQuestionOneNull = (form) -> isEmpty(form.getFound());
+    private static Predicate<FeedbackForm> formQuestionTwoNull = (form) -> isEmpty(form.getUnderstood());
 
     private Supplier<Path> nameGenerator = () -> Paths.get(new StringBuilder()
             .append(UUID.randomUUID().toString())

@@ -36,7 +36,8 @@ public enum ContentType {
     chart,
     table,
     equation,
-    departments; //departments type is index under departments index, not a part of ons index which has usual content
+    departments, //departments type is index under departments index, not a part of ons index which has usual content
+    feedback_received;
 
 
     //Content type boost in search results

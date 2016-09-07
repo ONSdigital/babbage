@@ -8,7 +8,7 @@
                     </h2>
                 </div>
                 <div class="js-show-hide__content">
-                    <form class="margin-bottom--6 js-feedback-form" action="/feedback" method="post">
+                    <form class="margin-bottom--6 js-feedback-form" action="/submitfeedback" method="post">
 
                         <div class="form__group">
                             <fieldset>
@@ -41,6 +41,7 @@
                         </div>
 
                         <input id="uri" type="hidden" name="uri" value="{{uri}}">
+                        <input id="response-format" type="hidden" name="response-format" value="html">
 
                         <button class="btn btn--primary margin-top--2" type="submit">Send</button>
 

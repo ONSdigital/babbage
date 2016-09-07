@@ -9,8 +9,13 @@ import static com.github.onsdigital.babbage.configuration.FeedbackConfiguration.
  */
 public abstract class FeedbackRepository {
 
-    public static FeedbackRepository getInstance() {
-        return new FileSystemFeedbackRepository(getFeedbackFolder(), new SlackFeedbackNotifier());
+    private static class RepositoryHolder {
+        static final FileSystemFeedbackRepository INSTANCE
+                = new FileSystemFeedbackRepository(getFeedbackFolder(), new SlackFeedbackNotifier());
+    }
+
+    public static synchronized FeedbackRepository getInstance() {
+        return RepositoryHolder.INSTANCE;
     }
 
     public abstract void save(FeedbackForm feedbackForm) throws Exception;

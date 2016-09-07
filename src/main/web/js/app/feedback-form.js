@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	$("#response-format").val("json");
+});
+
 $(function() {
     $('.js-feedback-form').on("submit",function(e) {
         e.preventDefault(); // cancel the actual submit
@@ -21,6 +25,9 @@ $(function() {
         var feedback = $('#feedback').val();
         if(feedback){feedback = "feedback=" + feedback; data.push(feedback)}
 
+        data.push("uri=" + $("#uri").val());
+        data.push("response-format=" + $("#response-format").val());
+
         // create data string
         for (var i = 0; i < data.length; i++) {
             // if value exists, add value to data string
@@ -31,7 +38,7 @@ $(function() {
 
         // send to server
         $.ajax({
-            url: '/feedback',
+            url: '/submitfeedback',
             type: "post",
             data: dataStr
         }).done(function() {
