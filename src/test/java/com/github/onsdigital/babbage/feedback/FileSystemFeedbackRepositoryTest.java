@@ -96,10 +96,10 @@ public class FileSystemFeedbackRepositoryTest {
     @Test
     public void shouldSaveFeedback() throws Exception {
         FeedbackForm form = new FeedbackForm()
-                .comments("Generic comment")
+                .feedback("Generic comment")
                 .emailAddress("jillValentine@RacoonCity.com")
-                .questionOne("yes")
-                .questionTwo("no")
+                .found("yes")
+                .understood("no")
                 .uri("/one/two/three");
 
         setPrivateField(repo, "nameGenerator", testNameGenerator);

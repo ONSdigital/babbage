@@ -77,8 +77,8 @@ public class SlackFeedbackNotifier {
                                 .setText(location(path))
                                 .setFallback(location(path))
                                 .setColor("#36a64f")
-                                .addField("Option One", form.getQuestionOne(), true)
-                                .addField("Option Two", form.getQuestionTwo(), true)
+                                .addField("Option One", form.getFound(), true)
+                                .addField("Option Two", form.getUnderstood(), true)
                                 .addField("Email", form.getEmailAddress(), true)
                                 .addField("Comments", comments(form), false)
                                 .addMarkDown("text"));
@@ -90,16 +90,12 @@ public class SlackFeedbackNotifier {
         return CODE_TAG + "..." + relativePath.toString() + CODE_TAG;
     }
 
-    private String strBool(Boolean bool) {
-        return String.valueOf(bool);
-    }
-
     private String comments(FeedbackForm form) {
-        if (StringUtils.isNotEmpty(form.getComments())) {
-            if (form.getComments().length() > 200) {
-                return form.getComments().substring(0, 200) + "...";
+        if (StringUtils.isNotEmpty(form.getFeedback())) {
+            if (form.getFeedback().length() > 200) {
+                return form.getFeedback().substring(0, 200) + "...";
             }
         }
-        return form.getComments();
+        return form.getFeedback();
     }
 }
