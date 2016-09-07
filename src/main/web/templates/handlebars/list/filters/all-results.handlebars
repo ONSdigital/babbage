@@ -1,18 +1,25 @@
-<h4 class="filters__title">{{labels.content-types-to-show}}</h4>
-<fieldset class="filters__fieldset">
-    <legend class="filters__sub-title">{{labels.publications}}</legend>
+<h4 class="margin-top--1">{{labels.content-types-to-show}}</h4>
+<fieldset class="margin-top-sm--1 margin-top-md--3">
+    <legend>{{labels.publications}}</legend>
     {{> list/filters/publications}}
 </fieldset>
-<fieldset class="filters__fieldset">
-    <legend class="filters__sub-title">{{labels.data}}</legend>
+<fieldset class="margin-top-sm--1 margin-top-md--3">
+    <legend>{{labels.data}}</legend>
     {{> list/filters/data}}
 </fieldset>
-<fieldset class="filters__fieldset">
-    <legend class="filters__sub-title">{{labels.other}}</legend>
+<fieldset class="margin-top-sm--1 margin-top-md--3">
+    <legend>{{labels.other}}</legend>
     <div class="js-checkbox-container">
-        <ul class="list--neutral flush-top">
-            {{>list/partials/filter-item id="methodology" value="methodology" label=labels.methodology docCount=(add docCounts.static_qmi docCounts.static_methodology)}}
-            {{>list/partials/filter-item id="corporate" value="corporate_information" label=labels.corporate-information  explanation=labels.search-expand-types docCount=(add docCounts.static_landing_page docCounts.static_foi docCounts.static_page)}}
-        </ul>
+        {{>list/partials/filter-item id="methodology" value="methodology" label=labels.methodology docCount=(add docCounts.static_qmi docCounts.static_methodology)}}
+
+        {{!-- Don't use filter-item partial because this needs unique markup (eg inline class on input and explanation in label) --}}
+        <div class="form__group">
+            <input id="checkbox-corporate" class="js-auto-submit__input" type="checkbox" name="filter" value="corporate_information" {{#contains parameters.filter "corporate_information"}}checked{{/contains}}>
+            <label class="inline" for="checkbox-corporate">
+                {{labels.corporate-information}} ({{nf (add docCounts.static_qmi docCounts.static_methodology) alt=0}})
+                <br>
+                ({{labels.search-expand-types}})
+            </label>
+        </div>
     </div>
 </fieldset>

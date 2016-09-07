@@ -14,9 +14,5 @@
     <input id="checkbox-{{id}}" class="js-auto-submit__input" type="checkbox" name="filter" value="{{value}}" {{#contains parameters.filter value}}checked{{/contains}}>
     <label class="" for="checkbox-{{id}}">
         {{label}} ({{nf docCount alt=0}})
-        {{#if explanation}}
-            <br>
-            ({{explanation}})
-        {{/if}}
     </label>
 </div>

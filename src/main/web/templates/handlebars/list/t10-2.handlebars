@@ -15,7 +15,7 @@
 {{/partial}}
 
 {{#partial "block-filters"}}
-	<h4 class="filters__title">{{labels.content-types-to-show}}</h4>
+	<h4 class="margin-top--1">{{labels.content-types-to-show}}</h4>
 	{{> list/filters/data docCounts=counts.docCounts}}
 	<input class="sort__input" type="hidden" name="q" value="{{parameters.q.0}}">
 {{/partial}}
