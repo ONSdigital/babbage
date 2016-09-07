@@ -93,23 +93,31 @@ function loadNewResults(url, focus) {
                 $errorMsg.each(function(i) {
                     var $this = $(this),
                         id = $this.attr('id'),
-                        hasError = $this.children().length > 0;
+                        hasError = $this.children().length > 0,
+                        hasNewError = $newErrorMsg[i].children.length > 0;
 
                     // Add active class for CSS animation to work
-                    if (hasError && $newErrorMsg[i].children.length <= 0) {
+                    if (hasError && !hasNewError) {
                         // Remove old error
                         $this.one(animationEvent, function() {
                             $('#' + id).empty();
                         });
                         $this.toggleClass('active');
-                    } else if (!hasError && $newErrorMsg[i].children.length > 0) {
+                        console.log('Delete existing error');
+                    } else if (!hasError && hasNewError) {
                         // Show new error
                         $('#' + id).empty().html($newErrorMsg[i].innerHTML);
                         $this.toggleClass('active');
-                    } else if (hasError && $newErrorMsg[i].children.length > 0) {
+                        console.log('Show brand new error');
+                    } else if (hasError && hasNewError) {
                         // Update existing error with new error
                         $('#' + id).empty().html($newErrorMsg[i].innerHTML);
+                        console.log('Update error to new error');
+                    } else {
+                        console.log('Do nothing');
                     }
+
+                    console.log("------");
                 });
             }
             if (($newErrorMsg.children().length > 0)) {

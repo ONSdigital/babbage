@@ -1,12 +1,23 @@
-<fieldset class="filters__fieldset">
-    <legend class="filters__title">Previous releases</legend>
+{{!-- <fieldset class="filters__fieldset">
+     <legend class="filters__title">Previous releases</legend>
+     <div class="js-checkbox-container">
+         <div class="filters__field">
+             <input type="checkbox" id="checkbox-previous" class="js-auto-submit__input" name="allReleases" value="1"
+                    {{#if parameters.allReleases}}checked{{/if}}>
+             <label for="checkbox-previous">
+                 Show all releases over time (only showing latest one of each by default)
+             </label>
+         </div>
+     </div>
+ </fieldset> --}}
+
+<fieldset class="margin-top--3">
+    <legend>Previous releases</legend>
     <div class="js-checkbox-container">
-        <div class="filters__field">
-            <input type="checkbox" id="checkbox-previous" class="js-auto-submit__input" name="allReleases" value="1"
-                   {{#if parameters.allReleases}}checked{{/if}}>
-            <label for="checkbox-previous">
-                Show all releases over time (only showing latest one of each by default)
-            </label>
-        </div>
+        <input type="checkbox" id="checkbox-previous" class="js-auto-submit__input" name="allReleases" value="1"
+               {{#if parameters.allReleases}}checked{{/if}}>
+        <label class="inline" for="checkbox-previous">
+            Show all releases over time (only showing latest one of each by default)
+        </label>
     </div>
 </fieldset>
