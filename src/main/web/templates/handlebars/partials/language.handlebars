@@ -1,0 +1,8 @@
+{{!-- Urls for different language versions of the current page --}}
+{{#if_eq language "en"}}
+    //{{#if (containsAny location.hostname "ons.gov.uk" "dev.onsdigital.co.uk")}}www.{{/if}}{{replace location.hostname "cy." ""}}{{uri}}{{> list/partials/parameters}}
+{{/if_eq}}
+
+{{#if_eq language "cym"}}
+    //cy.{{replace location.hostname "www." ""}}{{uri}}{{> list/partials/parameters}}
+{{/if_eq}}
