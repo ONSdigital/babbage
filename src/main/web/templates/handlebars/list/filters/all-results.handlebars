@@ -13,13 +13,11 @@
         {{>list/partials/filter-item id="methodology" value="methodology" label=labels.methodology docCount=(add docCounts.static_qmi docCounts.static_methodology)}}
 
         {{!-- Don't use filter-item partial because this needs unique markup (eg inline class on input and explanation in label) --}}
-        <div class="form__group">
+        <label class="label label--block" for="checkbox-corporate">
+            {{labels.corporate-information}} ({{nf (add docCounts.static_qmi docCounts.static_methodology) alt=0}})
+            <br>
+            ({{labels.search-expand-types}})
             <input id="checkbox-corporate" class="js-auto-submit__input" type="checkbox" name="filter" value="corporate_information" {{#contains parameters.filter "corporate_information"}}checked{{/contains}}>
-            <label class="inline" for="checkbox-corporate">
-                {{labels.corporate-information}} ({{nf (add docCounts.static_qmi docCounts.static_methodology) alt=0}})
-                <br>
-                ({{labels.search-expand-types}})
-            </label>
-        </div>
+        </label>
     </div>
 </fieldset>

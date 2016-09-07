@@ -10,9 +10,8 @@
          </label>
      </div>
  </li> --}}
-<div class="form__group">
+
+<label class="label label--block" for="checkbox-{{id}}">
+    {{label}} ({{nf docCount alt=0}})
     <input id="checkbox-{{id}}" class="js-auto-submit__input" type="checkbox" name="filter" value="{{value}}" {{#contains parameters.filter value}}checked{{/contains}}>
-    <label class="" for="checkbox-{{id}}">
-        {{label}} ({{nf docCount alt=0}})
-    </label>
-</div>
+</label>
