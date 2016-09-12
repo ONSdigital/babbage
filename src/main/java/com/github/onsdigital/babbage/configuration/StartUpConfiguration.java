@@ -13,12 +13,16 @@ public abstract class StartUpConfiguration {
     static final String SET_PROP = "      > Setting property {1}={2}";
 
     public void init() {
-        System.out.println(format(MSG, this.getClass().getSimpleName()));
-        initialize();
-        System.out.println(format(MSG, this.getClass().getSimpleName()));
+        try {
+            System.out.println(format(MSG, this.getClass().getSimpleName()));
+            initialize();
+            System.out.println(format(MSG, this.getClass().getSimpleName()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public abstract void initialize();
+    public abstract void initialize() throws Exception;
 
     protected void configDebug(String msg) {
         System.out.println(format(DEBUG, this.getClass().getSimpleName(), msg));

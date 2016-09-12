@@ -43,7 +43,15 @@ $(function() {
             data: dataStr
         }).done(function() {
             msgHTML.insertAfter($form);
+            $(".margin-top--0").append(" <a href=\"/\">Back</a>");
             $form.hide();
+
+            $("#found-yes").prop("checked", false);
+            $("#found-no").prop("checked", false);
+            $("#understood-yes").prop("checked", false);
+            $("#understood-no").prop("checked", false);
+            $("#email").val("");
+            $("#feedback").val("");
         });
 
     });

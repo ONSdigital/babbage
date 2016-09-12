@@ -14,6 +14,7 @@ public class SlackNotifierConfiguration extends StartUpConfiguration {
     private static Endpoint SLACK_ENDPOINT;
     private static Host SLACK_FEEDBACK_NOTIFICATION_HOST;
     private static String SLACK_FEEDBACK_CHANNEL_URL;
+    private static boolean SLACK_THROTTLE_ENABLED;
 
     @Override
     public void initialize() {
@@ -23,6 +24,7 @@ public class SlackNotifierConfiguration extends StartUpConfiguration {
         SLACK_FEEDBACK_CHANNEL_URL = getValue("slack_feedback_channel_url");
         SLACK_FEEDBACK_NOTIFICATION_HOST = new Host(getValue("slack_feedback_notification_host"));
         SLACK_ENDPOINT = new Endpoint(SLACK_FEEDBACK_NOTIFICATION_HOST, SLACK_FEEDBACK_CHANNEL_URL);
+        SLACK_THROTTLE_ENABLED = Boolean.valueOf(getValue("slack_throttle_enabled"));
     }
 
     public static int getMaxNotificationTokens() {
@@ -43,5 +45,9 @@ public class SlackNotifierConfiguration extends StartUpConfiguration {
 
     public static String getSlackFeedbackChannelUrl() {
         return SLACK_FEEDBACK_CHANNEL_URL;
+    }
+
+    public static boolean isSlackThrottleEnabled() {
+        return SLACK_THROTTLE_ENABLED;
     }
 }

@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.feedback;
 
 import com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm;
+import com.github.onsdigital.babbage.util.EncryptionFileWriter;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +24,10 @@ import java.util.function.Supplier;
 import static com.github.onsdigital.babbage.util.TestsUtil.setPrivateField;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -40,12 +44,14 @@ public class FileSystemFeedbackRepositoryTest {
     private SlackFeedbackNotifier mockNotifier;
 
     @Mock
-    private FeedbackWriter feedbackWriterMock;
+    private SlackFeedbackNotifier notifierMock;
+
+    @Mock
+    private EncryptionFileWriter encryptionFileWriterMock;
 
     private Supplier<Path> testNameGenerator;
     private List<Path> fileNamesList;
     private AtomicInteger fileNames;
-
     private FeedbackRepository repo;
     private Path feedbackBaseDir;
     private Path feedbackDir;
@@ -74,23 +80,29 @@ public class FileSystemFeedbackRepositoryTest {
     @Test
     public void shouldNotSaveFeedbackForNullForm() throws Exception {
         setPrivateField(repo, "nameGenerator", testNameGenerator);
-        setPrivateField(repo, "feedbackWriter", feedbackWriterMock);
+        setPrivateField(repo, "encryptionFileWriter", encryptionFileWriterMock);
+        setPrivateField(repo, "slackBot", notifierMock);
 
         repo.save(null);
 
-        verify(feedbackWriterMock, never())
-                .write(any(FeedbackForm.class), any(Path.class));
+        verify(encryptionFileWriterMock, never())
+                .writeEncrypted(any(Path.class), anyString());
+        verify(notifierMock, never())
+                .sendNotification(any(Path.class), any(FeedbackForm.class));
     }
 
     @Test
     public void shouldNotSaveFeedbackForEmptyForm() throws Exception {
         setPrivateField(repo, "nameGenerator", testNameGenerator);
-        setPrivateField(repo, "feedbackWriter", feedbackWriterMock);
+        setPrivateField(repo, "encryptionFileWriter", encryptionFileWriterMock);
+        setPrivateField(repo, "slackBot", notifierMock);
 
         repo.save(new FeedbackForm());
 
-        verify(feedbackWriterMock, never())
-                .write(any(FeedbackForm.class), any(Path.class));
+        verify(encryptionFileWriterMock, never())
+                .writeEncrypted(any(Path.class), anyString());
+        verify(notifierMock, never())
+                .sendNotification(any(Path.class), any(FeedbackForm.class));
     }
 
     @Test
@@ -103,12 +115,14 @@ public class FileSystemFeedbackRepositoryTest {
                 .uri("/one/two/three");
 
         setPrivateField(repo, "nameGenerator", testNameGenerator);
+        setPrivateField(repo, "encryptionFileWriter", encryptionFileWriterMock);
 
         repo.save(form);
 
         for (File file : Arrays.asList(feedbackDir.toFile().listFiles())) {
             Path path = file.toPath();
-            assertThat("EXPECTED sefHsglh", fileNamesList.contains(path));
+            assertThat("Expected path missing.", fileNamesList.contains(path));
+            verify(notifierMock, times(1)).sendNotification(eq(path), any(FeedbackForm.class));
         }
     }
 

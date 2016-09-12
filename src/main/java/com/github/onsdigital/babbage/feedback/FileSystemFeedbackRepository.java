@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.feedback;
 
 import com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm;
+import com.github.onsdigital.babbage.util.EncryptionFileWriter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,12 +16,13 @@ import java.util.function.Supplier;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
- *
+ * Write User Feedback .json files to the filesystem & sends a Slack notification.
  */
 public class FileSystemFeedbackRepository extends FeedbackRepository {
 
     private static final String JSON_EXT = ".json";
     private static final SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy");
+    private static EncryptionFileWriter encryptionFileWriter = null;
 
     private static Predicate<FeedbackForm> formIsNull = (form) -> form == null;
     private static Predicate<FeedbackForm> formCommentsNull = (form) -> isEmpty(form.getFeedback());
@@ -32,11 +34,6 @@ public class FileSystemFeedbackRepository extends FeedbackRepository {
             .append(UUID.randomUUID().toString())
             .append(JSON_EXT)
             .toString());
-
-    private FeedbackWriter feedbackWriter = (form, path) -> {
-        Files.createFile(path);
-        Files.write(path, form.toJSON().getBytes());
-    };
 
     private SlackFeedbackNotifier slackBot;
     private Path feedbackPath;
@@ -54,13 +51,12 @@ public class FileSystemFeedbackRepository extends FeedbackRepository {
                 .and(formQuestionOneNull)
                 .and(formQuestionTwoNull)
                 .test(feedbackForm)) {
-            // Nothing to save.
             return;
         }
 
         Path location = getFeedbackDir().resolve(nameGenerator.get());
-        feedbackWriter.write(feedbackForm, location);
-        //slackBot.sendNotification(location, feedbackForm);
+        slackBot.sendNotification(location, feedbackForm);
+        encryptionFileWriter().writeEncrypted(location, feedbackForm.toJSON());
     }
 
     private Path getFeedbackDir() throws IOException {
@@ -69,5 +65,12 @@ public class FileSystemFeedbackRepository extends FeedbackRepository {
             Files.createDirectory(parentFolder);
         }
         return parentFolder;
+    }
+
+    private EncryptionFileWriter encryptionFileWriter() {
+        if (encryptionFileWriter == null) {
+            encryptionFileWriter = EncryptionFileWriter.getInstance();
+        }
+        return encryptionFileWriter;
     }
 }

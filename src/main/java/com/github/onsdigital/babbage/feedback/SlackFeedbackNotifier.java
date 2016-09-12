@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getMaxNotificationTokens;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getMsUntilNewNotificationToken;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getSlackEndpoint;
+import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.isSlackThrottleEnabled;
 
 /**
  * Created by dave on 8/23/16.
@@ -33,9 +34,11 @@ public class SlackFeedbackNotifier {
     private SlackMessage throttledMsg;
 
     public SlackFeedbackNotifier() {
-        this.throttle = new Throttle(getMaxNotificationTokens(), getMsUntilNewNotificationToken());
-        this.throttledMsg = new SlackMessage()
-                .setText("Currently receiving a large amount of feedback. Notifications will be throttled.");
+        if (isSlackThrottleEnabled()) {
+            this.throttle = new Throttle(getMaxNotificationTokens(), getMsUntilNewNotificationToken());
+            this.throttledMsg = new SlackMessage()
+                    .setText("Currently receiving a large amount of feedback. Notifications will be throttled.");
+        }
     }
 
     /**
@@ -48,13 +51,29 @@ public class SlackFeedbackNotifier {
      * @throws IOException
      */
     public void sendNotification(Path location, FeedbackForm form) {
+        if (location == null || form == null) return;
+
+        if (isSlackThrottleEnabled()) {
+            sendThrottledNotification(location, form);
+        } else {
+            sendUnthrottledNotification(location, form);
+        }
+    }
+
+    private void sendUnthrottledNotification(Path location, FeedbackForm form) {
+        Response<String> response = httpClient.postJson(SLACK_ENDPOINT, buildSlackMessage(location, form), String.class);
+        if (response == null || response.statusLine == null || response.statusLine.getStatusCode() != 200) {
+            throw new RuntimeException("TODO");
+        }
+    }
+
+    private void sendThrottledNotification(Path location, FeedbackForm form) {
         throttle.executeTask(new ThrottleTask() {
             @Override
             public void tokensAvailableTask() {
                 Response<String> response = httpClient.postJson(SLACK_ENDPOINT, buildSlackMessage(location, form), String.class);
                 if (response == null || response.statusLine == null || response.statusLine.getStatusCode() != 200) {
-                    // TODO what to do here.
-                    throw new RuntimeException("WHoops");
+                    throw new RuntimeException("TODO");
                 }
             }
 
@@ -62,8 +81,7 @@ public class SlackFeedbackNotifier {
             public void triggerTimeoutTask() {
                 Response<String> response = httpClient.postJson(SLACK_ENDPOINT, throttledMsg, String.class);
                 if (response == null || response.statusLine == null || response.statusLine.getStatusCode() != 200) {
-                    // TODO what to do here.
-                    throw new RuntimeException("WHoops");
+                    throw new RuntimeException("TODO");
                 }
             }
         });

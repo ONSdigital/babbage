@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.api.endpoint.form;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -61,8 +60,12 @@ public class FeedbackForm extends PostForm {
         return this;
     }
 
-    public String toJSON() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(this);
+    public String toJSON() {
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
