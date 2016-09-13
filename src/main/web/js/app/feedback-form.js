@@ -7,7 +7,7 @@ $(function() {
         e.preventDefault(); // cancel the actual submit
 
         var $form = $(this),
-            msg = 'Thank you for your feedback',
+            msg = 'Thank you for your help. If you have more extensive feedback, please visit the <a href="aboutus/contactus">contact page</a>.',
             msgHTML = $('<p class="margin-top--0">' + msg + '</p>'),
             data = [],
             dataStr = '';
@@ -43,7 +43,6 @@ $(function() {
             data: dataStr
         }).done(function() {
             msgHTML.insertAfter($form);
-            $(".margin-top--0").append(" <a href=\"/\">Back</a>");
             $form.hide();
 
             $("#found-yes").prop("checked", false);
