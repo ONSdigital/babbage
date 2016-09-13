@@ -2,45 +2,8 @@
 
     {{#if show_form}}
         <div class="wrapper">
-            <div class="">
-                <form class="margin-bottom--6 js-feedback-form" action="/submitfeedback" method="post">
-
-                    <div class="form__group">
-                        <fieldset>
-                            <legend>Did you find what you were looking for?</legend>
-                            <input id="found-yes" type="radio" name="found" value="yes">
-                            <label for="found-yes">Yes</label>
-                            <input id="found-no" type="radio" name="found" value="no">
-                            <label for="found-no">No</label>
-                        </fieldset>
-                    </div>
-
-                    <div class="form__group">
-                        <fieldset>
-                            <legend>Was the site easy to understand?</legend>
-                            <input id="understood-yes" type="radio" name="understood" value="yes">
-                            <label for="understood-yes">Yes</label>
-                            <input id="understood-no" type="radio" name="understood" value="no">
-                            <label for="understood-no">No</label>
-                        </fieldset>
-                    </div>
-
-                    <div class="form__group">
-                        <label for="email" class="block">Email address (optional)</label>
-                        <input id="email" type="email" name="email" class="input input--padded width-md--26">
-                    </div>
-
-                    <div class="form__group">
-                        <label for="feedback">Any other feedback (optional)</label>
-                        <textarea id="feedback" name="feedback" class="input input--padded width-md--26"></textarea>
-                    </div>
-
-                    <input id="uri" type="hidden" name="uri" value="{{uri}}">
-                    <input id="response-format" type="hidden" name="response-format" value="html">
-
-                    <button class="btn btn--primary margin-top--2" type="submit">Send</button>
-
-                </form>
+            <div class="margin-top--2">
+                {{> partials/feedback-form }}
             </div>
         </div>
     {{else}}
@@ -48,7 +11,8 @@
             <div class="col-wrap">
                 <article>
                     <div class="col">
-                        <div>{{acknowledgement}} <a href="{{returnURL}}">Back to content</a></div>
+                        <p>{{{acknowledgement}}}</p>
+                        <p><a href="{{returnURL}}">Return to where you were</a></p>
                     </div>
                 </article>
             </div>
