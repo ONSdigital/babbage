@@ -65,7 +65,7 @@ export RELOAD_TEMPLATES="Y"
 export TEMPLATES_DIR=src/main/web/templates/handlebars
 
 # true to enable throttling false to disable.
-export SLACK_THROTTLE_ENABLED="false"
+export SLACK_THROTTLE_ENABLED="true"
 # Max number of slack notification tokens available.
 export MAX_NOTIFICATION_TOKENS=10
 # Time in MS before a new token is added.
@@ -75,9 +75,9 @@ export SLACK_FEEDBACK_CHANNEL_URL="/services/T02KLUDD9/B23HZ3K1B/kYzvmO4K9cdDSGR
 # The slack URL.
 export SLACK_FEEDBACK_NOTIFICATION_HOST="https://hooks.slack.com"
 # The directory to store the user feedback json files in.
-export FEEDBACK_FOLDER=/Users/dave/Desktop/feedback
+export FEEDBACK_FOLDER=/Users/$USER/Desktop/feedback
 # The directory path to the RSA public key used to encrypt user feedback.
-export PUBLIC_KEY=
+export PUBLIC_KEY=/Users/$USER/Desktop/babbage-keys/public-key
 
 # Development: reloadable
 java $JAVA_OPTS \

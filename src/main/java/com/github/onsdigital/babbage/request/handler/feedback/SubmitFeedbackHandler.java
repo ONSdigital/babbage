@@ -41,6 +41,8 @@ public class SubmitFeedbackHandler extends BaseRequestHandler {
     static final String RESPONSE_FORMAT_PARAM = "response-format";
     static String JSON_RESPONSE = "{\"result\": \"success\"}";
     static final String REQ_TYPE = "submitfeedback";
+    static final String SHOW_FORM_PARAM = "show_form";
+    static final String RETURN_URL_PARAM = "returnURL";
 
     static final List<String> URL_BLACKLIST = new ImmutableList
             .Builder<String>()
@@ -68,9 +70,9 @@ public class SubmitFeedbackHandler extends BaseRequestHandler {
         ContentResponse contentResponse = contentClient.getContent(FEEDBACK_URL);
 
         if (saveFeedback(form)) {
-            additionalArgs.put("show_form", false);
+            additionalArgs.put(SHOW_FORM_PARAM, false);
         }
-        additionalArgs.put("returnURL", getReturnURL(form));
+        additionalArgs.put(RETURN_URL_PARAM, getReturnURL(form));
         String html = templateService.renderContent(contentResponse.getDataStream(), additionalArgs);
         return new BabbageContentBasedStringResponse(contentResponse, html, MIME);
     }

@@ -14,30 +14,52 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm.EMAIL_FIELD;
+import static com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm.FEEDBACK_FIELD;
+import static com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm.FOUND_FIELD;
+import static com.github.onsdigital.babbage.api.endpoint.form.FeedbackForm.UNDERSTOOD_FIELD;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getMaxNotificationTokens;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getMsUntilNewNotificationToken;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.getSlackEndpoint;
 import static com.github.onsdigital.babbage.configuration.SlackNotifierConfiguration.isSlackThrottleEnabled;
+import static java.text.MessageFormat.format;
 
 /**
  * Created by dave on 8/23/16.
  */
 public class SlackFeedbackNotifier {
 
-    private static final Path ROOT = Paths.get("/");
+    private static final String SLACK_ERROR_MSG = "[SlackFeedbackNotifier]Unexpected error sending slack notification. Response status: {0}, Response body: {1}";
+    private static final String RED = "#ff0000";
+    private static final String GREEN = "#36a64f";
     private static final String SLACK_MSG_TEMPLATE = "User feedback Received";
-    private static Endpoint SLACK_ENDPOINT = getSlackEndpoint();
+    private static final String TIMEOUT_ENABLED_TITLE = "*Notifications timeout enabled!*";
+    private static final String TEXT_FIELD = "text";
     private static final String CODE_TAG = "`";
-    private Throttle throttle;
+    private static final String THROTTLE_ENABLED_MSG = "Currently receiving a large amount of feedback. A notification timeout" +
+            " of *{0} minutes* has been enabled. User feedback will still be saved but notifications will not be sent to" +
+            " this channel until timeout period has ended.";
 
+    private static final Path ROOT = Paths.get("/");
+    private static Endpoint SLACK_ENDPOINT = getSlackEndpoint();
+
+    private Throttle throttle;
     private HttpClient httpClient = HttpClient.getInstance();
     private SlackMessage throttledMsg;
 
+    /**
+     * Construct a new {@link SlackFeedbackNotifier}.
+     */
     public SlackFeedbackNotifier() {
         if (isSlackThrottleEnabled()) {
+            long timeoutPeriod = (getMaxNotificationTokens() * getMsUntilNewNotificationToken()) / 60000;
             this.throttle = new Throttle(getMaxNotificationTokens(), getMsUntilNewNotificationToken());
             this.throttledMsg = new SlackMessage()
-                    .setText("Currently receiving a large amount of feedback. Notifications will be throttled.");
+                    .setText(TIMEOUT_ENABLED_TITLE)
+                    .addAttachment(new Attachment()
+                            .setText(format(THROTTLE_ENABLED_MSG, timeoutPeriod))
+                            .setColor(RED)
+                            .addMarkDown(TEXT_FIELD));
         }
     }
 
@@ -62,9 +84,7 @@ public class SlackFeedbackNotifier {
 
     private void sendUnthrottledNotification(Path location, FeedbackForm form) {
         Response<String> response = httpClient.postJson(SLACK_ENDPOINT, buildSlackMessage(location, form), String.class);
-        if (response == null || response.statusLine == null || response.statusLine.getStatusCode() != 200) {
-            throw new RuntimeException("TODO");
-        }
+        verifySlackResponse(response);
     }
 
     private void sendThrottledNotification(Path location, FeedbackForm form) {
@@ -72,17 +92,13 @@ public class SlackFeedbackNotifier {
             @Override
             public void tokensAvailableTask() {
                 Response<String> response = httpClient.postJson(SLACK_ENDPOINT, buildSlackMessage(location, form), String.class);
-                if (response == null || response.statusLine == null || response.statusLine.getStatusCode() != 200) {
-                    throw new RuntimeException("TODO");
-                }
+                verifySlackResponse(response);
             }
 
             @Override
             public void triggerTimeoutTask() {
                 Response<String> response = httpClient.postJson(SLACK_ENDPOINT, throttledMsg, String.class);
-                if (response == null || response.statusLine == null || response.statusLine.getStatusCode() != 200) {
-                    throw new RuntimeException("TODO");
-                }
+                verifySlackResponse(response);
             }
         });
     }
@@ -90,16 +106,15 @@ public class SlackFeedbackNotifier {
     private SlackMessage buildSlackMessage(Path path, FeedbackForm form) {
         return new SlackMessage()
                 .setText(SLACK_MSG_TEMPLATE)
-                .addAttachment(
-                        new Attachment()
-                                .setText(location(path))
-                                .setFallback(location(path))
-                                .setColor("#36a64f")
-                                .addField("Option One", form.getFound(), true)
-                                .addField("Option Two", form.getUnderstood(), true)
-                                .addField("Email", form.getEmailAddress(), true)
-                                .addField("Comments", comments(form), false)
-                                .addMarkDown("text"));
+                .addAttachment(new Attachment()
+                        .setText(location(path))
+                        .setFallback(location(path))
+                        .setColor(GREEN)
+                        .addField(FOUND_FIELD, form.getFound(), true)
+                        .addField(UNDERSTOOD_FIELD, form.getUnderstood(), true)
+                        .addField(EMAIL_FIELD, form.getEmailAddress(), true)
+                        .addField(FEEDBACK_FIELD, comments(form), false)
+                        .addMarkDown(TEXT_FIELD));
     }
 
     private String location(Path path) {
@@ -115,5 +130,14 @@ public class SlackFeedbackNotifier {
             }
         }
         return form.getFeedback();
+    }
+
+    private void verifySlackResponse(Response<String> response) {
+        if (response == null || response.statusLine == null) {
+            System.out.println(format(SLACK_ERROR_MSG, null, null));
+        }
+        if (response.statusLine.getStatusCode() != 200) {
+            System.out.println(format(SLACK_ERROR_MSG, response.statusLine.getStatusCode(), response.body.toString()));
+        }
     }
 }

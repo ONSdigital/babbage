@@ -8,9 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Class provides a token bucket to throttle how many slack notifications are sent over a set period.
  * Notifications can only be sent if a token is available. A timeout period is enabled the first time a token is
- * requested but none are available. The lasts until the bucket is full again.
- * <p><i>Example</i> Max tokens is <i>10</i> and a new token is added every 1 minute. If all tokens are consumed before a
- * new ones can be added the timeout period is 10 minutes.</p> see https://en.wikipedia.org/wiki/Token_bucket
+ * requested but none are available. This lasts until the bucket is full again.
+ * <p><i>Example</i> Max tokens is <i>10</i> and a new token is added every 1 minute. If all tokens have been consumed
+ * and a request for a token is made before a new one can be added the timeout state is enabled lasting 10 minutes.
+ * </p> see https://en.wikipedia.org/wiki/Token_bucket
  */
 public class Throttle {
 
@@ -30,6 +31,7 @@ public class Throttle {
         this.maxTokens = maxTokens;
         this.timeUntilNewTokenAdded = timeUntilNewTokenAdded;
         this.notificationTokens = new AtomicInteger(maxTokens);
+        Throttle selfRef = this;
         this.timer = new Timer();
         this.timer.schedule(new TimerTask() {
 
@@ -41,9 +43,11 @@ public class Throttle {
             private void task() {
                 if (notificationTokens.get() < maxTokens) {
                     notificationTokens.incrementAndGet();
+                    debug("TokenAdded", selfRef);
                 }
                 if (timeoutEnabled.get() && notificationTokens.get() == maxTokens) {
                     timeoutEnabled.set(false);
+                    debug("DisabledTimeout", selfRef);
                 }
             }
 
@@ -56,21 +60,35 @@ public class Throttle {
         } else {
             if (notificationTokens.get() > 0) {
                 notificationTokens.decrementAndGet();
+                debug("TokenConsumed", this);
                 task.tokensAvailableTask();
             } else {
                 timeoutEnabled.set(true);
+                debug("EnabledTimeout", this);
                 task.triggerTimeoutTask();
-
             }
         }
     }
 
-    public synchronized int availableTokens() {
+    @Override
+    public String toString() {
+        return new StringBuilder("state=[")
+                .append("AvailableTokens=").append(tokensInBucket()).append(",  ")
+                .append("TimeoutEnabled=").append(timeoutEnabled())
+                .append("]")
+                .toString();
+    }
+
+    public int tokensInBucket() {
         return notificationTokens.get();
     }
 
     public boolean timeoutEnabled() {
         return timeoutEnabled.get();
+    }
+
+    private void debug(String action, Throttle throttle) {
+        System.out.println("SlackNotificationThrottle: action=" + action + ", " + throttle.toString());
     }
 
     public void kill() {

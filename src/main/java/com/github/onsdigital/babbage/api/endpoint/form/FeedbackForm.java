@@ -9,6 +9,12 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class FeedbackForm extends PostForm {
 
+    public static final String URI_FIELD = "uri";
+    public static final String EMAIL_FIELD = "Email";
+    public static final String FEEDBACK_FIELD = "Feedback";
+    public static final String FOUND_FIELD = "Found";
+    public static final String UNDERSTOOD_FIELD = "Understood";
+
     private String uri;
     private String emailAddress;
     private String feedback;
