@@ -1,28 +1,30 @@
 package com.github.onsdigital.babbage.util;
 
-import org.apache.commons.io.IOUtils;
-
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.security.PublicKey;
 import java.util.function.Function;
 
 import static com.github.onsdigital.babbage.configuration.FeedbackEncryptionConfiguration.getPublicKey;
+import static com.github.onsdigital.babbage.util.EncryptionFilesUtil.getKeyPath;
+import static com.github.onsdigital.babbage.util.EncryptionFilesUtil.writeBase64ToFile;
 
 /**
- * Writes a file encrypted to the specified location.
+ * Provides functionality for encrypting data and writing it to the file system.
  */
 public class EncryptionFileWriter {
 
-    private static final String AES_ALGORITHM = "AES";
-    private static final String RSA_ALGORITHM = "RSA";
-    private static final String KEY_PREFIX = "key-";
+    static final String AES_ALGORITHM = "AES";
+    static final String RSA_WITH_PADDING = "RSA/ECB/PKCS1Padding";
 
-    private final PublicKey publicKey;
+    /**
+     * Generate a new {@link SecretKey} to writeEncrypted the data with. {@link KeyGenerator#generateKey()} returns a different
+     * value each time. Wrapping the call inside a function means that it can be replaced with a mock during tests.private PublicKey publicKey;
+     */
+    private Function<KeyGenerator, SecretKey> secretKeyGenerator = (keyGen) -> keyGen.generateKey();
+    private PublicKey publicKey;
 
     private static class InstanceHolder {
         static final EncryptionFileWriter INSTANCE = new EncryptionFileWriter(getPublicKey());
@@ -33,61 +35,40 @@ public class EncryptionFileWriter {
     }
 
     /**
-     * Generate a new {@link SecretKey} to encrypt the data with. {@link KeyGenerator#generateKey()} returns a different
-     * value each time. Wrapping the call inside a function means that it can be replaced with a mock during tests.
+     * @param publicKey the public key to writeEncrypted the data with.
      */
-    private Function<KeyGenerator, SecretKey> secretKeyGenerator = (keyGen) -> keyGen.generateKey();
-
-    EncryptionFileWriter(final PublicKey publicKey) {
+    EncryptionFileWriter(PublicKey publicKey) {
         this.publicKey = publicKey;
     }
 
     /**
-     * Encrypt the string and write it to a file.
+     * EncryptionFileWriter the data and write to the specified location.
      */
-    public void writeEncrypted(Path location, String message) {
-        try {
-            SecretKey secretKey = encryptFile(location, message);
-            encryptSecretKey(secretKey, location);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void writeEncrypted(Path filePath, String message) throws Exception {
+        SecretKey secretKey = encryptDataAndWriteToFile(filePath, message);
+        encryptSecretKeyAndWriteToFile(filePath, secretKey);
     }
 
-    /**
-     * Encrypt the file content.
-     */
-    private SecretKey encryptFile(Path location, String message) throws Exception {
+    private SecretKey encryptDataAndWriteToFile(Path filePath, String data) throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance(AES_ALGORITHM);
         keyGen.init(128);
-
         SecretKey secretKey = secretKeyGenerator.apply(keyGen);
+
         Cipher aesCipher = Cipher.getInstance(AES_ALGORITHM);
         aesCipher.init(Cipher.ENCRYPT_MODE, secretKey);
 
-        writeFile(location, aesCipher.doFinal(message.getBytes()));
+        byte[] fileAESBytes = aesCipher.doFinal(data.getBytes());
+        writeBase64ToFile(filePath.toFile(), fileAESBytes);
         return secretKey;
     }
 
-    /**
-     * Write to a file at the specified path.
-     */
-    private void writeFile(Path location, byte[] data) throws IOException {
-        try (FileOutputStream fos = new FileOutputStream(location.toFile())) {
-            IOUtils.write(data, fos);
-        }
-    }
+    private void encryptSecretKeyAndWriteToFile(Path filePath, SecretKey secretKey) throws Exception {
+        Path secretKeyEncryptedFilePath = getKeyPath(filePath);
 
-    /**
-     * Encrypt the {@link SecretKey} used to encrypt the file.
-     */
-    private void encryptSecretKey(SecretKey secretKey, Path location) throws Exception {
-        Path filename = location.getFileName();
-        Path dir = location.getParent();
-        Path keyLocation = dir.resolve(KEY_PREFIX + filename.toString());
+        Cipher rsaCipher = Cipher.getInstance(RSA_WITH_PADDING);
+        rsaCipher.init(Cipher.ENCRYPT_MODE, this.publicKey);
 
-        Cipher rsaCipher = Cipher.getInstance(RSA_ALGORITHM);
-        rsaCipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        writeFile(keyLocation, rsaCipher.doFinal(secretKey.getEncoded()));
+        byte[] encrypted = rsaCipher.doFinal(secretKey.getEncoded());
+        writeBase64ToFile(secretKeyEncryptedFilePath.toFile(), encrypted);
     }
 }

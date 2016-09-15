@@ -56,7 +56,7 @@ public class FileSystemFeedbackRepository extends FeedbackRepository {
 
         Path location = getFeedbackDir().resolve(nameGenerator.get());
         slackBot.sendNotification(location, feedbackForm);
-        encryptionFileWriter().writeEncrypted(location, feedbackForm.toJSON());
+        getEncryptionWriter().writeEncrypted(location, feedbackForm.toJSON());
     }
 
     private Path getFeedbackDir() throws IOException {
@@ -67,7 +67,7 @@ public class FileSystemFeedbackRepository extends FeedbackRepository {
         return parentFolder;
     }
 
-    private EncryptionFileWriter encryptionFileWriter() {
+    private EncryptionFileWriter getEncryptionWriter() {
         if (encryptionFileWriter == null) {
             encryptionFileWriter = EncryptionFileWriter.getInstance();
         }

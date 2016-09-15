@@ -16,15 +16,15 @@ import java.nio.file.Path;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.github.onsdigital.babbage.util.TestsUtil.setPrivateField;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EncryptionFileWriterTest {
@@ -38,6 +38,7 @@ public class EncryptionFileWriterTest {
     private EncryptionFileWriter target;
     private SecretKey secretKey;
     private PrivateKey privateKey;
+    private PublicKey publicKey;
     private KeyGenerator keyGen;
     private Path tempDir;
     private Path tempFile;
@@ -45,17 +46,20 @@ public class EncryptionFileWriterTest {
     @Before
     public void setUp() throws Exception {
 
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-        KeyPair keyPair = kpg.generateKeyPair();
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        keyGen.initialize(512);
+
+        KeyPair keyPair = keyGen.generateKeyPair();
         this.privateKey = keyPair.getPrivate();
+        this.publicKey = keyPair.getPublic();
 
-        keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128);
+        KeyGenerator secretKeyGen = KeyGenerator.getInstance("AES");
+        secretKeyGen.init(128);
 
-        this.secretKey = keyGen.generateKey();
+        this.secretKey = secretKeyGen.generateKey();
         Function<KeyGenerator, SecretKey> secretKeyGeneratorStub = (arg) -> secretKey;
 
-        target = new EncryptionFileWriter(keyPair.getPublic());
+        target = new EncryptionFileWriter(this.publicKey);
         setPrivateField(target, "secretKeyGenerator", secretKeyGeneratorStub);
 
         this.tempDir = Files.createTempDirectory("encrypted");
@@ -64,7 +68,6 @@ public class EncryptionFileWriterTest {
 
     @Test
     public void shouldEncryptData() throws Exception {
-        // Encrypt the file.
         target.writeEncrypted(tempFile, PLAIN_TEXT);
 
         List<File> files = Arrays.asList(new File(tempDir.toString()).listFiles());
@@ -75,23 +78,22 @@ public class EncryptionFileWriterTest {
         assertThat("Expected encrypted data file.", fileNames.contains(ENCRYPTED_FILE_NAME), is(true));
         assertThat("Expected encrypted key file.", fileNames.contains(ENCRYPTED_KEY_FILE_NAME), is(true));
 
-
         // Attempt to decrypt the files created and verify they match the original plain text.
         File encryptedFile = files.stream().filter(file -> file.getName().equals(ENCRYPTED_FILE_NAME)).findFirst().get();
         File encryptedKey = files.stream().filter(file -> file.getName().equals(ENCRYPTED_KEY_FILE_NAME)).findFirst().get();
 
         assertThat("File should be encrypted", new String(fileBytes(encryptedFile)), is(not(equalTo(PLAIN_TEXT))));
 
-        Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
         cipher.init(Cipher.DECRYPT_MODE, privateKey);
-        byte[] encyrptedKeyByes = fileBytes(encryptedKey);
+        byte[] encyrptedKeyByes = Base64.getDecoder().decode(fileBytes(encryptedKey));
 
         byte[] decryptedKeyBytes = cipher.doFinal(encyrptedKeyByes);
         SecretKey secretKey = new SecretKeySpec(decryptedKeyBytes, 0, decryptedKeyBytes.length, "AES");
 
         Cipher aesCipher = Cipher.getInstance("AES");
         aesCipher.init(Cipher.DECRYPT_MODE, secretKey);
-        String result = new String(aesCipher.doFinal(fileBytes(encryptedFile)));
+        String result = new String(aesCipher.doFinal(Base64.getDecoder().decode(fileBytes(encryptedFile))));
 
         assertThat("Decrypted value is not as expected.", result, equalTo(PLAIN_TEXT));
     }

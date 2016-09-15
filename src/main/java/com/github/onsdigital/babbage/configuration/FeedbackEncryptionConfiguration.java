@@ -1,16 +1,12 @@
 package com.github.onsdigital.babbage.configuration;
 
-import org.apache.poi.util.IOUtils;
-
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.PublicKey;
-import java.security.spec.EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
+
+import static com.github.onsdigital.babbage.util.EncryptionFilesUtil.readBase64File;
 
 /**
  *
@@ -22,19 +18,15 @@ public class FeedbackEncryptionConfiguration extends StartUpConfiguration {
 
     @Override
     public void initialize() throws Exception {
-        KeyFactory factory = KeyFactory.getInstance("RSA");
-
         publicKeyPath = Paths.get(getValue("public_key"));
 
-        byte[] fileBytes;
-        try (InputStream fi = new FileInputStream(publicKeyPath.toFile())) {
-            fileBytes = IOUtils.toByteArray(fi);
-        }
+        byte[] bytes = readBase64File(publicKeyPath.toFile());
 
-        byte[] publicEncodedBytes = Base64.getDecoder().decode(fileBytes);
-        EncodedKeySpec publicEncodedKeySpec = new X509EncodedKeySpec(publicEncodedBytes);
-        publicKey = factory.generatePublic(publicEncodedKeySpec);
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(bytes);
+        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        this.publicKey = keyFactory.generatePublic(keySpec);
     }
+
 
     public static PublicKey getPublicKey() {
         return publicKey;
