@@ -1,0 +1,25 @@
+{{#partial "block-content"}}
+
+    {{#if show_form}}
+        <div class="wrapper">
+            <div class="margin-top--2">
+                {{> partials/feedback-form }}
+            </div>
+        </div>
+    {{else}}
+        <div class="wrapper">
+            <div class="col-wrap">
+                <article>
+                    <div class="col">
+                        <p>{{{acknowledgement}}}</p>
+                        <p><a href="{{returnURL}}">Return to where you were</a></p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    {{/if}}
+
+{{/partial}}
+
+{{!-- Inheriting from base content template --}}
+{{> content/base/content}}

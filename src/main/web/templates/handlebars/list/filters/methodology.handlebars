@@ -1,7 +1,5 @@
-<label class="filters__title">Content types to show</label>
+<label class="margin-top-sm--1 margin-top-md--3">Content types to show</label>
 <div class="js-checkbox-container">
-	<ul class="list--neutral flush-top">
-		{{>list/partials/filter-item id="qmi" value="qmi" label="Quality and Methodology Information (QMI)" docCount=docCounts.static_qmi}}
-		{{>list/partials/filter-item id="methodology_article" value="methodology_article" label="Article" docCount=(add docCounts.static_methodology docCounts.static_methodology_download )}}
-	</ul>
+    {{>list/partials/filter-item id="qmi" value="qmi" label="Quality and Methodology Information (QMI)" docCount=docCounts.static_qmi}}
+    {{>list/partials/filter-item id="methodology_article" value="methodology_article" label="Article" docCount=(add docCounts.static_methodology docCounts.static_methodology_download )}}
 </div>

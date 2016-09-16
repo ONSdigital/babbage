@@ -1,9 +1,7 @@
-<label for="select-topic" class="filters__title">Topics</label>
-<div class="filters__field">
-    <select class="input inline js-auto-submit__input" id="select-topic" name="topic">
-        <option value="" >Select topic</option>
-        {{#each topics.results}}
-            <option value="{{this.uri}}" {{#if_eq parameters.topic.0 this.uri}}selected{{/if_eq}}>{{description.title}}</option>
-        {{/each}}
-    </select>
-</div>
+<label for="select-topic">Topics</label>
+<select class="input inline js-auto-submit__input" id="select-topic" name="topic">
+    <option value="" >Select topic</option>
+    {{#each topics.results}}
+        <option value="{{this.uri}}" {{#if_eq parameters.topic.0 this.uri}}selected{{/if_eq}}>{{description.title}}</option>
+    {{/each}}
+</select>

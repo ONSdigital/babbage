@@ -1,6 +1,6 @@
-<div class="margin-top--2">
-    <label class="filters__title" for="select-updated">Updated</label>
-    <select class="input inline js-auto-submit__input" id="select-updated" name="updated">
+<div class="margin-top-sm--1 margin-top-md--3">
+    <label for="select-updated">Updated</label>
+    <select class="input js-auto-submit__input" id="select-updated" name="updated">
         <option value="">Select last updated</option>
         <option value="today" {{#if_eq parameters.updated.0 "today"}}selected{{/if_eq}}>Today</option>
         <option value="week" {{#if_eq parameters.updated.0 "week"}}selected{{/if_eq}}>Last 7 days</option>
@@ -10,6 +10,6 @@
     </select>
 </div>
 
-<div class="js-from-to-filters margin-top--2" style="display:none">
+<div class="js-from-to-filters margin-top-sm--1 margin-top-md--3" style="display:none">
 	{{> list/filters/publish-date}}
 </div>

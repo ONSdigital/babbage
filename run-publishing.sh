@@ -64,8 +64,30 @@ export IS_PUBLISHING="Y"
 export RELOAD_TEMPLATES="Y"
 export TEMPLATES_DIR=src/main/web/templates/handlebars
 
+# true to enable throttling false to disable.
+export SLACK_THROTTLE_ENABLED="true"
+# Max number of slack notification tokens available.
+export MAX_NOTIFICATION_TOKENS=10
+# Time in MS before a new token is added.
+export MS_UNTIL_NEW_NOTIFICATION_TOKEN=60000
+# The Slack channel URL.
+export SLACK_FEEDBACK_CHANNEL_URL="/services/T02KLUDD9/B23HZ3K1B/kYzvmO4K9cdDSGRTMKm7SNEb"
+# The slack URL.
+export SLACK_FEEDBACK_NOTIFICATION_HOST="https://hooks.slack.com"
+# The directory to store the user feedback json files in.
+export FEEDBACK_FOLDER=/Users/$USER/Desktop/feedback
+# The directory path to the RSA public key used to encrypt user feedback.
+export PUBLIC_KEY=/Users/$USER/Desktop/babbage-keys/public-key
+
 # Development: reloadable
 java $JAVA_OPTS \
+ -Dpublic_key=$PUBLIC_KEY \
+ -Dfeedback_folder=$FEEDBACK_FOLDER \
+ -Dmax_notification_tokens=$MAX_NOTIFICATION_TOKENS \
+ -Dms_until_new_notification_token=$MS_UNTIL_NEW_NOTIFICATION_TOKEN \
+ -Dslack_feedback_channel_url=$SLACK_FEEDBACK_CHANNEL_URL \
+ -Dslack_feedback_notification_host=$SLACK_FEEDBACK_NOTIFICATION_HOST \
+ -Dslack_throttle_enabled=$SLACK_THROTTLE_ENABLED \
  -Drestolino.realm=$REALM \
  -Drestolino.files=$RESTOLINO_STATIC \
  -Drestolino.classes=$RESTOLINO_CLASSES \

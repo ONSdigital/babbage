@@ -1,23 +1,26 @@
 {{!-- THIS IS A TEMPORARY HARDCODED TEMPLATE FOR TOPICS ON TIME SERIES TOOL --}}
 
-<label class="filters__title" for="select-topic">Topics</label>
-<div class="filters__field">
-    <select class="input inline js-auto-submit__input" id="select-topic" name="topic">
-        <option value="" >Select topic</option>
+<div class="form__group margin-top-sm--1 margin-top-md--2">
+    <label for="select-topic">Topics</label>
+    <select class="input js-auto-submit__input" id="select-topic" name="topic">
+        <option value="">Select topic</option>
         <option value="/economy/nationalaccounts/balanceofpayments"
                 {{#if_eq parameters.topic.0 "/economy/nationalaccounts/balanceofpayments"}}selected{{/if_eq}}>
             Balance of payments
         </option>
         <option value="/employmentandlabourmarket/peopleinwork/earningsandworkinghours"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peopleinwork/earningsandworkinghours"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peopleinwork/earningsandworkinghours"}}selected{{/if_eq}}>
             Earnings and working hours
         </option>
         <option value="/employmentandlabourmarket/peoplenotinwork/economicinactivity"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peoplenotinwork/economicinactivity" }}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peoplenotinwork/economicinactivity" }}selected{{/if_eq}}>
             Economic inactivity
         </option>
         <option value="/employmentandlabourmarket/peopleinwork/employmentandemployeetypes"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peopleinwork/employmentandemployeetypes"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peopleinwork/employmentandemployeetypes"}}selected{{/if_eq}}>
             Employment and employee types
         </option>
         <option value="/economy/grossdomesticproductgdp"
@@ -41,7 +44,8 @@
             Investments, pensions and trusts
         </option>
         <option value="/employmentandlabourmarket/peopleinwork/labourproductivity"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peopleinwork/labourproductivity"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peopleinwork/labourproductivity"}}selected{{/if_eq}}>
             Labour productivity
         </option>
         <option value="/peoplepopulationandcommunity/leisureandtourism"
@@ -49,15 +53,18 @@
             Leisure and tourism
         </option>
         <option value="/businessindustryandtrade/manufacturingandproductionindustry"
-                {{#if_eq parameters.topic.0 "/businessindustryandtrade/manufacturingandproductionindustry"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/businessindustryandtrade/manufacturingandproductionindustry"}}selected{{/if_eq}}>
             Manufacturing and production industry
         </option>
         <option value="/businessindustryandtrade/changestobusiness/mergersandacquisitions"
-                {{#if_eq parameters.topic.0 "/businessindustryandtrade/changestobusiness/mergersandacquisitions"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/businessindustryandtrade/changestobusiness/mergersandacquisitions"}}selected{{/if_eq}}>
             Mergers and acquisitions
         </option>
         <option value="/employmentandlabourmarket/peoplenotinwork/outofworkbenefits"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peoplenotinwork/outofworkbenefits"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peoplenotinwork/outofworkbenefits"}}selected{{/if_eq}}>
             Out of work benefits
         </option>
         <option value="/economy/economicoutputandproductivity/output"
@@ -65,23 +72,28 @@
             Output
         </option>
         <option value="/economy/governmentpublicsectorandtaxes/publicsectorfinance"
-                {{#if_eq parameters.topic.0 "/economy/governmentpublicsectorandtaxes/publicsectorfinance"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/economy/governmentpublicsectorandtaxes/publicsectorfinance"}}selected{{/if_eq}}>
             Public sector finance
         </option>
         <option value="/employmentandlabourmarket/peopleinwork/publicsectorpersonnel"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peopleinwork/publicsectorpersonnel"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peopleinwork/publicsectorpersonnel"}}selected{{/if_eq}}>
             Public sector personnel
         </option>
         <option value="/economy/governmentpublicsectorandtaxes/publicspending"
-                {{#if_eq parameters.topic.0 "/economy/governmentpublicsectorandtaxes/publicspending"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/economy/governmentpublicsectorandtaxes/publicspending"}}selected{{/if_eq}}>
             Public spending
         </option>
         <option value="/employmentandlabourmarket/peoplenotinwork/redundancies"
-                {{#if_eq parameters.topic.0"/employmentandlabourmarket/peoplenotinwork/redundancies"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peoplenotinwork/redundancies"}}selected{{/if_eq}}>
             Redundancies
         </option>
         <option value="/economy/governmentpublicsectorandtaxes/researchanddevelopmentexpenditure"
-                {{#if_eq parameters.topic.0 "/economy/governmentpublicsectorandtaxes/researchanddevelopmentexpenditure"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/economy/governmentpublicsectorandtaxes/researchanddevelopmentexpenditure"}}selected{{/if_eq}}>
             Research and development expenditure
         </option>
         <option value="/businessindustryandtrade/retailindustry"
@@ -101,7 +113,8 @@
             UK sector accounts
         </option>
         <option value="/employmentandlabourmarket/peoplenotinwork/unemployment"
-                {{#if_eq parameters.topic.0 "/employmentandlabourmarket/peoplenotinwork/unemployment"}}selected{{/if_eq}}>
+                {{#if_eq parameters.topic.0
+                         "/employmentandlabourmarket/peoplenotinwork/unemployment"}}selected{{/if_eq}}>
             Unemployment
         </option>
     </select>

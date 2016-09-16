@@ -1,8 +1,12 @@
-{{!-- Urls for different language versions of the current page --}}
-{{#if_eq language "en"}}
-    //{{#if (containsAny location.hostname "ons.gov.uk" "dev.onsdigital.co.uk")}}www.{{/if}}{{replace location.hostname "cy." ""}}{{uri}}{{> list/partials/parameters}}
-{{/if_eq}}
-
-{{#if_eq language "cym"}}
-    //cy.{{replace location.hostname "www." ""}}{{uri}}{{> list/partials/parameters}}
-{{/if_eq}}
+<dl class="language">
+    <dt class="language__title">Change language:</dt>
+    {{#if_eq location.hostname (concat "cy." (replace location.hostname "cy." ""))}}
+        <dd class="language__item">
+            <a href="{{> partials/language language="en"}}" class="language__link icon--hide">English (EN)</a>
+        </dd>
+    {{else}}
+        <dd class="language__item">
+            <a href="{{> partials/language language="cym"}}" class="language__link icon--hide">Cymraeg (CY)</a>
+        </dd>
+    {{/if_eq}}
+</dl>

@@ -82,24 +82,25 @@
 		{{else if_eq type "chart"}} 						{{> highcharts/chart}}
 		{{else if_eq type "table"}} 						{{> table}}
 		{{else if_eq type "equation"}} 						{{> partials/equation}}
+		{{else if_eq type "feedback_page"}} 			{{> partials/feedback-page}}
 
 		{{!-- List Pages --}}
 		{{else if_eq type "list"}}
-			{{#if_eq listType "alladhocs"}} 						{{> list/t9-12}}
-				{{else if_eq listType "allmethodologies"}} 			{{> list/t9-11}}
-				{{else if_eq listType "atoz"}} 						{{> list/t9-14}}
-				{{else if_eq listType "staticlist"}} 				{{> list/t9-13}}
-				{{else if_eq listType "publishedrequests"}} 		{{> list/t9-2}}
-				{{else if_eq listType "previousreleases"}} 			{{> list/t9-6}}
-				{{else if_eq listType "topicspecificmethodology"}} 	{{> list/t9-7}}
-				{{else if_eq listType "publications"}} 				{{> list/t9-8}}
-				{{else if_eq listType "datalist"}} 					{{> list/t9-9}}
-				{{else if_eq listType "search"}} 					{{> list/t10}}
-				{{else if_eq listType "searchdata"}} 				{{> list/t10-2}}
-				{{else if_eq listType "searchpublication"}} 		{{> list/t10-3}}
-				{{else if_eq listType "relateddata"}} 				{{> list/t9-16}}
-				{{else if_eq listType "releasecalendar"}} 			{{> list/t11}}
-				{{else if_eq listType "timeseriestool"}} 			{{> list/t13}}
+            {{#if_eq listType "alladhocs"}} 				    {{> list/t9-12}}
+            {{else if_eq listType "allmethodologies"}} 			{{> list/t9-11}}
+            {{else if_eq listType "atoz"}} 						{{> list/t9-14}}
+            {{else if_eq listType "staticlist"}} 				{{> list/t9-13}}
+            {{else if_eq listType "publishedrequests"}} 		{{> list/t9-2}}
+            {{else if_eq listType "previousreleases"}} 			{{> list/t9-6}}
+            {{else if_eq listType "topicspecificmethodology"}} 	{{> list/t9-7}}
+            {{else if_eq listType "publications"}} 				{{> list/t9-8}}
+            {{else if_eq listType "datalist"}} 					{{> list/t9-9}}
+            {{else if_eq listType "search"}} 					{{> list/t10}}
+            {{else if_eq listType "searchdata"}} 				{{> list/t10-2}}
+            {{else if_eq listType "searchpublication"}} 		{{> list/t10-3}}
+            {{else if_eq listType "relateddata"}} 				{{> list/t9-16}}
+            {{else if_eq listType "releasecalendar"}} 			{{> list/t11}}
+            {{else if_eq listType "timeseriestool"}} 			{{> list/t13}}
 			{{/if_eq}}
 
 		{{!-- Error pages --}}

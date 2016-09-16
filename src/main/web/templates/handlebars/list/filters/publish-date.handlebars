@@ -1,5 +1,5 @@
-<fieldset class="filters__fieldset">
-    <legend class="filters__title">
+<fieldset class="margin-top-sm--1 margin-top--3">
+    <legend>
         Published after
         {{!-- Hidden text to help screen reader users when they focus on first input --}}
         <span class="hide" id="date-hint">For example, 29 4 2016</span>
@@ -14,23 +14,23 @@
     <div id="inputs-start-date">
         <div class="filters__date filters__date--day">
             <label for="fromDateDay">Day</label>
-            <input type="number" autocomplete="off" name="fromDateDay"
+            <input type="number" autocomplete="off" id="fromDateDay" name="fromDateDay"
                    value="{{df parameters.fromDateDay.0 outputFormat="d" inputFormat="d"}}"
-                   class="js-auto-submit__input js-auto-submit__input--date"
+                   class="js-auto-submit__input js-auto-submit__input--date input input--padded"
                    min="0" max="31" pattern="[0-9]*" aria-describedby="date-hint">
         </div>
         <div class="filters__date filters__date--month">
             <label for="fromDateMonth">Month</label>
-            <input type="number" autocomplete="off" name="fromDateMonth"
+            <input type="number" autocomplete="off" id="fromDateMonth" name="fromDateMonth"
                    value="{{df parameters.fromDateMonth.0 outputFormat="M" inputFormat="M"}}"
-                   class="js-auto-submit__input js-auto-submit__input--date"
+                   class="js-auto-submit__input js-auto-submit__input--date input input--padded"
                    min="1" max="12" maxlength="2" pattern="[0-9]*">
         </div>
         <div class="filters__date filters__date--year">
             <label for="fromDateYear">Year</label>
-            <input type="number" autocomplete="off" name="fromDateYear"
+            <input type="number" autocomplete="off" id="fromDateYear" name="fromDateYear"
                    value="{{df parameters.fromDateYear.0 outputFormat="yyyy" inputFormat="yyyy"}}"
-                   class="js-auto-submit__input js-auto-submit__input--date"
+                   class="js-auto-submit__input js-auto-submit__input--date input input--padded"
                    min="1900" max="2050" maxlength="4" pattern="[0-9]*">
         </div>
     </div>
@@ -38,8 +38,8 @@
     {{> list/partials/date-picker buttonId="js-start-date" datepickerId="dp1"}}
 </fieldset>
 
-<fieldset class="filters__fieldset">
-    <legend class="filters__title">
+<fieldset class="margin-top-sm--1 margin-top--3">
+    <legend>
         Published before
     </legend>
     <div class="js-auto-submit__error filters__error" id="to-date-error">
@@ -52,23 +52,23 @@
     <div id="inputs-end-date">
         <div class="filters__date filters__date--day">
             <label for="toDateDay">Day</label>
-            <input type="number" autocomplete="off" name="toDateDay"
+            <input type="number" autocomplete="off" id="toDateDay" name="toDateDay"
                    value="{{df parameters.toDateDay.0 outputFormat="d" inputFormat="d"}}"
-                   class="js-auto-submit__input js-auto-submit__input--date"
+                   class="js-auto-submit__input js-auto-submit__input--date input input--padded"
                    min="0" max="31" pattern="[0-9]*" aria-describedby="date-hint">
         </div>
         <div class="filters__date filters__date--month">
             <label for="toDateMonth">Month</label>
-            <input type="number" autocomplete="off" name="toDateMonth"
+            <input type="number" autocomplete="off" id="toDateMonth" name="toDateMonth"
                    value="{{df parameters.toDateMonth.0 outputFormat="M" inputFormat="M"}}"
-                   class="js-auto-submit__input js-auto-submit__input--date"
+                   class="js-auto-submit__input js-auto-submit__input--date input input--padded"
                    min="1" max="12" maxlength="2" pattern="[0-9]*">
         </div>
         <div class="filters__date filters__date--year">
             <label for="toDateYear">Year</label>
-            <input type="number" autocomplete="off" name="toDateYear"
+            <input type="number" autocomplete="off" id="toDateYear" name="toDateYear"
                    value="{{df parameters.toDateYear.0 outputFormat="yyyy" inputFormat="yyyy"}}"
-                   class="js-auto-submit__input js-auto-submit__input--date"
+                   class="js-auto-submit__input js-auto-submit__input--date input input--padded"
                    min="1900" max="2050" maxlength="4" pattern="[0-9]*">
         </div>
     </div>

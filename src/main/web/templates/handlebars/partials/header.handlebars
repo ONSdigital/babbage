@@ -19,27 +19,8 @@
 						<img class="main-logo" src="{{#if is_dev}}http://{{location.hostname}}:9000/dist//img/ons-logo.svg{{else}}/assets/img/ons-logo.svg{{/if}}" alt="Office for National Statistics">
 					</a>
 				</div>
-                <div class="col col--lg-two-thirds col--md-two-thirds hide--sm print--hide language--js__container">
-                    {{!-- Show different block depending on whether JS or not - saves enhancing <dl> to look and behave like a <select> --}}
-                    <dl class="language js--hide">
-                        <dt class="language__title">Language:</dt>
-                        {{#if_eq location.hostname (concat "cy." (replace location.hostname "cy." ""))}}
-                            <dd class="language__item">
-                                <a href="{{> partials/language-toggle language="en"}}" class="language__link icon--hide">English (EN)</a>
-                            </dd>
-                        {{else}}
-                            <dd class="language__item">
-                                <a href="{{> partials/language-toggle language="cym"}}" class="language__link icon--hide">Cymraeg (CY)</a>
-                            </dd>
-                        {{/if_eq}}
-                    </dl>
-                    <form class="language language--js js--show">
-                        <label class="language--js__label" for="lang">Language:</label>
-                        <select class="language--js__select" id="lang" name="lang">
-                            <option value="english" data-url="{{> partials/language-toggle language="en"}}" {{#if_ne location.hostname (concat "cy." (replace location.hostname "cy." ""))}}selected="selected"{{/if_ne}}>English (EN)</option>
-                            <option value="welsh" data-url="{{> partials/language-toggle language="cym"}}" {{#if_eq location.hostname (concat "cy." (replace location.hostname "cy." ""))}}selected="selected"{{/if_eq}}>Cymraeg (CY)</option>
-                        </select>
-                    </form>
+                <div class="col col--lg-two-thirds col--md-two-thirds hide--sm print--hide">
+                    {{> partials/language-toggle }}
                 </div>
 				<div class="secondary-nav col col--lg-two-thirds col--md-two-thirds print--hide">
 					<ul class="secondary-nav__list js-nav-clone__list">
@@ -103,6 +84,9 @@
 						</a>
 					</li>
 				</ul>
+
+                {{!-- Show language toggle for mobile only --}}
+                <div class="hide--md hide--lg margin-top-sm--2 margin-bottom-sm--3">{{> partials/language-toggle}}</div>
 			</div>
 		</nav>
 	</div>
