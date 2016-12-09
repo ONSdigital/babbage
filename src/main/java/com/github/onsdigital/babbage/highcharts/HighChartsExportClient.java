@@ -61,9 +61,10 @@ public class HighChartsExportClient {
             postParameters.add(new BasicNameValuePair("scale", scale.toString()));
         }
         postParameters.add(new BasicNameValuePair("async", "false"));
-        CloseableHttpResponse response = client.sendPost("/", null, postParameters);
-        System.out.println("Highcharts export response: " + response.getStatusLine());
-        return response.getEntity().getContent();
+        try (CloseableHttpResponse response = client.sendPost("/", null, postParameters)) {
+            System.out.println("Highcharts export response: " + response.getStatusLine());
+            return response.getEntity().getContent();
+        }
     }
 
 }
