@@ -1,5 +1,6 @@
 package com.github.onsdigital.babbage.url.shortcut;
 
+import au.com.bytecode.opencsv.CSVReader;
 import com.github.onsdigital.babbage.url.AbstractCSVFactory;
 
 import java.io.IOException;
@@ -30,11 +31,13 @@ public class ShortcutUrlService extends AbstractCSVFactory {
 
 	public List<ShortcutUrl> shortcuts() throws IOException {
 		if (!shortcuts.isPresent()) {
-			shortcuts = Optional.of(createInstance(RESOURCE_LOCATION)
-					.readAll()
-					.stream()
-					.map(list -> new ShortcutUrl(list[0], list[1], list[2]))
-					.collect(Collectors.toList()));
+			try (CSVReader reader = createInstance(RESOURCE_LOCATION)) {
+				shortcuts = Optional.of(reader
+						.readAll()
+						.stream()
+						.map(list -> new ShortcutUrl(list[0], list[1], list[2]))
+						.collect(Collectors.toList()));
+			}
 		}
 		return shortcuts.get();
 	}

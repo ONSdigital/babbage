@@ -58,14 +58,11 @@ public class ElasticSearchClient {
                 .put("discovery.zen.ping.multicast.enabled", true)
                 .put("network.host", "_non_loopback_")
                 .put("path.home", searchHome).build();
-        Node node =
-                nodeBuilder()
-                        .settings(settings)
-                        .data(false)
-                        .node();
 
-        client = node.client();
-        Runtime.getRuntime().addShutdownHook(new ShutDownNodeThread(client));
+        try (Node node = nodeBuilder().settings(settings).data(false).node()) {
+            client = node.client();
+            Runtime.getRuntime().addShutdownHook(new ShutDownNodeThread(client));
+        }
     }
 
     private static class ShutDownNodeThread extends Thread {

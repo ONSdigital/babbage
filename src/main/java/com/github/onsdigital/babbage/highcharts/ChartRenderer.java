@@ -111,8 +111,9 @@ public class ChartRenderer {
             additionalData.put("width", width);
             String chartConfig = TemplateService.getInstance().renderChartConfiguration(contentResponse.getDataStream(),
                     additionalData);
-            InputStream stream = HighChartsExportClient.getInstance().getImage(chartConfig, getWidth(request));
-            new BabbageContentBasedBinaryResponse(contentResponse,stream, "image/png").apply(request, response);
+            try (InputStream stream = HighChartsExportClient.getInstance().getImage(chartConfig, getWidth(request))) {
+                new BabbageContentBasedBinaryResponse(contentResponse,stream, "image/png").apply(request, response);
+            }
         }
     }
 

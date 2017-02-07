@@ -6,9 +6,9 @@ import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.w3c.dom.Element;
@@ -68,18 +68,18 @@ public class HtmlImageReplacedElementFactory implements ReplacedElementFactory {
                     if (!uri.isAbsolute()) {
                         ContentResponse contentResponse = ContentClient.getInstance().getResource(src);
 
-                        try (InputStream input = contentResponse.getDataStream())
-                        {
+                        try (InputStream input = contentResponse.getDataStream()) {
                             ReplacedElement fsImage = getReplacedImage(cssWidth, cssHeight, input);
                             if (fsImage != null) return fsImage;
                         }
                     }
 
-                    // if the url is absolute, go get it using HTTP client.
-                    HttpClient client = HttpClientBuilder.create().build();
-                    HttpResponse response = client.execute(new HttpGet(src));
 
-                    try (InputStream input = response.getEntity().getContent()) {
+                    try (
+                            CloseableHttpClient client = HttpClientBuilder.create().build();
+                            CloseableHttpResponse response = client.execute(new HttpGet(src));
+                            InputStream input = response.getEntity().getContent()
+                    ) {
                         ReplacedElement fsImage = getReplacedImage(cssWidth, cssHeight, input);
                         if (fsImage != null) return fsImage;
                     }
@@ -88,8 +88,6 @@ public class HtmlImageReplacedElementFactory implements ReplacedElementFactory {
             } catch (URISyntaxException | ContentReadException | IOException | BadElementException e) {
                 log.error(e.getMessage());
             }
-
-
         }
 
         return superFactory.createReplacedElement(layoutContext, blockBox, userAgentCallback, cssWidth, cssHeight);
