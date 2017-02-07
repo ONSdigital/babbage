@@ -17,14 +17,15 @@
 
 		<!--[if IE]><![endif]-->
 		<!--[if lte IE 8]>
-		<link rel="stylesheet" href="{{#if is_dev}}http://{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/6cc1837{{/if}}/css/old-ie.css"/>
+		<link rel="stylesheet" {{#unless is_dev}}integrity="sha384-sBstqWZCEs24sl5KBv6v8ThC7YPO50vfh5M/vljsz6MPANDH/Zc0uWhrct0t0d+c" crossorigin="anonymous"{{/unless}} href="{{#if is_dev}}http://{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/82f7203{{/if}}/css/old-ie.css"/>
 		<![endif]-->
         <!--[if IE 9]>
-              <link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/6cc1837{{/if}}/css/ie-9.css">
+              <link rel="stylesheet" {{#unless is_dev}} integrity="sha384-JXcxnE/DYHIRFc5nPorfCFbnOMCFr8o6pZBnPfME6wZQhPxQ1r78t75kNj/rYAao" crossorigin="anonymous" {{/unless}} type="text/css" href="{{#if is_dev}}http://{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/82f7203{{/if}}/css/ie-9.css">
         <![endif]-->
 		<!--[if gt IE 9]><!-->
-        <link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/6cc1837{{/if}}/css/main.css">
-		{{#if pdf_style}}<link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/6cc1837{{/if}}/css/pdf.css">{{/if}}
+        <link rel="stylesheet" {{#unless is_dev}}integrity="sha384-WnqMHMJiNZ3Crt3Pe7WhnUiZoip6D6Wanb0re52FWyOGPX6VUOT2WaKCf9hzqyU8" crossorigin="anonymous"{{/unless}} type="text/css" href="{{#if is_dev}}http://{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/82f7203{{/if}}/css/main.css">
+
+		{{#if pdf_style}}<link rel="stylesheet" {{#unless is_dev}}integrity="sha384-YmXC2sOBYLScQv5BxYmAKwwuCci6EEm2QbZ9eTjBBr1UD2GTy+4M4T4Csj4Jw3KI" crossorigin="anonymous"{{/unless}} type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/82f7203{{/if}}/css/pdf.css">{{/if}}
         <![endif]-->
 	</head>
 	<body class="{{type}}">
@@ -113,7 +114,7 @@
 
 
         <!--[if gt IE 8]><!-->
-        <script type="text/javascript" src="{{#if is_dev}}//{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/6cc1837{{/if}}/js/main.js"></script>
+        <script type="text/javascript" {{#unless is_dev}}integrity="sha384-lNUn1c+fJkHpNlIV5b6NZBJ7XrlKLGW5D/3wUTALq0/4azOUFG92A3EM2+F2CYfO" crossorigin="anonymous"{{/unless}} src="{{#if is_dev}}//{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/82f7203{{/if}}/js/main.js"></script>
         <script type="text/javascript" src="/js/app.js"></script>
         <![endif]-->
         <script>
