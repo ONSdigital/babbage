@@ -41,6 +41,7 @@ docker run -d                                                          \
   --env=IS_PUBLISHING=$IS_PUBLISHING                                   \
   --env=PHANTOMJS_PATH=$PHANTOMJS_PATH                                 \
   --env=TABLE_RENDERER_HOST=$TABLE_RENDERER_HOST                       \
+  --env=MAP_RENDERER_HOST=$MAP_RENDERER_HOST                           \
   --env=REDIRECT_SECRET=$REDIRECT_SECRET                               \
   --name=babbage                                                       \
   --net=$DOCKER_NETWORK                                                \
