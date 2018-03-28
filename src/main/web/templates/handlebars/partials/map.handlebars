@@ -3,29 +3,7 @@
         {{{mapHtml}}}
     </div>
     <script type="text/javascript" src="https://cdn.ons.gov.uk/vendor/svg-pan-zoom/3.5.2/svg-pan-zoom.min.js"></script>
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function() {
-            var mapId = "map-{{filename}}-map-svg"
-            var svg = document.getElementById(mapId);
-            if (svg && svg.clientWidth > 0 && svg.hasAttribute("viewBox")) {
-                var viewBox = svg.getAttribute("viewBox").split(" ") // x1 y1 x2 y2
-                heightRatio = parseInt(viewBox[3]) / parseInt(viewBox[2])
-                var setSvgHeight = function() {
-                    svg.style.height = Math.round(svg.clientWidth * heightRatio) + "px"
-                };
-                setSvgHeight();
-                var panZoom = window.panZoom = svgPanZoom('#' + mapId, {minZoom: 0.75, maxZoom: 100, zoomScaleSensitivity: 0.4, mouseWheelZoomEnabled: false, controlIconsEnabled: true, fit: true, center: true});
-
-                window.addEventListener('resize', function(){
-                    setSvgHeight()
-                    panZoom.resize();
-                    panZoom.fit();
-                    panZoom.center();
-                });
-            }
-        });
-    </script>
-
+    <!-- See also maps.js -->
     <h5 class="print--hide font-size--h6">Download the data</h5>
     <a href="/file?uri={{uri}}.csv" title="csv" class="btn btn--primary print--hide" data-gtm-title="{{{sub (sup title)}}}" data-gtm-type="download-map-csv">.csv</a>
 </div>

@@ -6,7 +6,7 @@
     "license": "Open Government License v3.0",
     "main": " ",
     "config": {
-        "js": "js/third-party/moment.js js/third-party/highcharts-5.0.7.js js/third-party/highcharts-more-5.0.7.js js/third-party/pym.min.js js/third-party/js.cookie.min.js js/app/accessibility-enhance.js js/app/markdown-chart.js js/app/linechart.js js/app/table.js js/app/sparkline.js js/app/auto-submit-form.js js/app/load-results.js js/app/pagination.js js/app/rss-feed-url-generator.js js/app/time-series-tool.js js/app/pym-interactive.js js/app/mobile-table.js js/app/mobile-chart.js js/app/print-compendium.js js/app/capture-search-redirects.js"
+        "js": "js/third-party/moment.js js/third-party/highcharts-5.0.7.js js/third-party/highcharts-more-5.0.7.js js/third-party/pym.min.js js/third-party/js.cookie.min.js js/app/accessibility-enhance.js js/app/markdown-chart.js js/app/linechart.js js/app/table.js js/app/sparkline.js js/app/auto-submit-form.js js/app/load-results.js js/app/pagination.js js/app/rss-feed-url-generator.js js/app/time-series-tool.js js/app/pym-interactive.js js/app/mobile-table.js js/app/mobile-chart.js js/app/print-compendium.js js/app/capture-search-redirects.js js/app/maps.js"
     },
     "scripts": {
         "build-js": "node ./node_modules/uglify-js/bin/uglifyjs $npm_package_config_js -o js/app.js",
