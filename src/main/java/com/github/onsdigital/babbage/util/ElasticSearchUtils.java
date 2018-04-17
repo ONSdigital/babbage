@@ -20,6 +20,7 @@ import java.io.IOException;
 /**
  * Created by bren on 02/09/15.
  */
+@Deprecated
 public class ElasticSearchUtils {
     private Client client;
 

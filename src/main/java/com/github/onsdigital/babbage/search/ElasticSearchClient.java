@@ -20,6 +20,7 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 /**
  * Created by bren on 16/12/15.
  */
+@Deprecated
 public class ElasticSearchClient {
 
     private static Client client;

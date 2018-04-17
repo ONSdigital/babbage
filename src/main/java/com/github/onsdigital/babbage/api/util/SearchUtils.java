@@ -1,11 +1,13 @@
 package com.github.onsdigital.babbage.api.util;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.error.ValidationError;
 import com.github.onsdigital.babbage.response.BabbageRedirectResponse;
 import com.github.onsdigital.babbage.response.BabbageStringResponse;
 import com.github.onsdigital.babbage.response.base.BabbageResponse;
 import com.github.onsdigital.babbage.search.ElasticSearchClient;
+import com.github.onsdigital.babbage.search.SearchClient;
 import com.github.onsdigital.babbage.search.builders.ONSFilterBuilders;
 import com.github.onsdigital.babbage.search.builders.ONSQueryBuilders;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
@@ -53,6 +55,7 @@ import static org.elasticsearch.search.suggest.SuggestBuilders.phraseSuggestion;
  * <p>
  * Commons search functionality for search, search publications and search data pages.
  */
+@Deprecated
 public class SearchUtils {
 
     private static final String DEPARTMENTS_INDEX = "departments";
@@ -90,7 +93,8 @@ public class SearchUtils {
                 return new BabbageRedirectResponse(timeSeriesUri, Configuration.GENERAL.getSearchResponseCacheTime());
             }
         }
-        LinkedHashMap<String, SearchResult> results = searchAll(queries);
+//        LinkedHashMap<String, SearchResult> results = searchAll(queries);
+        LinkedHashMap<String, SearchResult> results = SearchClient.getInstance().search(searchTerm);
         if (searchDepartments) {
             searchDeparments(searchTerm, results);
         }
@@ -309,10 +313,8 @@ public class SearchUtils {
                 getSearchResponseCacheTime());
     }
 
-    public static LinkedHashMap<String, Object> buildResults(
-            String
-                    listType, Map<String, SearchResult> results
-    ) {
+    public static LinkedHashMap<String, Object> buildResults(String listType,
+                                                             Map<String, SearchResult> results) {
         LinkedHashMap<String, Object> data = getBaseListTemplate(listType);
         if (results != null) {
             for (Map.Entry<String, SearchResult> result : results.entrySet()) {

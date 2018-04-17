@@ -22,6 +22,7 @@ import static com.github.onsdigital.babbage.configuration.Configuration.GENERAL.
 import static com.github.onsdigital.babbage.search.ElasticSearchClient.getElasticsearchClient;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
+@Deprecated
 public class SearchHelper {
 
     private static SearchRequestBuilder prepare(ONSQuery query) {

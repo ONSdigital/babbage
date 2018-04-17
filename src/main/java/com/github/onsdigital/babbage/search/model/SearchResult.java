@@ -21,6 +21,10 @@ public class SearchResult {
     private Paginator paginator;
     private String sortBy;
 
+    public SearchResult() {
+
+    }
+
     public Long getNumberOfResults() {
         return numberOfResults;
     }
