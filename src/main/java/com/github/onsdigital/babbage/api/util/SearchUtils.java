@@ -98,7 +98,7 @@ public class SearchUtils {
 
         LinkedHashMap<String, SearchResult> results;
         if (target.equals("external")) {
-            results = SearchClient.getInstance().search(searchTerm);
+            results = SearchClient.getInstance().search(request);
         } else {
             results = searchAll(queries);
         }
