@@ -44,6 +44,7 @@ import static com.github.onsdigital.babbage.search.builders.ONSQueryBuilders.*;
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.*;
 import static com.github.onsdigital.babbage.search.input.TypeFilter.contentTypes;
 import static com.github.onsdigital.babbage.search.model.field.Field.cdid;
+import static com.github.onsdigital.babbage.util.RequestUtil.getParam;
 import static com.github.onsdigital.babbage.util.URIUtil.isDataRequest;
 import static org.apache.commons.lang.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -93,8 +94,14 @@ public class SearchUtils {
                 return new BabbageRedirectResponse(timeSeriesUri, Configuration.GENERAL.getSearchResponseCacheTime());
             }
         }
-//        LinkedHashMap<String, SearchResult> results = searchAll(queries);
-        LinkedHashMap<String, SearchResult> results = SearchClient.getInstance().search(searchTerm);
+        String target = getParam(request, "searchTarget", "internal").toLowerCase();
+
+        LinkedHashMap<String, SearchResult> results;
+        if (target.equals("external")) {
+            results = SearchClient.getInstance().search(searchTerm);
+        } else {
+            results = searchAll(queries);
+        }
         if (searchDepartments) {
             searchDeparments(searchTerm, results);
         }
@@ -120,6 +127,7 @@ public class SearchUtils {
         return buildDataResponse(listType, searchAll(queries));
     }
 
+    @Deprecated
     public static LinkedHashMap<String, SearchResult> searchAll(SearchQueries searchQueries) {
         List<ONSQuery> queries = searchQueries.buildQueries();
         return doSearch(queries);

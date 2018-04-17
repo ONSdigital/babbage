@@ -17,6 +17,9 @@ import java.util.LinkedHashMap;
 /**
  * @author sullid (David Sullivan) on 17/04/2018
  * @project babbage
+ *
+ * A single search client to replace all search functionality in Babbage with an external HTTP
+ * request to a dedicated search service.
  */
 public class SearchClient implements AutoCloseable {
 
