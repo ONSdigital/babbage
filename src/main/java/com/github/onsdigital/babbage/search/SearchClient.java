@@ -2,9 +2,13 @@ package com.github.onsdigital.babbage.search;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.onsdigital.babbage.search.input.TypeFilter;
+import com.github.onsdigital.babbage.search.model.ContentType;
 import com.github.onsdigital.babbage.search.model.SearchResult;
+import org.apache.commons.lang3.CharEncoding;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -16,10 +20,13 @@ import org.apache.http.util.EntityUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
+import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSelectedFilters;
 
 /**
  * @author sullid (David Sullivan) on 17/04/2018
@@ -32,55 +39,97 @@ public class SearchClient {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private static final String TEST_ADDRESS = "http://localhost:5000/search/ons?q=";
+    private static final String TEST_ADDRESS = "http://localhost:5000/";
 
     private static SearchClient INSTANCE = new SearchClient(TEST_ADDRESS);
 
-    private final String address;
+    private final String host;
 
-    private SearchClient(String address) {
-        this.address = address;
+    private SearchClient(String host) {
+        this.host = host;
     }
 
     public static SearchClient getInstance() {
         return INSTANCE;
     }
 
-    public LinkedHashMap<String, SearchResult> search(HttpServletRequest request) throws IOException {
+    private HttpPost post(HttpServletRequest request) throws UnsupportedEncodingException {
         String searchTerm = extractSearchTerm(request);
+        Set<TypeFilter> typeFilters = extractSelectedFilters(request, TypeFilter.getAllFilters(), false);
+
+        String path = this.getQueryUrl(searchTerm, typeFilters);
+        System.out.println(path);
+        return new HttpPost(path);
+    }
+
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest request) throws IOException {
+        HttpPost post = this.post(request);
 
         Cookie[] cookies = request.getCookies();
 
-        HttpPost post = new HttpPost(this.getQueryUrl(searchTerm));
+        HttpClient client;
 
-        CookieStore cookieStore = new BasicCookieStore();
-
-        for (Cookie cookie : cookies) {
-            BasicClientCookie clientCookie = new BasicClientCookie(cookie.getName(), cookie.getValue());
-            clientCookie.setDomain(request.getServerName());
-            clientCookie.setPath(request.getContextPath());
-            cookieStore.addCookie(clientCookie);
+        if (null != cookies) {
+            CookieStore cookieStore = new BasicCookieStore();
+            for (Cookie cookie : cookies) {
+                BasicClientCookie clientCookie = new BasicClientCookie(cookie.getName(), cookie.getValue());
+                clientCookie.setDomain(request.getServerName());
+                clientCookie.setPath(request.getContextPath());
+                cookieStore.addCookie(clientCookie);
+            }
+            client = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build();
+        } else {
+            client = HttpClientBuilder.create().build();
         }
 
-        HttpClient client = HttpClientBuilder.create().setDefaultCookieStore(cookieStore).build();
+        try (CloseableResponse response = new CloseableResponse(client.execute(post))) {
+            int statusCode = response.getStatusCode();
+            if (statusCode == HttpStatus.SC_OK) {
+                HttpEntity entity = response.getEntity();
+                String entityString = EntityUtils.toString(entity);
+                LinkedHashMap<String, SearchResult> data = MAPPER.readValue(entityString, new TypeReference<LinkedHashMap<String, SearchResult>>() {
+                });
 
-        HttpResponse response = client.execute(post);
-        HttpEntity entity = response.getEntity();
-        String entityString = EntityUtils.toString(entity);
-        LinkedHashMap<String, SearchResult> data = MAPPER.readValue(entityString, new TypeReference<LinkedHashMap<String, SearchResult>>() {
-        });
-
-        // Consume the entity
-        EntityUtils.consume(entity);
-
-        return data;
+                return data;
+            } else {
+                throw new IOException(String.format("Got status code %d from search client", statusCode));
+            }
+        }
     }
 
-    private String getQueryUrl(String searchTerm) {
-        return this.getAddress() + URLEncoder.encode(searchTerm);
+    private String getQueryUrl(String searchTerm, Set<TypeFilter> typeFilters) throws UnsupportedEncodingException {
+        StringBuilder sb = new StringBuilder(String.format("search/ons?q=%s", URLEncoder.encode(searchTerm, CharEncoding.UTF_8)));
+        for (TypeFilter typeFilter : typeFilters) {
+            for (ContentType contentType : typeFilter.getTypes()) {
+                sb.append(String.format("&filter=%s", URLEncoder.encode(contentType.name(), CharEncoding.UTF_8)));
+            }
+        }
+        return this.getHost() + sb.toString();
     }
 
-    public String getAddress() {
-        return address;
+    public String getHost() {
+        return this.host;
+    }
+
+    private static class CloseableResponse implements AutoCloseable {
+
+        private final HttpResponse response;
+
+        public CloseableResponse(HttpResponse response) {
+            this.response = response;
+        }
+
+        public int getStatusCode() {
+            return this.response.getStatusLine().getStatusCode();
+        }
+
+        public HttpEntity getEntity() {
+            return this.response.getEntity();
+        }
+
+        @Override
+        public void close() throws IOException {
+            EntityUtils.consume(this.response.getEntity());
+        }
     }
 }

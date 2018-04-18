@@ -1,6 +1,6 @@
 package com.github.onsdigital.babbage.api.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.onsdigital.babbage.api.endpoint.search.Search;
 import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.error.ValidationError;
 import com.github.onsdigital.babbage.response.BabbageRedirectResponse;
@@ -56,7 +56,6 @@ import static org.elasticsearch.search.suggest.SuggestBuilders.phraseSuggestion;
  * <p>
  * Commons search functionality for search, search publications and search data pages.
  */
-@Deprecated
 public class SearchUtils {
 
     private static final String DEPARTMENTS_INDEX = "departments";
@@ -94,10 +93,10 @@ public class SearchUtils {
                 return new BabbageRedirectResponse(timeSeriesUri, Configuration.GENERAL.getSearchResponseCacheTime());
             }
         }
-        String target = getParam(request, "searchTarget", "internal").toLowerCase();
+        String target = getParam(request, "searchTarget", "external").toLowerCase();
 
         LinkedHashMap<String, SearchResult> results;
-        if (target.equals("external")) {
+        if (target.equals("external") && listType.equals(Search.class.getSimpleName())) {
             results = SearchClient.getInstance().search(request);
         } else {
             results = searchAll(queries);
