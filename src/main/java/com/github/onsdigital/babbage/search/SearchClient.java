@@ -2,6 +2,7 @@ package com.github.onsdigital.babbage.search;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.onsdigital.babbage.search.input.SortBy;
 import com.github.onsdigital.babbage.search.input.TypeFilter;
 import com.github.onsdigital.babbage.search.model.ContentType;
 import com.github.onsdigital.babbage.search.model.SearchResult;
@@ -59,11 +60,15 @@ public class SearchClient {
 
     private HttpPost post(HttpServletRequest request) throws UnsupportedEncodingException {
         String searchTerm = extractSearchTerm(request);
+
         Set<TypeFilter> typeFilters = extractSelectedFilters(request, TypeFilter.getAllFilters(), false);
+        SortBy sortBy = extractSortBy(request, SortBy.relevance);
         int page = extractPage(request);
         int pageSize = extractSize(request);
 
+        // Build form params
         List<NameValuePair> postParams = new ArrayList<>();
+        postParams.add(new BasicNameValuePair("sort_by", sortBy.name()));
         postParams.add(new BasicNameValuePair("page", String.valueOf(page)));
         postParams.add(new BasicNameValuePair("size", String.valueOf(pageSize)));
 
@@ -73,9 +78,11 @@ public class SearchClient {
             }
         }
 
+        // Build query url
         String path = this.getQueryUrl(searchTerm);
 
         HttpPost post = new HttpPost(path);
+        // Set form params
         post.setEntity(new UrlEncodedFormEntity(postParams, CharEncoding.UTF_8));
 
         return post;

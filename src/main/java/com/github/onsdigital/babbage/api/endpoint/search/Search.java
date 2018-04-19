@@ -35,8 +35,11 @@ public class Search {
         if (extractPage(request) == 1 && isEmpty(filter)) {
             searchAdditionalContent = true;
         }
+        long start = System.currentTimeMillis();
         search(request, getClass().getSimpleName(), searchTerm, queries(request, searchTerm, searchAdditionalContent), searchAdditionalContent)
                 .apply(request, response);
+        long end = System.currentTimeMillis();
+        System.out.println(String.format("Search took %d ms", (end - start)));
     }
 
     private SearchQueries queries(HttpServletRequest request, String searchTerm, boolean searchAdditionalContent) {
