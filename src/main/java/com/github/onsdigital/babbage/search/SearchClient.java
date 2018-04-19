@@ -25,8 +25,7 @@ import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
-import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSelectedFilters;
+import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.*;
 
 /**
  * @author sullid (David Sullivan) on 17/04/2018
@@ -56,9 +55,9 @@ public class SearchClient {
     private HttpPost post(HttpServletRequest request) throws UnsupportedEncodingException {
         String searchTerm = extractSearchTerm(request);
         Set<TypeFilter> typeFilters = extractSelectedFilters(request, TypeFilter.getAllFilters(), false);
+        int page = extractPage(request);
 
-        String path = this.getQueryUrl(searchTerm, typeFilters);
-        System.out.println(path);
+        String path = this.getQueryUrl(searchTerm, typeFilters, page);
         return new HttpPost(path);
     }
 
@@ -97,8 +96,10 @@ public class SearchClient {
         }
     }
 
-    private String getQueryUrl(String searchTerm, Set<TypeFilter> typeFilters) throws UnsupportedEncodingException {
+    private String getQueryUrl(String searchTerm, Set<TypeFilter> typeFilters, int page) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder(String.format("search/ons?q=%s", URLEncoder.encode(searchTerm, CharEncoding.UTF_8)));
+
+        sb.append(String.format("&page=%d", page));
         for (TypeFilter typeFilter : typeFilters) {
             for (ContentType contentType : typeFilter.getTypes()) {
                 sb.append(String.format("&filter=%s", URLEncoder.encode(contentType.name(), CharEncoding.UTF_8)));

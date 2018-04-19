@@ -22,6 +22,10 @@ public class Paginator {
     private long end;
     private List<Long> pages;
 
+    private Paginator() {
+        // For Jackson
+    }
+
     public Paginator(long numberOfResults, int maxVisibleLinks, long currentPage, int resultPerPage) {
         this.currentPage = currentPage;
         this.numberOfPages = calculateNumberOfPages(numberOfResults, resultPerPage);
