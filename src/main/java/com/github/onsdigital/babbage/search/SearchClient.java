@@ -9,12 +9,15 @@ import org.apache.commons.lang3.CharEncoding;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import javax.servlet.http.Cookie;
@@ -22,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.*;
@@ -56,9 +61,24 @@ public class SearchClient {
         String searchTerm = extractSearchTerm(request);
         Set<TypeFilter> typeFilters = extractSelectedFilters(request, TypeFilter.getAllFilters(), false);
         int page = extractPage(request);
+        int pageSize = extractSize(request);
 
-        String path = this.getQueryUrl(searchTerm, typeFilters, page);
-        return new HttpPost(path);
+        List<NameValuePair> postParams = new ArrayList<>();
+        postParams.add(new BasicNameValuePair("page", String.valueOf(page)));
+        postParams.add(new BasicNameValuePair("size", String.valueOf(pageSize)));
+
+        for (TypeFilter typeFilter : typeFilters) {
+            for (ContentType contentType : typeFilter.getTypes()) {
+                postParams.add(new BasicNameValuePair("filter", contentType.name()));
+            }
+        }
+
+        String path = this.getQueryUrl(searchTerm);
+
+        HttpPost post = new HttpPost(path);
+        post.setEntity(new UrlEncodedFormEntity(postParams, CharEncoding.UTF_8));
+
+        return post;
     }
 
     public LinkedHashMap<String, SearchResult> search(HttpServletRequest request) throws IOException {
@@ -96,16 +116,9 @@ public class SearchClient {
         }
     }
 
-    private String getQueryUrl(String searchTerm, Set<TypeFilter> typeFilters, int page) throws UnsupportedEncodingException {
-        StringBuilder sb = new StringBuilder(String.format("search/ons?q=%s", URLEncoder.encode(searchTerm, CharEncoding.UTF_8)));
-
-        sb.append(String.format("&page=%d", page));
-        for (TypeFilter typeFilter : typeFilters) {
-            for (ContentType contentType : typeFilter.getTypes()) {
-                sb.append(String.format("&filter=%s", URLEncoder.encode(contentType.name(), CharEncoding.UTF_8)));
-            }
-        }
-        return this.getHost() + sb.toString();
+    private String getQueryUrl(String searchTerm) throws UnsupportedEncodingException {
+        String path = this.host + String.format("search/ons?q=%s", URLEncoder.encode(searchTerm, CharEncoding.UTF_8));
+        return path;
     }
 
     public String getHost() {

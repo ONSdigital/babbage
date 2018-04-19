@@ -114,6 +114,28 @@ public class SearchRequestHelper {
     }
 
     /**
+     * Extract the page size from a request - for paged results.
+     *
+     * @return
+     */
+    public static int extractSize(HttpServletRequest request) {
+        String size = request.getParameter("size");
+
+        if (isEmpty(size)) {
+            return 10;
+        }
+        try {
+            int pageSize = Integer.parseInt(size);
+            if (pageSize < 1) {
+                throw new ResourceNotFoundException();
+            }
+            return pageSize;
+        } catch (NumberFormatException e) {
+            return 10;
+        }
+    }
+
+    /**
      * Extract the page number from a request - for paged results.
      *
      * @return
