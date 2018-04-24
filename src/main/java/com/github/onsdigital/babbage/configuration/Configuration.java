@@ -128,6 +128,14 @@ public class Configuration {
 
     }
 
+    public static class SEARCH_SERVICE {
+        private static String searchServiceAddress = defaultIfBlank(getValue("SEARCH_SERVICE_ADDRESS"), "http://localhost:5000/");
+
+        public static String getSearchServiceAddress() {
+            return searchServiceAddress;
+        }
+    }
+
     public static class ELASTIC_SEARCH {
         private static String elasticSearchServer = defaultIfBlank(getValue("ELASTIC_SEARCH_SERVER"), "localhost");
         private static String elasticSearchIndexAlias = defaultIfBlank(getValue("ELASTIC_SEARCH_INDEX_ALIAS"), "ons");
