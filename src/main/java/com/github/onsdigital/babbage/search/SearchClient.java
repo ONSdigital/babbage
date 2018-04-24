@@ -50,6 +50,7 @@ public class SearchClient {
 
     private static final String RESULT_KEY = "result";
     private static final String SUGGESTIONS_KEY = "suggestions";
+    private static final String WHITESPACE = " ";
 
     private static SearchClient INSTANCE = new SearchClient(Configuration.SEARCH_SERVICE.getSearchServiceAddress());
 
@@ -140,43 +141,54 @@ public class SearchClient {
         });
         long end = System.currentTimeMillis();
 
+        System.out.println(String.format("Search POST request took %d ms", (end - start)));
+
+        start = System.currentTimeMillis();
         // Get suggestions
         LinkedHashMap<String, LinkedHashMap<String, Suggestions>> suggestionsData = this.autocomplete(request);
         if (suggestionsData != null && suggestionsData.containsKey(SUGGESTIONS_KEY)) {
             LinkedHashMap<String, Suggestions> suggestionsResponse = suggestionsData.get(SUGGESTIONS_KEY);
-            Set<String> keySet = suggestionsResponse.keySet();
 
-            if (keySet.size() > 0) {
-                Iterator<String> it = keySet.iterator();
-                StringBuilder sb = new StringBuilder();
-                while (it.hasNext()) {
-                    String key = it.next();
-
+            if (suggestionsResponse.size() > 0) {
+                List<String> availableSuggestions = new LinkedList<>();
+                for (String key : suggestionsResponse.keySet()) {
                     Suggestions suggestions = suggestionsResponse.get(key);
                     if (suggestions.getSuggestions() != null && suggestions.getSuggestions().size() > 0) {
                         // Get first (best) suggestion
                         Suggestions.Suggestion suggestion = suggestions.getSuggestions().get(0);
 
                         if (!searchTerm.contains(suggestion.getSuggestion())) {
-                            sb.append(suggestion.getSuggestion());
-                            if (it.hasNext()) {
-                                sb.append(" ");
-                            }
+                            availableSuggestions.add(suggestion.getSuggestion());
                         }
                     }
                 }
+
+                // Build the final suggestion
+                Iterator<String> it = availableSuggestions.iterator();
+                StringBuilder sb = new StringBuilder();
+
+                while (it.hasNext()) {
+                    String suggestion = it.next();
+                    sb.append(suggestion);
+                    if (it.hasNext()) {
+                        sb.append(WHITESPACE);
+                    }
+                }
+
                 String suggestionString = sb.toString();
-                final List<String> suggestionsList = new ArrayList<String>() {{
-                    add(suggestionString);
-                }};
-                if (data.containsKey(RESULT_KEY)) {
-                    SearchResult result = data.get(RESULT_KEY);
-                    result.setSuggestions(suggestionsList);
+                if (suggestionString.length() > 0) {
+                    final List<String> suggestionsList = new ArrayList<String>() {{
+                        add(suggestionString);
+                    }};
+                    if (data.containsKey(RESULT_KEY)) {
+                        SearchResult result = data.get(RESULT_KEY);
+                        result.setSuggestions(suggestionsList);
+                    }
                 }
             }
         }
-
-        System.out.println(String.format("Search POST request took %d ms", (end - start)));
+        end = System.currentTimeMillis();
+        System.out.println(String.format("Autocomplete GET request took %d ms", (end - start)));
 
         return data;
     }
