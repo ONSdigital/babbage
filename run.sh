@@ -18,6 +18,7 @@ export PACKAGE_PREFIX=com.github.onsdigital
 export DEV_ENVIRONMENT="Y"
 export RELOAD_TEMPLATES="Y"
 export TEMPLATES_DIR=src/main/web/templates/handlebars
+export ENABLE_SEARCH_SERVICE="Y"
 
 # Development: reloadable
 java $JAVA_OPTS \

@@ -215,11 +215,14 @@ public class SearchClient {
         Cookie[] cookies = request.getCookies();
 
         CookieStore cookieStore = new BasicCookieStore();
-        for (Cookie cookie : cookies) {
-            BasicClientCookie clientCookie = new BasicClientCookie(cookie.getName(), cookie.getValue());
-            clientCookie.setDomain(request.getServerName());
-            clientCookie.setPath(request.getContextPath());
-            cookieStore.addCookie(clientCookie);
+
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                BasicClientCookie clientCookie = new BasicClientCookie(cookie.getName(), cookie.getValue());
+                clientCookie.setDomain(request.getServerName());
+                clientCookie.setPath(request.getContextPath());
+                cookieStore.addCookie(clientCookie);
+            }
         }
         return cookieStore;
     }

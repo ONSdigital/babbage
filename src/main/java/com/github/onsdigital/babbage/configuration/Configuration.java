@@ -134,6 +134,11 @@ public class Configuration {
         public static String getSearchServiceAddress() {
             return searchServiceAddress;
         }
+
+        public static boolean isSearchServiceEnabled() {
+            String enableSearchService = StringUtils.defaultIfBlank(getValue("ENABLE_SEARCH_SERVICE"), "N");
+            return "y".equals(enableSearchService.toLowerCase());
+        }
     }
 
     public static class ELASTIC_SEARCH {
