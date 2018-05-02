@@ -7,9 +7,9 @@ import com.github.onsdigital.babbage.response.BabbageRedirectResponse;
 import com.github.onsdigital.babbage.response.BabbageStringResponse;
 import com.github.onsdigital.babbage.response.base.BabbageResponse;
 import com.github.onsdigital.babbage.search.ElasticSearchClient;
-import com.github.onsdigital.babbage.search.SearchClient;
 import com.github.onsdigital.babbage.search.builders.ONSFilterBuilders;
 import com.github.onsdigital.babbage.search.builders.ONSQueryBuilders;
+import com.github.onsdigital.babbage.search.external.SearchClient;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.helpers.ONSSearchResponse;
 import com.github.onsdigital.babbage.search.helpers.SearchHelper;
@@ -44,7 +44,6 @@ import static com.github.onsdigital.babbage.search.builders.ONSQueryBuilders.*;
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.*;
 import static com.github.onsdigital.babbage.search.input.TypeFilter.contentTypes;
 import static com.github.onsdigital.babbage.search.model.field.Field.cdid;
-import static com.github.onsdigital.babbage.util.RequestUtil.getParam;
 import static com.github.onsdigital.babbage.util.URIUtil.isDataRequest;
 import static org.apache.commons.lang.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -98,7 +97,7 @@ public class SearchUtils {
         LinkedHashMap<String, SearchResult> results;
         if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled() && listType.equals(Search.class.getSimpleName())) {
             try {
-                results = SearchClient.getInstance().search(request);
+                results = SearchClient.getInstance().searchAndSuggest(request);
             } catch (Exception e) {
                 System.out.println(String.format("Caught exception during external search API request: %s", e.getMessage()));
                 e.printStackTrace();
