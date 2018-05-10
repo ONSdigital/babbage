@@ -21,8 +21,8 @@ public class SearchResult {
     private Paginator paginator;
     private String sortBy;
 
-    public SearchResult() {
-
+    private SearchResult() {
+        // For Jackson
     }
 
     public Long getNumberOfResults() {
@@ -89,5 +89,10 @@ public class SearchResult {
 
     public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
+    }
+
+    @Deprecated
+    public static SearchResult getInstance() {
+        return new SearchResult();
     }
 }

@@ -37,12 +37,18 @@ public class SearchClient {
     }
 
     public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest) throws IOException {
+        return this.search(babbageRequest, false);
+    }
+
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, boolean updateUser) throws IOException {
         SearchRequest request = new SearchRequest(babbageRequest, this.host);
 
-        // Update user interests, but we don't care about the response
-        // TODO - Expose sentiment selection
-        Thread thread = new Thread(new UserInterestUpdateRequest(babbageRequest, this.host, UserInterestUpdateRequest.Sentiment.POSITIVE));
-        thread.start();
+        if (updateUser) {
+            // Update user interests, but we don't care about the response
+            // TODO - Expose sentiment selection
+            Thread thread = new Thread(new UserInterestUpdateRequest(babbageRequest, this.host, UserInterestUpdateRequest.Sentiment.POSITIVE));
+            thread.start();
+        }
 
         return request.search();
     }

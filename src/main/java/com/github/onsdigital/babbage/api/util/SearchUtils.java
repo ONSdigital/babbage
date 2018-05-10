@@ -97,7 +97,8 @@ public class SearchUtils {
         LinkedHashMap<String, SearchResult> results;
         if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled() && listType.equals(Search.class.getSimpleName())) {
             try {
-                results = SearchClient.getInstance().searchAndSuggest(request);
+//                results = SearchClient.getInstance().searchAndSuggest(request);
+                results = SearchClient.getInstance().search(request);
             } catch (Exception e) {
                 System.out.println(String.format("Caught exception during external search API request: %s", e.getMessage()));
                 e.printStackTrace();
