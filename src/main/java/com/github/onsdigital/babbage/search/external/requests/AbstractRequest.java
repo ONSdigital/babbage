@@ -53,7 +53,7 @@ public abstract class AbstractRequest {
 
                     return entityString;
                 } else {
-                    throw new IOException(String.format("Got status code %d from search client", statusCode));
+                    throw new IOException(String.format("Got status code %d from search client: %s", statusCode, requestBase));
                 }
             } finally {
                 requestBase.releaseConnection();

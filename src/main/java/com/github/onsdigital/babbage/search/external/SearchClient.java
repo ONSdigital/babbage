@@ -24,6 +24,9 @@ public class SearchClient {
     private final String host;
 
     private SearchClient(String host) {
+        if (!host.endsWith("/")) {
+            host = String.format("%s/", host);
+        }
         this.host = host;
     }
 
@@ -54,7 +57,7 @@ public class SearchClient {
     }
 
     public LinkedHashMap<String, SearchResult> searchAndSuggest(HttpServletRequest babbageRequest) throws IOException {
-        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest);
+        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, false);
         LinkedHashMap<String, LinkedHashMap<String, Suggestions>> autocompleteResults = this.autocomplete(babbageRequest);
 
         String searchTerm = extractSearchTerm(babbageRequest);
