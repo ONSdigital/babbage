@@ -19,6 +19,7 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 /**
  * Created by bren on 16/12/15.
+ * Deprecated by David on 31/05/17.
  */
 @Deprecated
 public class ElasticSearchClient {

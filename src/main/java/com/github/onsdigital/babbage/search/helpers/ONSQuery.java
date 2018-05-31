@@ -14,7 +14,6 @@ import static com.github.onsdigital.babbage.configuration.Configuration.GENERAL.
  * <p>
  * ONS Content query encapsulating common parameters for search and list pages
  */
-@Deprecated
 public class ONSQuery {
 
     //Search and list templates are not order based, they resolve result based on their keys in json mapping. That's why using name to serialise result into json.

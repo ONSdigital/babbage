@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Encapsulates some of the static search methods making it easier to test.
+ * Deprecated by David on 31/05/17.
  */
 @Deprecated
 public class SearchService {

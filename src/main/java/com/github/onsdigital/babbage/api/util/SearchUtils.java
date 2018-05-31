@@ -92,14 +92,14 @@ public class SearchUtils {
                 return new BabbageRedirectResponse(timeSeriesUri, Configuration.GENERAL.getSearchResponseCacheTime());
             }
         }
-//        String target = getParam(request, "searchTarget", "external").toLowerCase();
 
         LinkedHashMap<String, SearchResult> results;
         if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled() && listType.equals(Search.class.getSimpleName())) {
             try {
-//                results = SearchClient.getInstance().searchAndSuggest(request);
+                // Try to get results from external service, and blanket catch any exception
                 results = SearchClient.getInstance().search(request);
             } catch (Exception e) {
+                // Print exception and revert to internal client to prevent 500
                 System.out.println(String.format("Caught exception during external search API request: %s", e.getMessage()));
                 e.printStackTrace();
 
@@ -107,6 +107,7 @@ public class SearchUtils {
                 results = searchAll(queries);
             }
         } else {
+            // Internal client only
             results = searchAll(queries);
         }
         if (searchDepartments) {

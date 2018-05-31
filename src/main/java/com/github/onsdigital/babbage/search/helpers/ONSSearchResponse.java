@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * Created by bren on 07/09/15.
+ * Deprecated by David on 31/05/17.
  */
 @Deprecated
 public class ONSSearchResponse {
@@ -40,7 +41,7 @@ public class ONSSearchResponse {
     }
 
     private SearchResult buildResult() {
-        SearchResult searchResult = SearchResult.getInstance();
+        SearchResult searchResult = new SearchResult();
         searchResult.setNumberOfResults(getNumberOfResults());
         searchResult.setTook(response.getTookInMillis());
 
