@@ -7,7 +7,7 @@ import java.net.URLEncoder;
 
 public enum Endpoints {
     SEARCH("search/ons"),
-    CONCEPTUAL_SEARCH("search/ons/conceptual"),
+    CONCEPTUAL_SEARCH("search/conceptual/ons"),
     AUTOCOMPLETE("suggest/autocomplete"),
     RECOMMEND("recommend/user/update");
 
