@@ -22,13 +22,15 @@ import java.util.Set;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.*;
 
-public class SearchRequest extends AbstractRequest {
+public class SearchRequest extends AbstractSearchRequest {
 
     private final String searchTerm;
+    private final boolean conceptualSearch;
 
     public SearchRequest(HttpServletRequest babbageRequest, String host) {
         super(babbageRequest, host);
         this.searchTerm = extractSearchTerm(babbageRequest);
+        this.conceptualSearch = extractConceptualSearch(babbageRequest);
     }
 
     @Override
@@ -61,9 +63,14 @@ public class SearchRequest extends AbstractRequest {
     }
 
     private final String getSearchQueryUrl(String searchTerm) throws UnsupportedEncodingException {
-        String path = new StringBuilder(super.host)
-                .append(Endpoints.SEARCH.getQueryPath(searchTerm))
-                .toString();
+        StringBuilder sb = new StringBuilder(super.host);
+        if (this.conceptualSearch) {
+            sb.append(Endpoints.CONCEPTUAL_SEARCH.getQueryPath(searchTerm));
+        } else {
+            sb.append(Endpoints.SEARCH.getQueryPath(searchTerm));
+        }
+
+        String path = sb.toString();
         return path;
     }
 

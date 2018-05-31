@@ -174,6 +174,15 @@ public class SearchRequestHelper {
         return query;
     }
 
+    public static boolean extractConceptualSearch(HttpServletRequest request) {
+        String val = getParam(request, "conceptual");
+        if (StringUtils.isEmpty(val)) {
+            return true; // default to true
+        } else {
+            return val.toLowerCase().equals("true");
+        }
+    }
+
     private static boolean allowFutureAfterDate(HttpServletRequest request) {
         return UPCOMING_PARAM.equalsIgnoreCase(request.getParameter(VIEW_PARAM));
     }

@@ -16,7 +16,7 @@ import java.util.List;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
 
-public class UserInterestUpdateRequest extends AbstractRequest implements Runnable {
+public class UserInterestUpdateRequest extends AbstractSearchRequest {
 
     private static final String USER_ID_COOKIE = "_ga";
 
@@ -67,16 +67,6 @@ public class UserInterestUpdateRequest extends AbstractRequest implements Runnab
                 .append(Endpoints.RECOMMEND.path)
                 .toString();
         return path;
-    }
-
-    @Override
-    public void run() {
-        try {
-            super.execute();
-        } catch (IOException e) {
-            System.out.println("Caught exception while executing user recommendation update");
-            e.printStackTrace();
-        }
     }
 
     public enum Sentiment {

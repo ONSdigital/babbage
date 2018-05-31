@@ -25,19 +25,29 @@ import java.io.IOException;
  *
  * Handles abstract requests to the external search service
  */
-public abstract class AbstractRequest {
+public abstract class AbstractSearchRequest implements Runnable {
 
     protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     protected final HttpServletRequest babbageRequest;
     protected final String host;
 
-    public AbstractRequest(HttpServletRequest babbageRequest, String host) {
+    public AbstractSearchRequest(HttpServletRequest babbageRequest, String host) {
         this.babbageRequest = babbageRequest;
         this.host = host;
     }
 
     public abstract HttpRequestBase generateRequest() throws IOException;
+
+    @Override
+    public void run() {
+        try {
+            this.execute();
+        } catch (IOException e) {
+            System.out.println("Caught exception while executing user recommendation update");
+            e.printStackTrace();
+        }
+    }
 
     protected final String execute() throws IOException {
         CookieStore cookieStore = this.extractCookies();

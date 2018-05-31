@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
 
-public class AutocompleteRequest extends AbstractRequest {
+public class AutocompleteRequest extends AbstractSearchRequest {
 
     private final String searchTerm;
 
