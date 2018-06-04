@@ -39,12 +39,12 @@ public class SearchClient {
         return request.autocomplete();
     }
 
-    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest) throws IOException {
-        return this.search(babbageRequest, false);
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
+        return this.search(babbageRequest, false, listType);
     }
 
-    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, boolean updateUser) throws IOException {
-        SearchRequest request = new SearchRequest(babbageRequest, this.host);
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, boolean updateUser, SearchRequest.ListType listType) throws IOException {
+        SearchRequest request = new SearchRequest(babbageRequest, this.host, listType);
 
         if (updateUser) {
             // Update user interests, but we don't care about the response
@@ -56,8 +56,8 @@ public class SearchClient {
         return request.search();
     }
 
-    public LinkedHashMap<String, SearchResult> searchAndSuggest(HttpServletRequest babbageRequest) throws IOException {
-        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, false);
+    public LinkedHashMap<String, SearchResult> searchAndSuggest(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
+        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, false, listType);
         LinkedHashMap<String, LinkedHashMap<String, Suggestions>> autocompleteResults = this.autocomplete(babbageRequest);
 
         String searchTerm = extractSearchTerm(babbageRequest);

@@ -10,6 +10,7 @@ import com.github.onsdigital.babbage.search.ElasticSearchClient;
 import com.github.onsdigital.babbage.search.builders.ONSFilterBuilders;
 import com.github.onsdigital.babbage.search.builders.ONSQueryBuilders;
 import com.github.onsdigital.babbage.search.external.SearchClient;
+import com.github.onsdigital.babbage.search.external.requests.SearchRequest;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.helpers.ONSSearchResponse;
 import com.github.onsdigital.babbage.search.helpers.SearchHelper;
@@ -94,10 +95,11 @@ public class SearchUtils {
         }
 
         LinkedHashMap<String, SearchResult> results;
-        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled() && listType.equals(Search.class.getSimpleName())) {
+        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
             try {
+                SearchRequest.ListType listTypeEnum = SearchRequest.ListType.fromString(listType);
                 // Try to get results from external service, and blanket catch any exception
-                results = SearchClient.getInstance().search(request);
+                results = SearchClient.getInstance().search(request, listTypeEnum);
             } catch (Exception e) {
                 // Print exception and revert to internal client to prevent 500
                 System.out.println(String.format("Caught exception during external search API request: %s", e.getMessage()));

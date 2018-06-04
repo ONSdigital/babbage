@@ -1,5 +1,6 @@
 package com.github.onsdigital.babbage.search.helpers;
 
+import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.error.BadRequestException;
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
 import com.github.onsdigital.babbage.search.helpers.dates.PublishDates;
@@ -175,12 +176,15 @@ public class SearchRequestHelper {
     }
 
     public static boolean extractConceptualSearch(HttpServletRequest request) {
-        String val = getParam(request, "conceptual");
-        if (StringUtils.isEmpty(val)) {
-            return true; // default to true
-        } else {
-            return val.toLowerCase().equals("true");
+        if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled()) {
+            String val = getParam(request, "conceptual");
+            if (StringUtils.isEmpty(val)) {
+                return true; // default to true
+            } else {
+                return val.toLowerCase().equals("true");
+            }
         }
+        return false;
     }
 
     private static boolean allowFutureAfterDate(HttpServletRequest request) {

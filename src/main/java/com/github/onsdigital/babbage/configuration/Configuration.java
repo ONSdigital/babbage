@@ -139,6 +139,11 @@ public class Configuration {
             String enableSearchService = StringUtils.defaultIfBlank(getValue("ENABLE_SEARCH_SERVICE"), "N");
             return "y".equals(enableSearchService.toLowerCase());
         }
+
+        public static boolean isConceptualSearchServiceEnabled() {
+            String enableConceptualSearchService = StringUtils.defaultIfBlank(getValue("ENABLE_CONCEPTUAL_SEARCH_SERVICE"), "N");
+            return "y".equals(enableConceptualSearchService.toLowerCase());
+        }
     }
 
     public static class ELASTIC_SEARCH {

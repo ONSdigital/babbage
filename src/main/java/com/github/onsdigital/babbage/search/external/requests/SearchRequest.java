@@ -26,11 +26,13 @@ public class SearchRequest extends AbstractSearchRequest {
 
     private final String searchTerm;
     private final boolean conceptualSearch;
+    private final ListType listType;
 
-    public SearchRequest(HttpServletRequest babbageRequest, String host) {
+    public SearchRequest(HttpServletRequest babbageRequest, String host, ListType listType) {
         super(babbageRequest, host);
         this.searchTerm = extractSearchTerm(babbageRequest);
         this.conceptualSearch = extractConceptualSearch(babbageRequest);
+        this.listType = listType;
     }
 
     @Override
@@ -67,7 +69,19 @@ public class SearchRequest extends AbstractSearchRequest {
         if (this.conceptualSearch) {
             sb.append(Endpoints.CONCEPTUAL_SEARCH.getQueryPath(searchTerm));
         } else {
-            sb.append(Endpoints.SEARCH.getQueryPath(searchTerm));
+            switch (this.listType) {
+                case SEARCH:
+                    sb.append(Endpoints.SEARCH.getQueryPath(searchTerm));
+                    break;
+                case DATA:
+                    sb.append(Endpoints.SEARCH_DATA.getQueryPath(searchTerm));
+                    break;
+                case PUBLICATIONS:
+                    sb.append(Endpoints.SEARCH_PUBLICATIONS.getQueryPath(searchTerm));
+                    break;
+                default:
+                    throw new RuntimeException(String.format("Unknown list type: %s", this.listType));
+            }
         }
 
         String path = sb.toString();
@@ -85,6 +99,25 @@ public class SearchRequest extends AbstractSearchRequest {
         System.out.println(String.format("Search POST request took %d ms", (end - start)));
 
         return data;
+    }
+
+    public enum ListType {
+        SEARCH,
+        DATA,
+        PUBLICATIONS;
+
+        public static ListType fromString(String listType) {
+            switch (listType) {
+                case "Search":
+                    return ListType.SEARCH;
+                case "SearchData":
+                    return ListType.DATA;
+                case "SearchPublication":
+                    return ListType.PUBLICATIONS;
+                default:
+                    throw new RuntimeException(String.format("Unknown list type: %s", listType));
+            }
+        }
     }
 
 }
