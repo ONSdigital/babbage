@@ -66,26 +66,30 @@ public class SearchRequest extends AbstractSearchRequest {
 
     private final String getSearchQueryUrl(String searchTerm) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder(super.host);
-        if (this.conceptualSearch) {
+        if (this.conceptualSearch && !this.listType.equals(ListType.DEPARTMENTS)) {
             sb.append(Endpoints.CONCEPTUAL_SEARCH.getQueryPath(searchTerm));
         } else {
-            switch (this.listType) {
-                case SEARCH:
-                    sb.append(Endpoints.SEARCH.getQueryPath(searchTerm));
-                    break;
-                case DATA:
-                    sb.append(Endpoints.SEARCH_DATA.getQueryPath(searchTerm));
-                    break;
-                case PUBLICATIONS:
-                    sb.append(Endpoints.SEARCH_PUBLICATIONS.getQueryPath(searchTerm));
-                    break;
-                default:
-                    throw new RuntimeException(String.format("Unknown list type: %s", this.listType));
-            }
+            Endpoints endpoint = listType.getEndpoint();
+            sb.append(endpoint.getQueryPath(searchTerm));
         }
 
         String path = sb.toString();
         return path;
+    }
+
+    public SearchResult searchDepartments() throws IOException {
+        if (!this.listType.equals(ListType.DEPARTMENTS)) {
+            throw new RuntimeException(String.format("Expected departments listType, got %s", this.listType.toString()));
+        }
+        long start = System.currentTimeMillis();
+
+        String entityString = super.execute();
+        SearchResult data = MAPPER.readValue(entityString, SearchResult.class);
+        long end = System.currentTimeMillis();
+
+        System.out.println(String.format("Search departments POST request took %d ms", (end - start)));
+
+        return data;
     }
 
     public LinkedHashMap<String, SearchResult> search() throws IOException {
@@ -102,9 +106,20 @@ public class SearchRequest extends AbstractSearchRequest {
     }
 
     public enum ListType {
-        SEARCH,
-        DATA,
-        PUBLICATIONS;
+        SEARCH(Endpoints.SEARCH),
+        DATA(Endpoints.SEARCH_DATA),
+        PUBLICATIONS(Endpoints.SEARCH_PUBLICATIONS),
+        DEPARTMENTS(Endpoints.SEARCH_DEPARTMENTS);
+
+        private Endpoints endpoint;
+
+        ListType(Endpoints endpoint) {
+            this.endpoint = endpoint;
+        }
+
+        public Endpoints getEndpoint() {
+            return endpoint;
+        }
 
         public static ListType fromString(String listType) {
             switch (listType) {
@@ -114,6 +129,8 @@ public class SearchRequest extends AbstractSearchRequest {
                     return ListType.DATA;
                 case "SearchPublication":
                     return ListType.PUBLICATIONS;
+                case "SearchDepartments":
+                    return ListType.DEPARTMENTS;
                 default:
                     throw new RuntimeException(String.format("Unknown list type: %s", listType));
             }

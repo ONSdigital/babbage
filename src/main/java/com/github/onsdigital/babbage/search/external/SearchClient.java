@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
+import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractConceptualSearch;
+import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractPage;
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
 
 public class SearchClient {
@@ -40,24 +42,32 @@ public class SearchClient {
     }
 
     public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
-        return this.search(babbageRequest, false, listType);
+        return this.search(babbageRequest, listType, extractConceptualSearch(babbageRequest));
     }
 
-    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, boolean updateUser, SearchRequest.ListType listType) throws IOException {
-        SearchRequest request = new SearchRequest(babbageRequest, this.host, listType);
+    public SearchResult searchDepartments(HttpServletRequest babbageRequest) throws IOException {
+        SearchRequest request = new SearchRequest(babbageRequest, this.host, SearchRequest.ListType.DEPARTMENTS);
+        return request.searchDepartments();
+    }
 
-        if (updateUser) {
-            // Update user interests, but we don't care about the response
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType, boolean updateUser) throws IOException {
+        if (updateUser && extractPage(babbageRequest) == 1) {
+            // Update the user vector only if we're on the first page of the SERP (no multiple updates
+            // during pagination).
+
             // TODO - Expose sentiment selection
-            Thread thread = new Thread(new UserInterestUpdateRequest(babbageRequest, this.host, UserInterestUpdateRequest.Sentiment.POSITIVE));
-            thread.start();
+            UserInterestUpdateRequest userInterestUpdateRequest = new UserInterestUpdateRequest(babbageRequest, this.host, UserInterestUpdateRequest.Sentiment.POSITIVE);
+            userInterestUpdateRequest.update();
         }
+
+        // Perform the search request
+        SearchRequest request = new SearchRequest(babbageRequest, this.host, listType);
 
         return request.search();
     }
 
     public LinkedHashMap<String, SearchResult> searchAndSuggest(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
-        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, false, listType);
+        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, listType, extractConceptualSearch(babbageRequest));
         LinkedHashMap<String, LinkedHashMap<String, Suggestions>> autocompleteResults = this.autocomplete(babbageRequest);
 
         String searchTerm = extractSearchTerm(babbageRequest);

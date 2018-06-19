@@ -9,9 +9,10 @@ public enum Endpoints {
     SEARCH("search/ons"),
     SEARCH_DATA("search/ons/data"),
     SEARCH_PUBLICATIONS("search/ons/publications"),
+    SEARCH_DEPARTMENTS("search/ons/departments"),
     CONCEPTUAL_SEARCH("search/conceptual/ons"),
     AUTOCOMPLETE("suggest/autocomplete"),
-    RECOMMEND("recommend/user/update");
+    RECOMMEND("recommend/update");
 
     String path;
 

@@ -113,7 +113,7 @@ public class SearchUtils {
             results = searchAll(queries);
         }
         if (searchDepartments) {
-            searchDeparments(searchTerm, results);
+            searchDeparments(request, searchTerm, results);
         }
         return buildResponse(request, listType, results);
     }
@@ -277,7 +277,26 @@ public class SearchUtils {
         return (String) timeSeries.get(Field.uri.fieldName());
     }
 
-    private static void searchDeparments(String searchTerm, LinkedHashMap<String, SearchResult> results) {
+    private static void searchDeparments(HttpServletRequest request, String searchTerm, LinkedHashMap<String, SearchResult> results) {
+        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
+            try {
+                SearchResult departmentsResult = SearchClient.getInstance().searchDepartments(request);
+                System.out.println(departmentsResult);
+
+                results.put("departments", departmentsResult);
+            } catch (IOException e) {
+                System.out.println("Error executing external departments query");
+                e.printStackTrace();
+
+                // Use the internal client
+                internalSearchDepartments(searchTerm, results);
+            }
+        } else {
+            internalSearchDepartments(searchTerm, results);
+        }
+    }
+
+    private static void internalSearchDepartments(String searchTerm, LinkedHashMap<String, SearchResult> results) {
         QueryBuilder departmentsQuery = departmentQuery(searchTerm);
         SearchRequestBuilder departmentsSearch = ElasticSearchClient.getElasticsearchClient().prepareSearch(DEPARTMENTS_INDEX);
         departmentsSearch.setQuery(departmentsQuery);
