@@ -4,6 +4,7 @@ import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.search.external.requests.AutocompleteRequest;
 import com.github.onsdigital.babbage.search.external.requests.SearchRequest;
 import com.github.onsdigital.babbage.search.external.requests.UserInterestUpdateRequest;
+import com.github.onsdigital.babbage.search.external.requests.UserPageInterestUpdateRequest;
 import com.github.onsdigital.babbage.search.model.SearchResult;
 import com.github.onsdigital.babbage.search.model.Suggestions;
 
@@ -41,6 +42,11 @@ public class SearchClient {
         return request.autocomplete();
     }
 
+    public LinkedHashMap<String, Object> updateUserByPage(HttpServletRequest babbageRequest, String pageUri) throws IOException {
+        UserPageInterestUpdateRequest request = new UserPageInterestUpdateRequest(babbageRequest, this.host, pageUri);
+        return request.send();
+    }
+
     public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
         return this.search(babbageRequest, listType, extractConceptualSearch(babbageRequest));
     }
@@ -57,7 +63,7 @@ public class SearchClient {
 
             // TODO - Expose sentiment selection
             UserInterestUpdateRequest userInterestUpdateRequest = new UserInterestUpdateRequest(babbageRequest, this.host, UserInterestUpdateRequest.Sentiment.POSITIVE);
-            userInterestUpdateRequest.update();
+            userInterestUpdateRequest.send();
         }
 
         // Perform the search request

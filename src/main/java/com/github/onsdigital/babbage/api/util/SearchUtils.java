@@ -95,7 +95,7 @@ public class SearchUtils {
         }
 
         LinkedHashMap<String, SearchResult> results;
-        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
+        if (extractExternalSearch(request) && Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
             try {
                 SearchRequest.ListType listTypeEnum = SearchRequest.ListType.fromString(listType);
                 // Try to get results from external service, and blanket catch any exception
@@ -278,7 +278,7 @@ public class SearchUtils {
     }
 
     private static void searchDeparments(HttpServletRequest request, String searchTerm, LinkedHashMap<String, SearchResult> results) {
-        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
+        if (extractExternalSearch(request) && Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
             try {
                 SearchResult departmentsResult = SearchClient.getInstance().searchDepartments(request);
 

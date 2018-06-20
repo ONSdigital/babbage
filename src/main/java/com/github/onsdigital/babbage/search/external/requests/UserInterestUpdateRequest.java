@@ -27,7 +27,7 @@ public class UserInterestUpdateRequest extends AbstractSearchRequest {
         this.sentiment = sentiment;
     }
 
-    public LinkedHashMap<String, Object> update() throws IOException {
+    public LinkedHashMap<String, Object> send() throws IOException {
         String entityString = super.execute();
         LinkedHashMap<String, Object> data = MAPPER.readValue(entityString, new TypeReference<LinkedHashMap<String, Object>>() {
         });
@@ -45,7 +45,7 @@ public class UserInterestUpdateRequest extends AbstractSearchRequest {
         return post;
     }
 
-    private final String getQueryUrl() {
+    protected String getQueryUrl() {
         String path = new StringBuilder(super.host)
                 .append(Endpoints.RECOMMEND.path)
                 .append("/")

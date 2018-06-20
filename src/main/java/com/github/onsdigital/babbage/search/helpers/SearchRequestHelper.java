@@ -187,6 +187,15 @@ public class SearchRequestHelper {
         return false;
     }
 
+    public static boolean extractExternalSearch(HttpServletRequest request) {
+        String val = getParam(request, "searchTarget");
+        if (StringUtils.isEmpty(val)) {
+            return Configuration.SEARCH_SERVICE.isSearchServiceEnabled();
+        } else {
+            return val.toLowerCase().equals("external");
+        }
+    }
+
     private static boolean allowFutureAfterDate(HttpServletRequest request) {
         return UPCOMING_PARAM.equalsIgnoreCase(request.getParameter(VIEW_PARAM));
     }

@@ -1,11 +1,13 @@
 package com.github.onsdigital.babbage.request.handler;
 
+import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.request.handler.base.BaseRequestHandler;
 import com.github.onsdigital.babbage.response.BabbageContentBasedStringResponse;
 import com.github.onsdigital.babbage.response.base.BabbageResponse;
+import com.github.onsdigital.babbage.search.external.SearchClient;
 import com.github.onsdigital.babbage.template.TemplateService;
 import com.github.onsdigital.babbage.util.RequestUtil;
 
@@ -38,6 +40,17 @@ public class PageRequestHandler extends BaseRequestHandler {
                 additionalData.put("pdf_style", true);
             }
             String html = TemplateService.getInstance().renderContent(dataStream, additionalData);
+
+            // If conceptual search is enabled, send a request to update the users session
+            if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled()) {
+                try {
+                    SearchClient.getInstance().updateUserByPage(request, uri);
+                } catch (Exception e) {
+                    System.out.println("Error whilst trying to update user vector");
+                    e.printStackTrace();
+                }
+            }
+
             return new BabbageContentBasedStringResponse(contentResponse,html, TEXT_HTML);
         }
     }

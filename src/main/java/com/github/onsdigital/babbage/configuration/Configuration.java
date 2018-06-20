@@ -142,7 +142,7 @@ public class Configuration {
 
         public static boolean isConceptualSearchServiceEnabled() {
             String enableConceptualSearchService = StringUtils.defaultIfBlank(getValue("ENABLE_CONCEPTUAL_SEARCH_SERVICE"), "N");
-            return "y".equals(enableConceptualSearchService.toLowerCase());
+            return isSearchServiceEnabled() && "y".equals(enableConceptualSearchService.toLowerCase());
         }
     }
 
