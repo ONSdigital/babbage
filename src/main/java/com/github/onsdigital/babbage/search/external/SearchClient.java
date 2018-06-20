@@ -47,25 +47,12 @@ public class SearchClient {
         return request.send();
     }
 
-    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
-        return this.search(babbageRequest, listType, extractConceptualSearch(babbageRequest));
-    }
-
     public SearchResult searchDepartments(HttpServletRequest babbageRequest) throws IOException {
         SearchRequest request = new SearchRequest(babbageRequest, this.host, SearchRequest.ListType.DEPARTMENTS);
         return request.searchDepartments();
     }
 
-    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType, boolean updateUser) throws IOException {
-        if (updateUser && extractPage(babbageRequest) == 1) {
-            // Update the user vector only if we're on the first page of the SERP (no multiple updates
-            // during pagination).
-
-            // TODO - Expose sentiment selection
-            UserInterestUpdateRequest userInterestUpdateRequest = new UserInterestUpdateRequest(babbageRequest, this.host, UserInterestUpdateRequest.Sentiment.POSITIVE);
-            userInterestUpdateRequest.send();
-        }
-
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
         // Perform the search request
         SearchRequest request = new SearchRequest(babbageRequest, this.host, listType);
 
@@ -73,7 +60,7 @@ public class SearchClient {
     }
 
     public LinkedHashMap<String, SearchResult> searchAndSuggest(HttpServletRequest babbageRequest, SearchRequest.ListType listType) throws IOException {
-        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, listType, extractConceptualSearch(babbageRequest));
+        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest, listType);
         LinkedHashMap<String, LinkedHashMap<String, Suggestions>> autocompleteResults = this.autocomplete(babbageRequest);
 
         String searchTerm = extractSearchTerm(babbageRequest);
