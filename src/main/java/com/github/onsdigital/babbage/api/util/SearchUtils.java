@@ -281,7 +281,6 @@ public class SearchUtils {
         if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
             try {
                 SearchResult departmentsResult = SearchClient.getInstance().searchDepartments(request);
-                System.out.println(departmentsResult);
 
                 results.put("departments", departmentsResult);
             } catch (IOException e) {
