@@ -64,7 +64,7 @@ public class SearchRequest extends AbstractSearchRequest {
         return post;
     }
 
-    private final String getSearchQueryUrl(String searchTerm) throws UnsupportedEncodingException {
+    private String getSearchQueryUrl(String searchTerm) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder(super.host);
         if (this.conceptualSearch && !this.listType.equals(ListType.DEPARTMENTS)) {
             sb.append(Endpoints.CONCEPTUAL_SEARCH.getQueryPath(searchTerm));
@@ -73,8 +73,7 @@ public class SearchRequest extends AbstractSearchRequest {
             sb.append(endpoint.getQueryPath(searchTerm));
         }
 
-        String path = sb.toString();
-        return path;
+        return sb.toString();
     }
 
     public SearchResult searchDepartments() throws IOException {

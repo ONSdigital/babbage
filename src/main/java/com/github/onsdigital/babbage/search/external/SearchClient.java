@@ -83,7 +83,7 @@ public class SearchClient {
                         // Get first (best) suggestion
                         Suggestions.Suggestion suggestion = suggestions.getSuggestions().get(0);
 
-                        if (!searchTerm.contains(suggestion.getSuggestion())) {
+                        if (null != searchTerm && !searchTerm.contains(suggestion.getSuggestion())) {
                             availableSuggestions.add(suggestion.getSuggestion());
                         }
                     }

@@ -295,6 +295,7 @@ public class SearchUtils {
         }
     }
 
+    @Deprecated
     private static void internalSearchDepartments(String searchTerm, LinkedHashMap<String, SearchResult> results) {
         QueryBuilder departmentsQuery = departmentQuery(searchTerm);
         SearchRequestBuilder departmentsSearch = ElasticSearchClient.getElasticsearchClient().prepareSearch(DEPARTMENTS_INDEX);
