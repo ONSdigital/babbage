@@ -2,7 +2,7 @@
 $(function() {
     $('div.pym-interactive').each(function(index, element) {
         var pymParent = new pym.Parent($(element).attr('id'), $(element).data('url'));
-        pymParent.onMessage('height', function(height) {
+        pymParent.onMessage('height', function(height) { 
             addIframeHeightToEmbedCode($(this), height);
         });
     });

@@ -1,12 +1,13 @@
+{{#if url2}}<div class="pym-interactive--display-inline-flex">{{/if}}
 <div class="js--show">
 
-    <div class="pym-interactive{{#if_eq full-width "true"}} pym-interactive--full-width{{/if_eq}}" id="{{id}}" data-url="{{url}}"></div>
+    <div class="pym-interactive{{#if_eq full-width "true"}}{{#if url2}} pym-interactive-half-width--full{{else}} pym-interactive--full-width{{/if}}{{else}}{{#if url2}} pym-interactive-half-width{{/if}}{{/if_eq}}" id="{{id}}" data-url="{{url}}"></div>
 
     <details class="details">
         <summary class="details__summary">Embed code</summary>
         <div class="details__body">
-            <label class="embed-code__label" for="embed-{{id}}">Embed this interactive</label>
-            <input class="embed-code__code width-md--32"
+            <label class="embed-code__label" for="embed-{{id}}">Embed this interactive<br/></label>
+            <input class="embed-code__code {{#if url2}}width-md--15{{else}}width-md--32{{/if}}"
         value='<iframe width="100%" src="{{#if (containsAny url "http" "https")}}{{url}}{{else}}{{#if is_dev}}http://{{location.host}}{{else}}https://{{location.hostname}}{{/if}}{{url}}{{/if}}"></iframe>'
                    id="embed-{{id}}"
                    name="embed-{{id}}"
@@ -20,3 +21,28 @@
     </details>
 
 </div>
+{{#if url2}}
+<div class="js--show">
+
+    <div class="pym-interactive{{#if_eq full-width "true"}} pym-interactive-half-width--full{{else}} pym-interactive-half-width{{/if_eq}}" id="{{id}}1" data-url="{{url2}}"></div>
+
+    <details class="details">
+        <summary class="details__summary">Embed code</summary>
+        <div class="details__body">
+            <label class="embed-code__label" for="embed-{{id}}1">Embed this interactive<br/></label>
+            <input class="embed-code__code width-md--15"
+        value='<iframe width="100%" src="{{#if (containsAny url2 "http" "https")}}{{url2}}{{else}}{{#if is_dev}}http://{{location.host}}{{else}}https://{{location.hostname}}{{/if}}{{url2}}{{/if}}"></iframe>'
+                   id="embed-{{id}}1"
+                   name="embed-{{id}}1"
+                   readonly
+            />
+            <span class="embed-code__success-container">
+                <button id="" data-id="{{id}}1" type="button" class="btn btn--primary embed-code__button js-embed-code-copy">Copy</button>
+                <span role="status"></span>
+            </span>
+        </div>
+    </details>
+
+</div>
+</div>
+{{/if}}
