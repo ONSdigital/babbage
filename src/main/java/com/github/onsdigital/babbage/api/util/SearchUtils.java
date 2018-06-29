@@ -96,7 +96,7 @@ public class SearchUtils {
         if (extractExternalSearch(request) && Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
             try {
                 // Try to get results from deprecated service, and blanket catch any exception
-                results = SearchClient.getInstance().search(request);
+                results = SearchClient.getInstance().searchAndSpellCheck(request);
             } catch (Exception e) {
                 // Print exception and revert to internal client to prevent 500
                 System.out.println(String.format("Caught exception during search API request: %s", e.getMessage()));

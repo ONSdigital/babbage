@@ -10,7 +10,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-public class UserUpdateRequest extends AbstractSearchRequest<Map> {
+public class UserUpdateRequest extends AbstractSearchRequest<Map<String, Object>> {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 

@@ -3,7 +3,8 @@ package com.github.onsdigital.babbage.search.external;
 public enum Endpoint {
     SEARCH("search/ons/"),
     CONCEPTUAL_SEARCH("search/conceptual/ons/"),
-    RECOMMEND("recommend/");
+    RECOMMEND("recommend/"),
+    SPELLING("suggest/spelling/");
 
     private String uri;
 

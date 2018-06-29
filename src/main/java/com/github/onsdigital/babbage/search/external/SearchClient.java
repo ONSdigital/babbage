@@ -6,16 +6,19 @@ import com.github.onsdigital.babbage.search.external.requests.search.ConceptualS
 import com.github.onsdigital.babbage.search.external.requests.search.DepartmentsSearchQueryRequest;
 import com.github.onsdigital.babbage.search.external.requests.search.QueryTypes;
 import com.github.onsdigital.babbage.search.external.requests.search.SearchQueryRequest;
+import com.github.onsdigital.babbage.search.external.requests.spelling.Correction;
+import com.github.onsdigital.babbage.search.external.requests.spelling.SpellCheckerRequest;
 import com.github.onsdigital.babbage.search.model.SearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
 
 public class SearchClient {
+
+    private static final String WHITESPACE = " ";
 
     private static SearchClient INSTANCE = new SearchClient(Configuration.SEARCH_SERVICE.getSearchServiceAddress());
 
@@ -49,6 +52,55 @@ public class SearchClient {
         }
 
         return searchResult;
+    }
+
+    public LinkedHashMap<String, SearchResult> searchAndSpellCheck(HttpServletRequest babbageRequest) throws IOException {
+        LinkedHashMap<String, SearchResult> searchResults = this.search(babbageRequest);
+        Map<String, Correction> correctionResult = this.spellChecker(babbageRequest);
+
+        List<String> availableSuggestions = new LinkedList<>();
+        for (String key : correctionResult.keySet()) {
+            Correction correction = correctionResult.get(key);
+            if (correction.getCorrection() != null && !correction.getCorrection().equals(key) && correction.getProbability() >= 0.5f) {
+                availableSuggestions.add(correction.getCorrection());
+            }
+        }
+
+        // Build the final suggestion
+        Iterator<String> it = availableSuggestions.iterator();
+        StringBuilder sb = new StringBuilder();
+
+        while (it.hasNext()) {
+            String suggestion = it.next();
+            sb.append(suggestion);
+            if (it.hasNext()) {
+                sb.append(WHITESPACE);
+            }
+        }
+
+        String suggestionString = sb.toString();
+        if (suggestionString.length() > 0) {
+            final List<String> suggestionsList = new ArrayList<String>() {{
+                add(suggestionString);
+            }};
+
+            // Add to search results
+            for (String key : searchResults.keySet()) {
+                searchResults.get(key).setSuggestions(suggestionsList);
+            }
+        }
+
+        // Return final search results
+        return searchResults;
+    }
+
+    public Map<String, Correction> spellChecker(HttpServletRequest babbageRequest) throws IOException {
+        String searchTerm = extractSearchTerm(babbageRequest);
+
+        SpellCheckerRequest request = new SpellCheckerRequest(babbageRequest, this.host, searchTerm);
+        Map<String, Correction> result = request.call();
+
+        return result;
     }
 
     public SearchResult searchDepartments(HttpServletRequest babbageRequest) throws IOException {
