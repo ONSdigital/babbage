@@ -48,8 +48,13 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
      * @return URL to query external search service.
      */
     private String getContentQueryUrl() {
+        int page = extractPage(super.babbageRequest);
+        int pageSize = extractSize(super.babbageRequest);
+
         URIBuilder ub = new URIBuilder(this.queryUri());
-        ub.addParameter("q", this.searchTerm);
+        ub.addParameter(SearchRequestParameters.QUERY.parameter, this.searchTerm);
+        ub.addParameter(SearchRequestParameters.PAGE.parameter, String.valueOf(page));
+        ub.addParameter(SearchRequestParameters.SIZE.parameter, String.valueOf(pageSize));
         return this.host + ub.toString();
     }
 
@@ -62,14 +67,10 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
     protected HttpRequestBase generateRequest() throws IOException {
         Set<TypeFilter> typeFilters = extractSelectedFilters(super.babbageRequest, TypeFilter.getAllFilters(), false);
         SortBy sortBy = extractSortBy(super.babbageRequest, SortBy.relevance);
-        int page = extractPage(super.babbageRequest);
-        int pageSize = extractSize(super.babbageRequest);
 
         // Build form params
         List<NameValuePair> postParams = new ArrayList<>();
         postParams.add(new BasicNameValuePair(SearchRequestParameters.SORT_BY.parameter, sortBy.name()));
-        postParams.add(new BasicNameValuePair(SearchRequestParameters.PAGE.parameter, String.valueOf(page)));
-        postParams.add(new BasicNameValuePair(SearchRequestParameters.SIZE.parameter, String.valueOf(pageSize)));
 
         for (TypeFilter typeFilter : typeFilters) {
             for (ContentType contentType : typeFilter.getTypes()) {
@@ -100,6 +101,7 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
     }
 
     enum SearchRequestParameters {
+        QUERY("q"),
         SORT_BY("sort_by"),
         PAGE("page"),
         SIZE("size"),
