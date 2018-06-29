@@ -1,6 +1,5 @@
-package com.github.onsdigital.babbage.search.external.requests;
+package com.github.onsdigital.babbage.search.external.requests.base;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.CookieStore;
@@ -12,42 +11,26 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
-/**
- *  * @author sullid (David Sullivan) on 02/05/2018
- *  * @project babbage
- *
- * Handles abstract requests to the external search service
- */
-public abstract class AbstractSearchRequest implements Runnable {
-
-    protected static final ObjectMapper MAPPER = new ObjectMapper();
+public abstract class AbstractSearchRequest<T> implements Callable<T> {
 
     protected final HttpServletRequest babbageRequest;
     protected final String host;
 
     public AbstractSearchRequest(HttpServletRequest babbageRequest, String host) {
         this.babbageRequest = babbageRequest;
-        this.host = host;
+        this.host = host.endsWith("/") ? host : host + "/";
     }
 
-    public abstract HttpRequestBase generateRequest() throws IOException;
-
-    @Override
-    public void run() {
-        try {
-            this.execute();
-        } catch (IOException e) {
-            System.out.println("Caught exception while executing user recommendation update");
-            e.printStackTrace();
-        }
-    }
+    protected abstract HttpRequestBase generateRequest() throws IOException;
 
     protected final String execute() throws IOException {
         CookieStore cookieStore = this.extractCookies();
@@ -98,7 +81,11 @@ public abstract class AbstractSearchRequest implements Runnable {
 
     private static CloseableHttpClient httpClient(CookieStore cookieStore) {
         RequestConfig globalConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.DEFAULT).build();
-        CloseableHttpClient client = HttpClients.custom().setDefaultRequestConfig(globalConfig).setDefaultCookieStore(cookieStore).build();
+        CloseableHttpClient client = HttpClients.custom()
+                .setDefaultRequestConfig(globalConfig)
+                .setDefaultCookieStore(cookieStore)
+                .setRedirectStrategy(new LaxRedirectStrategy())
+                .build();
 
         return client;
     }

@@ -192,7 +192,7 @@ public class SearchRequestHelper {
         if (StringUtils.isEmpty(val)) {
             return Configuration.SEARCH_SERVICE.isSearchServiceEnabled();
         } else {
-            return val.toLowerCase().equals("external");
+            return val.toLowerCase().equals("deprecated");
         }
     }
 

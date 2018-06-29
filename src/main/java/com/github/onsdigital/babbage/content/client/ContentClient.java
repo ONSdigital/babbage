@@ -24,7 +24,7 @@ import static com.github.onsdigital.babbage.configuration.Configuration.CONTENT_
 /**
  * Created by bren on 23/07/15.
  * <p/>
- * Content service reads content from external server over http.
+ * Content service reads content from deprecated server over http.
  * <p/>
  * Using Apache http client with connection pooling.
  */

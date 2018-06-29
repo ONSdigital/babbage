@@ -44,7 +44,7 @@ public class PageRequestHandler extends BaseRequestHandler {
             // If conceptual search is enabled, send a request to update the users session
             if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled()) {
                 try {
-                    SearchClient.getInstance().updateUserByPage(request, uri);
+                    SearchClient.getInstance().updateUser(request, uri);
                 } catch (Exception e) {
                     System.out.println("Error whilst trying to update user vector");
                     e.printStackTrace();

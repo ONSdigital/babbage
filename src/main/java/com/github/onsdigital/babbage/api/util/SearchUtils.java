@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.api.util;
 
-import com.github.onsdigital.babbage.api.endpoint.search.Search;
 import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.error.ValidationError;
 import com.github.onsdigital.babbage.response.BabbageRedirectResponse;
@@ -10,7 +9,6 @@ import com.github.onsdigital.babbage.search.ElasticSearchClient;
 import com.github.onsdigital.babbage.search.builders.ONSFilterBuilders;
 import com.github.onsdigital.babbage.search.builders.ONSQueryBuilders;
 import com.github.onsdigital.babbage.search.external.SearchClient;
-import com.github.onsdigital.babbage.search.external.requests.SearchRequest;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.helpers.ONSSearchResponse;
 import com.github.onsdigital.babbage.search.helpers.SearchHelper;
@@ -97,12 +95,11 @@ public class SearchUtils {
         LinkedHashMap<String, SearchResult> results;
         if (extractExternalSearch(request) && Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
             try {
-                SearchRequest.ListType listTypeEnum = SearchRequest.ListType.fromString(listType);
-                // Try to get results from external service, and blanket catch any exception
-                results = SearchClient.getInstance().search(request, listTypeEnum);
+                // Try to get results from deprecated service, and blanket catch any exception
+                results = SearchClient.getInstance().search(request);
             } catch (Exception e) {
                 // Print exception and revert to internal client to prevent 500
-                System.out.println(String.format("Caught exception during external search API request: %s", e.getMessage()));
+                System.out.println(String.format("Caught exception during search API request: %s", e.getMessage()));
                 e.printStackTrace();
 
                 // Use internal client
@@ -284,7 +281,7 @@ public class SearchUtils {
 
                 results.put("departments", departmentsResult);
             } catch (IOException e) {
-                System.out.println("Error executing external departments query");
+                System.out.println("Error executing departments query");
                 e.printStackTrace();
 
                 // Use the internal client
