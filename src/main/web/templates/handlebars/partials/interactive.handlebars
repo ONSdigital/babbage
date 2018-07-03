@@ -24,20 +24,20 @@
 {{#if additionalUrl}}
 <div class="js--show">
 
-    <div class="pym-interactive{{#if_eq full-width "true"}} pym-interactive-half-width--full{{else}} pym-interactive-half-width{{/if_eq}}" id="{{id}}1" data-url="{{additionalUrl}}"></div>
+    <div class="pym-interactive{{#if_eq full-width "true"}} pym-interactive-half-width--full{{else}} pym-interactive-half-width{{/if_eq}}" id="{{additionalId}}" data-url="{{additionalUrl}}"></div>
 
     <details class="details">
         <summary class="details__summary">Embed code</summary>
         <div class="details__body">
-            <label class="embed-code__label" for="embed-{{id}}1">Embed this interactive<br/></label>
+            <label class="embed-code__label" for="embed-{{additionalId}}">Embed this interactive<br/></label>
             <input class="embed-code__code width-md--15"
         value='<iframe width="100%" src="{{#if (containsAny additionalUrl "http" "https")}}{{additionalUrl}}{{else}}{{#if is_dev}}http://{{location.host}}{{else}}https://{{location.hostname}}{{/if}}{{additionalUrl}}{{/if}}"></iframe>'
-                   id="embed-{{id}}1"
-                   name="embed-{{id}}1"
+                   id="embed-{{additionalId}}"
+                   name="embed-{{additionalId}}"
                    readonly
             />
             <span class="embed-code__success-container">
-                <button id="" data-id="{{id}}1" type="button" class="btn btn--primary embed-code__button js-embed-code-copy">Copy</button>
+                <button id="" data-id="{{additionalId}}" type="button" class="btn btn--primary embed-code__button js-embed-code-copy">Copy</button>
                 <span role="status"></span>
             </span>
         </div>

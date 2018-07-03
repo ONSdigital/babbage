@@ -38,8 +38,9 @@ public class InteractiveTagReplacer extends TagReplacementStrategy {
         LinkedHashMap<String, Object> additionalData = new LinkedHashMap<>();
         additionalData.put("id", UUID.randomUUID().toString().substring(10));
         additionalData.put("url", tagPath);
-        additionalData.put("full-width", fullWidth);
+        additionalData.put("additionalId", UUID.randomUUID().toString().substring(10));
         additionalData.put("additionalUrl", tagPath2);
+        additionalData.put("full-width", fullWidth);
         return TemplateService.getInstance().renderTemplate(template, null, additionalData);
     }
 }
