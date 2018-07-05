@@ -1,5 +1,5 @@
-{{#if additionalUrl}}<div class="pym-interactive--display-inline-flex">{{/if}}
-<div class="js--show">
+{{#if additionalUrl}}<div class="wrapper"><div class="col-wrap">{{/if}}
+<div class="js--show{{#if additionalUrl}} col col--md-21 col--lg-22 margin-left--1{{/if}}">
 
     <div class="pym-interactive{{#if_eq full-width "true"}}{{#if additionalUrl}} pym-interactive-half-width--full{{else}} pym-interactive--full-width{{/if}}{{else}}{{#if additionalUrl}} pym-interactive-half-width{{/if}}{{/if_eq}}" id="{{id}}" data-url="{{url}}"></div>
 
@@ -22,7 +22,7 @@
 
 </div>
 {{#if additionalUrl}}
-<div class="js--show">
+<div class="js--show col col--md-21 {{#if_eq full-width "true"}}col--lg-32 {{else}}col--lg-22{{/if_eq}}">
 
     <div class="pym-interactive{{#if_eq full-width "true"}} pym-interactive-half-width--full{{else}} pym-interactive-half-width{{/if_eq}}" id="{{additionalId}}" data-url="{{additionalUrl}}"></div>
 
@@ -43,6 +43,7 @@
         </div>
     </details>
 
+</div>
 </div>
 </div>
 {{/if}}
