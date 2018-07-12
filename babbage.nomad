@@ -29,6 +29,13 @@ job "babbage" {
       value     = "web.*"
     }
 
+    restart {
+      attempts = 3
+      delay    = "15s"
+      interval = "1m"
+      mode     = "delay"
+    }
+
     task "babbage-web" {
       driver = "docker"
 
@@ -98,6 +105,13 @@ job "babbage" {
       attribute = "${node.class}"
       operator  = "regexp"
       value     = "publishing.*"
+    }
+
+    restart {
+      attempts = 3
+      delay    = "15s"
+      interval = "1m"
+      mode     = "delay"
     }
 
     task "babbage-publishing" {
