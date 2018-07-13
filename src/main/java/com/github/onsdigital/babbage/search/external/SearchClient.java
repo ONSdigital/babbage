@@ -2,12 +2,10 @@ package com.github.onsdigital.babbage.search.external;
 
 import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.search.external.requests.recommend.UserUpdateRequest;
-import com.github.onsdigital.babbage.search.external.requests.search.ConceptualSearchQueryRequest;
-import com.github.onsdigital.babbage.search.external.requests.search.DepartmentsSearchQueryRequest;
-import com.github.onsdigital.babbage.search.external.requests.search.QueryTypes;
-import com.github.onsdigital.babbage.search.external.requests.search.SearchQueryRequest;
+import com.github.onsdigital.babbage.search.external.requests.search.*;
 import com.github.onsdigital.babbage.search.external.requests.spelling.Correction;
 import com.github.onsdigital.babbage.search.external.requests.spelling.SpellCheckerRequest;
+import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.model.SearchResult;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +31,13 @@ public class SearchClient {
 
     public static SearchClient getInstance() {
         return INSTANCE;
+    }
+
+    public SearchResult proxyRequest(HttpServletRequest babbageRequest, ONSQuery query) throws IOException {
+        ProxyONSQueryRequest request = new ProxyONSQueryRequest(babbageRequest, this.host, query);
+        SearchResult result = request.call();
+
+        return result;
     }
 
     public LinkedHashMap<String, SearchResult> search(HttpServletRequest babbageRequest) throws IOException {

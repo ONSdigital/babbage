@@ -22,14 +22,13 @@ import static com.github.onsdigital.babbage.configuration.Configuration.GENERAL.
 import static com.github.onsdigital.babbage.search.ElasticSearchClient.getElasticsearchClient;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
-@Deprecated
 public class SearchHelper {
 
-    private static SearchRequestBuilder prepare(ONSQuery query) {
+    public static SearchRequestBuilder prepare(ONSQuery query) {
         return prepare(query, null);
     }
 
-    private static SearchRequestBuilder prepare(ONSQuery query, String index) {
+    public static SearchRequestBuilder prepare(ONSQuery query, String index) {
         SearchRequestBuilder requestBuilder = getElasticsearchClient()
                 .prepareSearch(isNotEmpty(index) ? index : getElasticSearchIndexAlias())
                 .setQuery(query.query())

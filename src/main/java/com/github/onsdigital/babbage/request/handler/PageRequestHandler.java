@@ -42,7 +42,7 @@ public class PageRequestHandler extends BaseRequestHandler {
             String html = TemplateService.getInstance().renderContent(dataStream, additionalData);
 
             // If conceptual search is enabled, send a request to update the users session
-            if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled()) {
+            if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled() && null != uri && !uri.isEmpty()) {
                 try {
                     SearchClient.getInstance().updateUser(request, uri);
                 } catch (Exception e) {

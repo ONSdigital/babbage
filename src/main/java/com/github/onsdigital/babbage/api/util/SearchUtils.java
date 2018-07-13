@@ -134,11 +134,32 @@ public class SearchUtils {
         return buildDataResponse(listType, searchAll(queries));
     }
 
-    @Deprecated
     public static LinkedHashMap<String, SearchResult> searchAll(SearchQueries searchQueries) {
         List<ONSQuery> queries = searchQueries.buildQueries();
-        return doSearch(queries);
+        try {
+            // Attempt to use external API for proxying Elasticsearch requests.
+            // This should intercept all search queries.
+            LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
+            for (ONSQuery query : queries) {
+                SearchResult result = SearchClient.getInstance().proxyRequest(null, query);
+                results.put(query.name(), result);
+            }
+
+            return results;
+        } catch (IOException e) {
+            System.out.println("Caught IOException while proxying Elasticsearch requests");
+            e.printStackTrace();
+
+            // Use internal client to complete search
+            return doSearch(queries);
+        }
     }
+
+//    @Deprecated
+//    public static LinkedHashMap<String, SearchResult> searchAll(SearchQueries searchQueries) {
+//        List<ONSQuery> queries = searchQueries.buildQueries();
+//        return doSearch(queries);
+//    }
 
     /**
      * Builds search query by resolving search term, page and sort parameters

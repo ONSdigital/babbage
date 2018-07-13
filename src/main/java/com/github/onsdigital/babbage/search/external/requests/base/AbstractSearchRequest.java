@@ -58,15 +58,17 @@ public abstract class AbstractSearchRequest<T> implements Callable<T> {
         // Initialise empty cookie store
         CookieStore cookieStore = new BasicCookieStore();
 
-        Cookie[] cookies = this.babbageRequest.getCookies();
+        if (null != this.babbageRequest) {
+            Cookie[] cookies = this.babbageRequest.getCookies();
 
-        // Forward cookies
-        if (null != cookies) {
-            for (Cookie cookie : cookies) {
-                BasicClientCookie clientCookie = new BasicClientCookie(cookie.getName(), cookie.getValue());
-                clientCookie.setDomain(this.babbageRequest.getServerName());
-                clientCookie.setPath(this.babbageRequest.getContextPath());
-                cookieStore.addCookie(clientCookie);
+            // Forward cookies
+            if (null != cookies) {
+                for (Cookie cookie : cookies) {
+                    BasicClientCookie clientCookie = new BasicClientCookie(cookie.getName(), cookie.getValue());
+                    clientCookie.setDomain(this.babbageRequest.getServerName());
+                    clientCookie.setPath(this.babbageRequest.getContextPath());
+                    cookieStore.addCookie(clientCookie);
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.search.external;
 
 public enum Endpoint {
+    SEARCH_PROXY("search/"),
     SEARCH("search/ons/"),
     CONCEPTUAL_SEARCH("search/conceptual/ons/"),
     RECOMMEND("recommend/"),
