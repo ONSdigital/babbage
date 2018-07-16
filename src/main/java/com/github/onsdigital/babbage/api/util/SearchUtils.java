@@ -136,23 +136,7 @@ public class SearchUtils {
 
     public static LinkedHashMap<String, SearchResult> searchAll(SearchQueries searchQueries) {
         List<ONSQuery> queries = searchQueries.buildQueries();
-        try {
-            // Attempt to use external API for proxying Elasticsearch requests.
-            // This should intercept all search queries.
-            LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
-            for (ONSQuery query : queries) {
-                SearchResult result = SearchClient.getInstance().proxyRequest(null, query);
-                results.put(query.name(), result);
-            }
-
-            return results;
-        } catch (IOException e) {
-            System.out.println("Caught IOException while proxying Elasticsearch requests");
-            e.printStackTrace();
-
-            // Use internal client to complete search
-            return doSearch(queries);
-        }
+        return doSearch(queries);
     }
 
 //    @Deprecated
@@ -271,12 +255,30 @@ public class SearchUtils {
     }
 
     static LinkedHashMap<String, SearchResult> doSearch(List<ONSQuery> searchQueries) {
-        List<ONSSearchResponse> responseList = SearchHelper.searchMultiple(searchQueries);
         LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
-        for (int i = 0; i < responseList.size(); i++) {
-            ONSSearchResponse response = responseList.get(i);
-            results.put(searchQueries.get(i).name(), response.getResult());
 
+        try {
+            // Attempt to use external API for proxying Elasticsearch requests.
+            // This should intercept all search queries.
+            for (ONSQuery query : searchQueries) {
+                SearchResult result = SearchClient.getInstance().proxyRequest(null, query);
+                results.put(query.name(), result);
+            }
+
+            return results;
+        } catch (IOException e) {
+            System.out.println("Caught IOException while proxying Elasticsearch requests");
+            e.printStackTrace();
+
+            List<ONSSearchResponse> responseList = SearchHelper.searchMultiple(searchQueries);
+            results = new LinkedHashMap<>();  // reset the results
+
+            // Use internal client to complete search
+            for (int i = 0; i < responseList.size(); i++) {
+                ONSSearchResponse response = responseList.get(i);
+                results.put(searchQueries.get(i).name(), response.getResult());
+
+            }
         }
         return results;
     }

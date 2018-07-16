@@ -144,6 +144,11 @@ public class Configuration {
             String enableConceptualSearchService = StringUtils.defaultIfBlank(getValue("ENABLE_CONCEPTUAL_SEARCH_SERVICE"), "N");
             return isSearchServiceEnabled() && "y".equals(enableConceptualSearchService.toLowerCase());
         }
+
+        public static boolean isConceptualSearchUserTrackingEnabled() {
+            String enableConceptualSearchUserTracking = StringUtils.defaultIfBlank(getValue("ENABLE_CONCEPTUAL_SEARCH_USER_TRACKING"), "N");
+            return isConceptualSearchServiceEnabled() && "y".equals(enableConceptualSearchUserTracking.toLowerCase());
+        }
     }
 
     public static class ELASTIC_SEARCH {

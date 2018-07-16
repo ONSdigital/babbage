@@ -47,7 +47,7 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
      * Builds the content query url using the given search term.
      * @return URL to query external search service.
      */
-    private String getContentQueryUrl() {
+    protected String getContentQueryUrl() {
         int page = extractPage(super.babbageRequest);
         int pageSize = extractSize(super.babbageRequest);
 
@@ -55,6 +55,10 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
         ub.addParameter(SearchRequestParameters.QUERY.parameter, this.searchTerm);
         ub.addParameter(SearchRequestParameters.PAGE.parameter, String.valueOf(page));
         ub.addParameter(SearchRequestParameters.SIZE.parameter, String.valueOf(pageSize));
+
+        if (extractUserVectorQuery(super.babbageRequest)) {
+            ub.addParameter(SearchRequestParameters.USER_VECTOR_QUERY.parameter, String.valueOf(true));
+        }
         return this.host + ub.toString();
     }
 
@@ -105,7 +109,8 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
         SORT_BY("sort_by"),
         PAGE("page"),
         SIZE("size"),
-        FILTER("filter");
+        FILTER("filter"),
+        USER_VECTOR_QUERY("user_vector_query");
 
         String parameter;
 

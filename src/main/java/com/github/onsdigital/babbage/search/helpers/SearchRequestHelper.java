@@ -192,7 +192,16 @@ public class SearchRequestHelper {
         if (StringUtils.isEmpty(val)) {
             return Configuration.SEARCH_SERVICE.isSearchServiceEnabled();
         } else {
-            return val.toLowerCase().equals("deprecated");
+            return val.toLowerCase().equals("external");
+        }
+    }
+
+    public static boolean extractUserVectorQuery(HttpServletRequest request) {
+        String val = getParam(request, "useUserVector");
+        if (StringUtils.isEmpty(val)) {
+            return false;  // default to false
+        } else {
+            return val.toLowerCase().equals("true") && extractConceptualSearch(request);
         }
     }
 
