@@ -1,7 +1,7 @@
-{{#if additionalUrl}}<div class="wrapper"><div class="col-wrap">{{/if}}
-<div class="js--show{{#if additionalUrl}} col col--md-21 col--lg-22 margin-left--1{{/if}}">
+{{#if additionalUrl}}<div {{#if_eq full-width "true"}}class=" markdown-full-width-container"{{/if_eq}}><div class="col-wrap">{{/if}}
+<div class="js--show{{#if additionalUrl}} col col--md-21{{#if_eq full-width "true"}} col--lg-29{{else}} col--lg-22{{/if_eq}} margin-left-lg--1{{/if}}">
 
-    <div class="pym-interactive{{#if_eq full-width "true"}}{{#if additionalUrl}} pym-interactive-half-width--full{{else}} pym-interactive--full-width{{/if}}{{else}}{{#if additionalUrl}} pym-interactive-half-width{{/if}}{{/if_eq}}" id="{{id}}" data-url="{{url}}"></div>
+    <div class="pym-interactive{{#if additionalUrl}} col--md-21{{#if_eq full-width "true"}} col--lg-29{{else}} col--lg-22{{/if_eq}}{{else}}{{#if_eq full-width "true"}} markdown-full-width-container{{else}} col--md-42 col--lg-44{{/if_eq}}{{/if}}" id="{{id}}" data-url="{{url}}"></div>
 
     <details class="details">
         <summary class="details__summary">Embed code</summary>
@@ -22,9 +22,9 @@
 
 </div>
 {{#if additionalUrl}}
-<div class="js--show col col--md-21 {{#if_eq full-width "true"}}col--lg-32 {{else}}col--lg-22{{/if_eq}}">
+<div class="js--show col col--md-21 {{#if_eq full-width "true"}}col--lg-29 {{else}}col--lg-22{{/if_eq}}">
 
-    <div class="pym-interactive{{#if_eq full-width "true"}} pym-interactive-half-width--full{{else}} pym-interactive-half-width{{/if_eq}}" id="{{additionalId}}" data-url="{{additionalUrl}}"></div>
+    <div class="pym-interactive{{#if_eq full-width "true"}} col--md-21 col--lg-29{{else}} col--md-21{{/if_eq}}" id="{{additionalId}}" data-url="{{additionalUrl}}"></div>
 
     <details class="details">
         <summary class="details__summary">Embed code</summary>
