@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
+import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractConceptualSearch;
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSearchTerm;
 
 public class SearchClient {
@@ -47,7 +48,7 @@ public class SearchClient {
 
         for (QueryTypes queryType : QueryTypes.values()) {
             SearchQueryRequest request;
-            if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled()) {
+            if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled() && extractConceptualSearch(babbageRequest)) {
                 request = new ConceptualSearchQueryRequest(babbageRequest, this.host, searchTerm, queryType);
             } else {
                 request = new SearchQueryRequest(babbageRequest, this.host, searchTerm, queryType);
