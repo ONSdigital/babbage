@@ -254,32 +254,48 @@ public class SearchUtils {
         return result;
     }
 
+//    static LinkedHashMap<String, SearchResult> doSearch(List<ONSQuery> searchQueries) {
+//        LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
+//
+//        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
+//            try {
+//                // Attempt to use external API for proxying Elasticsearch requests.
+//                // This should intercept all search queries.
+//
+//                for (ONSQuery query : searchQueries) {
+//                    SearchResult result = SearchClient.getInstance().proxyRequest(null, query);
+//                    results.put(query.name(), result);
+//                }
+//
+//                return results;
+//            } catch (IOException e) {
+//                System.out.println("Caught IOException while proxying Elasticsearch requests");
+//                e.printStackTrace();
+//
+//                results = doInternalSearch(searchQueries);
+//            }
+//        } else {
+//            results = doInternalSearch(searchQueries);
+//        }
+//        return results;
+//    }
+
     static LinkedHashMap<String, SearchResult> doSearch(List<ONSQuery> searchQueries) {
+        // Temporary redirect to doInternalSearch
+        return doInternalSearch(searchQueries);
+    }
+
+    static LinkedHashMap<String, SearchResult> doInternalSearch(List<ONSQuery> searchQueries) {
         LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
 
-        try {
-            // Attempt to use external API for proxying Elasticsearch requests.
-            // This should intercept all search queries.
-            for (ONSQuery query : searchQueries) {
-                SearchResult result = SearchClient.getInstance().proxyRequest(null, query);
-                results.put(query.name(), result);
-            }
+        List<ONSSearchResponse> responseList = SearchHelper.searchMultiple(searchQueries);
+        // Use internal client to complete search
+        for (int i = 0; i < responseList.size(); i++) {
+            ONSSearchResponse response = responseList.get(i);
+            results.put(searchQueries.get(i).name(), response.getResult());
 
-            return results;
-        } catch (IOException e) {
-            System.out.println("Caught IOException while proxying Elasticsearch requests");
-            e.printStackTrace();
-
-            List<ONSSearchResponse> responseList = SearchHelper.searchMultiple(searchQueries);
-            results = new LinkedHashMap<>();  // reset the results
-
-            // Use internal client to complete search
-            for (int i = 0; i < responseList.size(); i++) {
-                ONSSearchResponse response = responseList.get(i);
-                results.put(searchQueries.get(i).name(), response.getResult());
-
-            }
         }
+
         return results;
     }
 

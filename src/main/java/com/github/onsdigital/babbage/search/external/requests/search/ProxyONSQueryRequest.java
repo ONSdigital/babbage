@@ -42,6 +42,8 @@ public class ProxyONSQueryRequest extends AbstractSearchRequest<SearchResult> {
     private StringEntity queryToEntity() throws JsonProcessingException, UnsupportedEncodingException {
         SearchRequestBuilder builder = SearchHelper.prepare(this.query);
         String queryString = builder.toString();
+
+        // TODO - Add type information to query here (not included in query body when using internal client)
         return new StringEntity(MAPPER.writeValueAsString(queryString));
     }
 
