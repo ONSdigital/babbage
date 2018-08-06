@@ -30,7 +30,7 @@ public class PublishedRequestsRequestHandler extends BaseRequestHandler implemen
 
     @Override
     public BabbageResponse getData(String uri, HttpServletRequest request) throws IOException {
-        return listJson(REQUEST_TYPE, queries(request));
+        return listJson(request, REQUEST_TYPE, queries(request));
     }
 
     private SearchQueries queries(HttpServletRequest request) {

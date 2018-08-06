@@ -63,7 +63,7 @@ public class RelatedDataRequestHandler extends BaseRequestHandler implements Lis
     @Override
     public BabbageResponse getData(String uri, HttpServletRequest request) throws IOException, ContentReadException {
         List<Map> uriList = getRelatedDataUris(uri);
-        return isEmpty(uriList) ? buildDataResponse(getRequestType(), null) : listJson(getRequestType(), queries(uriList, request));
+        return isEmpty(uriList) ? buildDataResponse(getRequestType(), null) : listJson(request, getRequestType(), queries(uriList, request));
     }
 
     private SearchQueries queries(List<Map> uriList, HttpServletRequest request) throws IOException, ContentReadException {

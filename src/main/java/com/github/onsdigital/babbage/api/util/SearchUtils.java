@@ -103,11 +103,11 @@ public class SearchUtils {
                 e.printStackTrace();
 
                 // Use internal client
-                results = searchAll(queries);
+                results = searchAll(request, queries);
             }
         } else {
             // Internal client only
-            results = searchAll(queries);
+            results = searchAll(request, queries);
         }
         if (searchDepartments) {
             searchDeparments(request, searchTerm, results);
@@ -116,27 +116,27 @@ public class SearchUtils {
     }
 
     public static BabbageResponse list(HttpServletRequest request, String listType, SearchQueries queries) throws IOException {
-        return buildResponse(request, listType, searchAll(queries));
+        return buildResponse(request, listType, searchAll(request, queries));
     }
 
     public static BabbageResponse listPage(String listType, SearchQueries queries) throws IOException {
-        return buildPageResponse(listType, searchAll(queries));
+        return buildPageResponse(listType, searchAll(null, queries));
     }
 
     public static BabbageResponse listPageWithValidationErrors(
             String listType, SearchQueries queries,
             List<ValidationError> errors
     ) throws IOException {
-        return buildPageResponseWithValidationErrors(listType, searchAll(queries), Optional.ofNullable(errors));
+        return buildPageResponseWithValidationErrors(listType, searchAll(null, queries), Optional.ofNullable(errors));
     }
 
-    public static BabbageResponse listJson(String listType, SearchQueries queries) throws IOException {
-        return buildDataResponse(listType, searchAll(queries));
+    public static BabbageResponse listJson(HttpServletRequest request, String listType, SearchQueries queries) throws IOException {
+        return buildDataResponse(listType, searchAll(request, queries));
     }
 
-    public static LinkedHashMap<String, SearchResult> searchAll(SearchQueries searchQueries) {
+    public static LinkedHashMap<String, SearchResult> searchAll(HttpServletRequest request, SearchQueries searchQueries) {
         List<ONSQuery> queries = searchQueries.buildQueries();
-        return doSearch(queries);
+        return doSearch(request, queries);
     }
 
 //    @Deprecated
@@ -254,36 +254,36 @@ public class SearchUtils {
         return result;
     }
 
-//    static LinkedHashMap<String, SearchResult> doSearch(List<ONSQuery> searchQueries) {
-//        LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
-//
-//        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
-//            try {
-//                // Attempt to use external API for proxying Elasticsearch requests.
-//                // This should intercept all search queries.
-//
-//                for (ONSQuery query : searchQueries) {
-//                    SearchResult result = SearchClient.getInstance().proxyRequest(null, query);
-//                    results.put(query.name(), result);
-//                }
-//
-//                return results;
-//            } catch (IOException e) {
-//                System.out.println("Caught IOException while proxying Elasticsearch requests");
-//                e.printStackTrace();
-//
-//                results = doInternalSearch(searchQueries);
-//            }
-//        } else {
-//            results = doInternalSearch(searchQueries);
-//        }
-//        return results;
-//    }
+    static LinkedHashMap<String, SearchResult> doSearch(HttpServletRequest request, List<ONSQuery> searchQueries) {
+        LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
 
-    static LinkedHashMap<String, SearchResult> doSearch(List<ONSQuery> searchQueries) {
-        // Temporary redirect to doInternalSearch
-        return doInternalSearch(searchQueries);
+        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
+            try {
+                // Attempt to use external API for proxying Elasticsearch requests.
+                // This should intercept all search queries.
+
+                for (ONSQuery query : searchQueries) {
+                    SearchResult result = SearchClient.getInstance().proxyRequest(request, query);
+                    results.put(query.name(), result);
+                }
+
+                return results;
+            } catch (IOException e) {
+                System.out.println("Caught IOException while proxying Elasticsearch requests");
+                e.printStackTrace();
+
+                results = doInternalSearch(searchQueries);
+            }
+        } else {
+            results = doInternalSearch(searchQueries);
+        }
+        return results;
     }
+
+//    static LinkedHashMap<String, SearchResult> doSearch(List<ONSQuery> searchQueries) {
+//        // Temporary redirect to doInternalSearch
+//        return doInternalSearch(searchQueries);
+//    }
 
     static LinkedHashMap<String, SearchResult> doInternalSearch(List<ONSQuery> searchQueries) {
         LinkedHashMap<String, SearchResult> results = new LinkedHashMap<>();
@@ -420,7 +420,7 @@ public class SearchUtils {
                 .highlight(true);
 
         SearchQueries queries = () -> ONSQueryBuilders.toList(query);
-        return SearchUtils.searchAll(queries);
+        return SearchUtils.searchAll(null, queries);
     }
 
     private static boolean isFiltered(HttpServletRequest request) {

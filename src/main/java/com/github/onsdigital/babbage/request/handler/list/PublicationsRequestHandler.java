@@ -42,7 +42,7 @@ public class PublicationsRequestHandler extends BaseRequestHandler implements Li
 
     @Override
     public BabbageResponse getData(String uri, HttpServletRequest request) throws IOException {
-        return listJson(REQUEST_TYPE, queries(request, uri));
+        return listJson(request, REQUEST_TYPE, queries(request, uri));
     }
 
     private SearchQueries queries(HttpServletRequest request, String uri) {

@@ -179,7 +179,7 @@ public class RssService {
 	}
 
 	private Optional<SearchResult> search(SearchQueries searchQueries) {
-		LinkedHashMap<String, SearchResult> results = SearchUtils.searchAll(searchQueries);
+		LinkedHashMap<String, SearchResult> results = SearchUtils.searchAll(null, searchQueries);
 		return Optional.ofNullable(results.get(RESULTS_KEY));
 	}
 

@@ -60,7 +60,7 @@ public class AtoZ {
     }
 
     private LinkedHashMap<String, SearchResult> list(HttpServletRequest request, String firstLetter) throws IOException {
-        return SearchUtils.searchAll(queries(request, firstLetter));
+        return SearchUtils.searchAll(request, queries(request, firstLetter));
     }
 
     private SearchQueries queries(HttpServletRequest request, String firstLetter) {

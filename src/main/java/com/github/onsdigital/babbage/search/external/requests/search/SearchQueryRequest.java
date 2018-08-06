@@ -69,23 +69,18 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
      */
     @Override
     protected HttpRequestBase generateRequest() throws IOException {
-        Set<TypeFilter> typeFilters = extractSelectedFilters(super.babbageRequest, TypeFilter.getAllFilters(), false);
         SortBy sortBy = extractSortBy(super.babbageRequest, SortBy.relevance);
 
         // Build form params
-        List<NameValuePair> postParams = new ArrayList<>();
+        List<NameValuePair> postParams = generateFilterPostParams(super.babbageRequest);
         postParams.add(new BasicNameValuePair(SearchRequestParameters.SORT_BY.parameter, sortBy.name()));
-
-        for (TypeFilter typeFilter : typeFilters) {
-            for (ContentType contentType : typeFilter.getTypes()) {
-                postParams.add(new BasicNameValuePair(SearchRequestParameters.FILTER.parameter, contentType.name()));
-            }
-        }
 
         // Build query url
         String path = this.getContentQueryUrl();
 
+        // Create the post request
         HttpPost post = new HttpPost(path);
+
         // Set form params
         post.setEntity(new UrlEncodedFormEntity(postParams, CharEncoding.UTF_8));
 
@@ -117,5 +112,19 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
         SearchRequestParameters(String parameter) {
             this.parameter = parameter;
         }
+    }
+
+    public static List<NameValuePair> generateFilterPostParams(HttpServletRequest request) {
+        Set<TypeFilter> typeFilters = extractSelectedFilters(request, TypeFilter.getAllFilters(), false);
+
+        // Build form params
+        List<NameValuePair> postParams = new ArrayList<>();
+
+        for (TypeFilter typeFilter : typeFilters) {
+            for (ContentType contentType : typeFilter.getTypes()) {
+                postParams.add(new BasicNameValuePair(SearchRequestParameters.FILTER.parameter, contentType.name()));
+            }
+        }
+        return postParams;
     }
 }

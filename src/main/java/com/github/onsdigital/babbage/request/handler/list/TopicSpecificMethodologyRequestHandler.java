@@ -37,7 +37,7 @@ public class TopicSpecificMethodologyRequestHandler extends BaseRequestHandler i
 
     @Override
     public BabbageResponse getData(String uri, HttpServletRequest request) throws IOException {
-        return listJson(REQUEST_TYPE, queries(uri, request));
+        return listJson(request, REQUEST_TYPE, queries(uri, request));
     }
 
     private SearchQueries queries(String uri, HttpServletRequest request) {

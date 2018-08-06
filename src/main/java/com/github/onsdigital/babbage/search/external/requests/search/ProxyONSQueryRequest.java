@@ -6,17 +6,26 @@ import com.github.onsdigital.babbage.search.external.Endpoint;
 import com.github.onsdigital.babbage.search.external.requests.base.AbstractSearchRequest;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.helpers.SearchHelper;
+import com.github.onsdigital.babbage.search.model.ContentType;
 import com.github.onsdigital.babbage.search.model.SearchResult;
+import org.apache.commons.lang3.CharEncoding;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicNameValuePair;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ProxyONSQueryRequest extends AbstractSearchRequest<SearchResult> {
 
@@ -39,22 +48,48 @@ public class ProxyONSQueryRequest extends AbstractSearchRequest<SearchResult> {
         return this.host + ub.toString();
     }
 
-    private StringEntity queryToEntity() throws JsonProcessingException, UnsupportedEncodingException {
+    private String queryToEntity() throws JsonProcessingException, UnsupportedEncodingException {
         SearchRequestBuilder builder = SearchHelper.prepare(this.query);
         String queryString = builder.toString();
 
-        // TODO - Add type information to query here (not included in query body when using internal client)
-        return new StringEntity(MAPPER.writeValueAsString(queryString));
+        return queryString;
+    }
+
+    private List<NameValuePair> typeFilters() {
+        ContentType[] contentTypes = this.query.types();
+
+        // Build form params
+        List<NameValuePair> postParams = new ArrayList<>();
+
+        for (ContentType contentType : contentTypes) {
+            postParams.add(new BasicNameValuePair(SearchQueryRequest.SearchRequestParameters.FILTER.parameter, contentType.name()));
+        }
+        return postParams;
     }
 
     @Override
     protected HttpRequestBase generateRequest() throws IOException {
-        StringEntity stringEntity = this.queryToEntity();
+        String stringEntity = this.queryToEntity();
+
+        Map<String, String> entity = new HashMap<>();
+        entity.put("query", stringEntity);
 
         HttpPost post = new HttpPost(this.getQueryUrl());
-        post.setEntity(stringEntity);
         post.setHeader("Accept", "application/json");
         post.setHeader("Content-type", "application/json");
+
+        // Extract type information
+        if (null != this.query) {
+            List<NameValuePair> typeFilters = this.typeFilters();
+            entity.put("filter", MAPPER.writeValueAsString(typeFilters));
+        }
+
+        List<NameValuePair> postParams = new ArrayList<>();
+        for (String key : entity.keySet()) {
+            postParams.add(new BasicNameValuePair(key, entity.get(key)));
+        }
+
+        post.setEntity(new StringEntity(MAPPER.writeValueAsString(entity)));
 
         return post;
     }

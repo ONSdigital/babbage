@@ -60,7 +60,7 @@ public class DataListRequestHandler extends BaseRequestHandler implements ListRe
         } catch (PublishDatesException ex) {
             publishDates = publishedAnyTime();
         }
-        return listJson(REQUEST_TYPE, queries(request, publishDates, uri));
+        return listJson(request, REQUEST_TYPE, queries(request, publishDates, uri));
     }
 
     private SearchQueries queries(HttpServletRequest request, PublishDates publishDates, String uri) {

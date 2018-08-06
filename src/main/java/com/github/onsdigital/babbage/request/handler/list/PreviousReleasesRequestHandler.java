@@ -41,7 +41,7 @@ public class PreviousReleasesRequestHandler extends BaseRequestHandler implement
     @Override
     public BabbageResponse getData(String uri, HttpServletRequest request) throws IOException, ContentReadException {
         assertPageContentType(uri);
-        return listJson(REQUEST_TYPE, queries(request, uri));
+        return listJson(request, REQUEST_TYPE, queries(request, uri));
     }
 
     private SearchQueries queries(HttpServletRequest request, String uri) {

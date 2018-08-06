@@ -42,6 +42,6 @@ public class SearchService {
     }
 
     public BabbageResponse listJson(String listType, SearchQueries queries) throws IOException {
-        return SearchUtils.listJson(listType, queries);
+        return SearchUtils.listJson(null, listType, queries);
     }
 }
