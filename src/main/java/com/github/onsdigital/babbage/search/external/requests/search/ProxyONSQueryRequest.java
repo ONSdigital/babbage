@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.search.external.requests.search;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.onsdigital.babbage.search.external.Endpoint;
 import com.github.onsdigital.babbage.search.external.requests.base.AbstractSearchRequest;
@@ -8,9 +7,7 @@ import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.helpers.SearchHelper;
 import com.github.onsdigital.babbage.search.model.ContentType;
 import com.github.onsdigital.babbage.search.model.SearchResult;
-import org.apache.commons.lang3.CharEncoding;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
@@ -20,7 +17,6 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +44,7 @@ public class ProxyONSQueryRequest extends AbstractSearchRequest<SearchResult> {
         return this.host + ub.toString();
     }
 
-    private String queryToEntity() throws JsonProcessingException, UnsupportedEncodingException {
+    private String queryToEntity() {
         SearchRequestBuilder builder = SearchHelper.prepare(this.query);
         String queryString = builder.toString();
 
