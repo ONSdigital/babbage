@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.search.external.requests.search;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.search.external.Endpoint;
 import com.github.onsdigital.babbage.search.external.requests.base.AbstractSearchRequest;
 import com.github.onsdigital.babbage.search.input.SortBy;
@@ -56,9 +57,8 @@ public class SearchQueryRequest extends AbstractSearchRequest<SearchResult> {
         ub.addParameter(SearchRequestParameters.PAGE.parameter, String.valueOf(page));
         ub.addParameter(SearchRequestParameters.SIZE.parameter, String.valueOf(pageSize));
 
-        if (extractUserVectorQuery(super.babbageRequest)) {
-            ub.addParameter(SearchRequestParameters.USER_VECTOR_QUERY.parameter, String.valueOf(true));
-        }
+        boolean useUserVector = Configuration.SEARCH_SERVICE.isConceptualSearchUserTrackingEnabled();
+        ub.addParameter(SearchRequestParameters.USER_VECTOR_QUERY.parameter, String.valueOf(useUserVector));
         return this.host + ub.toString();
     }
 

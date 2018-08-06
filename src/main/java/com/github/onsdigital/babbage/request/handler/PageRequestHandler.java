@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 
-import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractUserVectorQuery;
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 
 /**
@@ -43,7 +42,7 @@ public class PageRequestHandler extends BaseRequestHandler {
             String html = TemplateService.getInstance().renderContent(dataStream, additionalData);
 
             // If conceptual search is enabled, send a request to update the users session
-            if (Configuration.SEARCH_SERVICE.isConceptualSearchUserTrackingEnabled() && extractUserVectorQuery(request) &&
+            if (Configuration.SEARCH_SERVICE.isConceptualSearchUserTrackingEnabled() &&
                     null != uri && !uri.isEmpty()) {
                 try {
                     SearchClient.getInstance().updateUser(request, uri);

@@ -175,6 +175,15 @@ public class SearchRequestHelper {
         return query;
     }
 
+    public static boolean extractExternalSearch(HttpServletRequest request) {
+        String val = getParam(request, "searchTarget");
+        if (StringUtils.isEmpty(val)) {
+            return Configuration.SEARCH_SERVICE.isSearchServiceEnabled();
+        } else {
+            return val.toLowerCase().equals("external");
+        }
+    }
+
     public static boolean extractConceptualSearch(HttpServletRequest request) {
         if (Configuration.SEARCH_SERVICE.isConceptualSearchServiceEnabled()) {
             String val = getParam(request, "conceptual");
@@ -185,24 +194,6 @@ public class SearchRequestHelper {
             }
         }
         return false;
-    }
-
-    public static boolean extractExternalSearch(HttpServletRequest request) {
-        String val = getParam(request, "searchTarget");
-        if (StringUtils.isEmpty(val)) {
-            return Configuration.SEARCH_SERVICE.isSearchServiceEnabled();
-        } else {
-            return val.toLowerCase().equals("external");
-        }
-    }
-
-    public static boolean extractUserVectorQuery(HttpServletRequest request) {
-        String val = getParam(request, "useUserVector");
-        if (StringUtils.isEmpty(val)) {
-            return false;  // default to false
-        } else {
-            return val.toLowerCase().equals("true") && extractConceptualSearch(request);
-        }
     }
 
     private static boolean allowFutureAfterDate(HttpServletRequest request) {

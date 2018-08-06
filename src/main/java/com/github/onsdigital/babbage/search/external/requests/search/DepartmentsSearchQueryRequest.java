@@ -5,11 +5,9 @@ import org.apache.http.client.utils.URIBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractPage;
 import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractSize;
-import static com.github.onsdigital.babbage.search.helpers.SearchRequestHelper.extractUserVectorQuery;
 
 public class DepartmentsSearchQueryRequest extends SearchQueryRequest {
 

@@ -93,7 +93,7 @@ public class SearchUtils {
         }
 
         LinkedHashMap<String, SearchResult> results;
-        if (extractExternalSearch(request) && Configuration.SEARCH_SERVICE.isSearchServiceEnabled()) {
+        if (Configuration.SEARCH_SERVICE.isSearchServiceEnabled() && extractExternalSearch(request)) {
             try {
                 // Try to get results from deprecated service, and blanket catch any exception
                 results = SearchClient.getInstance().searchAndSpellCheck(request);
