@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.search.external.requests.search.requests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.onsdigital.babbage.search.external.SearchEndpoints;
 import com.github.onsdigital.babbage.search.external.SearchType;
 import com.github.onsdigital.babbage.search.input.SortBy;
 import com.github.onsdigital.babbage.search.input.TypeFilter;
@@ -35,7 +36,8 @@ public class ContentQuery extends SearchQuery {
         this(searchTerm, listType, page, pageSize, sortBy, listType.getTypeFilters());
     }
 
-    public ContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy, Set<TypeFilter> typeFilters) {
+    public ContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy,
+                        Set<TypeFilter> typeFilters) {
         super(searchTerm, listType, SearchType.CONTENT);
         this.page = page;
         this.pageSize = pageSize;
@@ -66,6 +68,11 @@ public class ContentQuery extends SearchQuery {
      */
     private String contentTypeFiltersAsString() throws JsonProcessingException {
         return MAPPER.writeValueAsString(this.contentTypeFilters());
+    }
+
+    @Override
+    protected SearchEndpoints getEndpoint() {
+        return SearchEndpoints.SEARCH_ONS;
     }
 
     /**
