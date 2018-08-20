@@ -3,6 +3,8 @@ package com.github.onsdigital.babbage.search.external;
 import com.github.onsdigital.babbage.search.external.requests.base.SearchClosable;
 import com.github.onsdigital.babbage.search.external.requests.base.ShutdownThread;
 import com.github.onsdigital.babbage.search.external.requests.search.requests.*;
+import com.github.onsdigital.babbage.search.external.requests.search.requests.conceptual.ConceptualContentQuery;
+import com.github.onsdigital.babbage.search.external.requests.search.requests.conceptual.ConceptualTypeCountsQuery;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.input.SortBy;
 import com.github.onsdigital.babbage.search.input.TypeFilter;
@@ -77,6 +79,18 @@ public class SearchClient implements SearchClosable {
     }
 
     public LinkedHashMap<String, SearchResult> search(HttpServletRequest request, String listType) throws Exception {
+        return this.search(request, listType, false);
+    }
+
+    /**
+     * Performs an external search request
+     * @param request The original babbage request
+     * @param listType The search listType
+     * @param isConceptualSearch Whether to use conceptual or ordinary search
+     * @return Map containing JSON expected by babbage
+     * @throws Exception
+     */
+    public LinkedHashMap<String, SearchResult> search(HttpServletRequest request, String listType, boolean isConceptualSearch) throws Exception {
         Map<String, Future<SearchResult>> futures = new HashMap<>();
 
         final String searchTerm = extractSearchTerm(request);
@@ -100,10 +114,18 @@ public class SearchClient implements SearchClosable {
             SearchQuery searchQuery;
             switch (searchType) {
                 case CONTENT:
-                    searchQuery = new ContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters);
+                    if (isConceptualSearch) {
+                        searchQuery = new ConceptualContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters);
+                    } else {
+                        searchQuery = new ContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters);
+                    }
                     break;
                 case COUNTS:
-                    searchQuery = new TypeCountsQuery(searchTerm, listTypeEnum);
+                    if (isConceptualSearch) {
+                        searchQuery = new ConceptualTypeCountsQuery(searchTerm, listTypeEnum);
+                    } else {
+                        searchQuery = new TypeCountsQuery(searchTerm, listTypeEnum);
+                    }
                     break;
                 case FEATURED:
                     searchQuery = new FeaturedResultQuery(searchTerm, listTypeEnum);

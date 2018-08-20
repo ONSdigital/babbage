@@ -4,8 +4,8 @@ import com.github.onsdigital.babbage.search.external.requests.search.requests.Li
 
 public enum SearchEndpoints {
 
-    SEARCH("/search/"),
-    SEARCH_ONS("/search/%s/");
+    SEARCH_ONS("/search/%s/"),
+    CONCEPTUAL_SEARCH_ONS("/search/conceptual/%s/");
 
     private String endpoint;
 

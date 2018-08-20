@@ -1,5 +1,6 @@
 package com.github.onsdigital.babbage.search.helpers;
 
+import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.error.BadRequestException;
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
 import com.github.onsdigital.babbage.search.helpers.dates.PublishDates;
@@ -19,6 +20,7 @@ import static com.github.onsdigital.babbage.configuration.Configuration.GENERAL.
 import static com.github.onsdigital.babbage.configuration.Configuration.GENERAL.getResultsPerPage;
 import static com.github.onsdigital.babbage.search.helpers.dates.PublishDates.publishedDates;
 import static com.github.onsdigital.babbage.search.helpers.dates.PublishDates.updatedWithinPeriod;
+import static com.github.onsdigital.babbage.util.RequestUtil.getBooleanParam;
 import static com.github.onsdigital.babbage.util.RequestUtil.getParam;
 import static org.apache.commons.lang3.EnumUtils.getEnum;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -170,6 +172,18 @@ public class SearchRequestHelper {
             throw new BadRequestException("Search query contains too many characters");
         }
         return query;
+    }
+
+    /**
+     * Extracts conceptual search request, checks for parameter "conceptual"
+     *
+     * @param request
+     * @return
+     */
+    public static boolean extractConceptualSearch(HttpServletRequest request) {
+        boolean isConceptualSearch = getBooleanParam(request, "conceptual",
+                Configuration.SEARCH_SERVICE.DEFAULT_TO_CONCEPTUAL_SEARCH);
+        return isConceptualSearch;
     }
 
     private static boolean allowFutureAfterDate(HttpServletRequest request) {

@@ -133,6 +133,21 @@ public class RequestUtil {
         return param;
     }
 
+    /**
+     * gets request parameter, if value is empty returns given default value
+     *
+     * @param request
+     * @param name
+     * @param defaultValue
+     * @return
+     */
+    public static boolean getBooleanParam(HttpServletRequest request, String name, boolean defaultValue) {
+        String param = getParam(request, name);
+        if (isEmpty(param)) {
+            return defaultValue;
+        }
+        return Boolean.parseBoolean(param);
+    }
 
     /**
      * Extracts GET parameters from query string
