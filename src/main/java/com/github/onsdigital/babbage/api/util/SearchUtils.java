@@ -106,9 +106,10 @@ public class SearchUtils {
          * Attempts to intercept content, type counts, and featured result queries to populate the SERP.
          */
         if (Configuration.SEARCH_SERVICE.EXTERNAL_SEARCH_ENABLED) {
+            boolean isConceptualSearch = extractConceptualSearch(request);
             try {
                 // Use external search client
-                return SearchClient.getInstance().search(request, listType);
+                return SearchClient.getInstance().search(request, listType, isConceptualSearch);
             } catch (Exception e) {
                 // Print stack trace and fall back on internal search client
                 e.printStackTrace();

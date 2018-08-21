@@ -1,7 +1,6 @@
 package com.github.onsdigital.babbage.search.external.requests.search.requests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.onsdigital.babbage.search.external.SearchEndpoints;
 import com.github.onsdigital.babbage.search.external.requests.base.AbstractSearchRequest;
 import com.github.onsdigital.babbage.search.helpers.ONSQuery;
 import com.github.onsdigital.babbage.search.helpers.SearchHelper;
@@ -39,7 +38,7 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
         URIBuilder uriBuilder = new URIBuilder()
                 .setScheme(HttpScheme.HTTP.asString())
                 .setHost(HOST)
-                .setPath(SearchEndpoints.SEARCH.getEndpoint());
+                .setPath(Endpoint.SEARCH.endpoint);
 
         return uriBuilder.toString();
     }
@@ -81,5 +80,15 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
         Request request = super.post()
                 .content(this.stringPayload());
         return request.send();
+    }
+
+    enum Endpoint {
+        SEARCH("/search/");
+
+        private String endpoint;
+
+        Endpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
     }
 }

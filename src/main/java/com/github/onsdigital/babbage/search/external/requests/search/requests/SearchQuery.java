@@ -24,12 +24,14 @@ public abstract class SearchQuery extends AbstractSearchRequest<SearchResult> {
         this.searchType = searchType;
     }
 
+    protected abstract SearchEndpoints getEndpoint();
+
     /**
      * Method to build the target URI with desired URL parameters
      * @return
      */
     protected URIBuilder buildUri() {
-        String path = SearchEndpoints.SEARCH_ONS.getEndpointForListType(this.listType) +
+        String path = this.getEndpoint().getEndpointForListType(this.listType) +
                 this.searchType.getSearchType();
 
         URIBuilder uriBuilder = new URIBuilder()
