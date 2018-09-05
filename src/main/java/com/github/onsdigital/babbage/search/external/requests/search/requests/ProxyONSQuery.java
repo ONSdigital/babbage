@@ -96,14 +96,4 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
             this.endpoint = endpoint;
         }
     }
-
-    enum Endpoint {
-        SEARCH("/search/");
-
-        private String endpoint;
-
-        Endpoint(String endpoint) {
-            this.endpoint = endpoint;
-        }
-    }
 }
