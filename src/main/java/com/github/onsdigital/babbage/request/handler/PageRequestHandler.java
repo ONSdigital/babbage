@@ -13,6 +13,7 @@ import com.github.onsdigital.babbage.search.external.requests.recommend.models.U
 import com.github.onsdigital.babbage.search.external.requests.recommend.requests.UpdateUserRecommendations;
 import com.github.onsdigital.babbage.template.TemplateService;
 import com.github.onsdigital.babbage.util.RequestUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class PageRequestHandler extends BaseRequestHandler {
             }
             String html = TemplateService.getInstance().renderContent(dataStream, additionalData);
 
-            if (Configuration.SEARCH_SERVICE.userRecommendationEnabled() && null != uri && !uri.isEmpty()) {
+            if (Configuration.SEARCH_SERVICE.userRecommendationEnabled() && StringUtils.isNotEmpty(uri)) {
                 // Update user recommendations API
                 try {
                     SearchClient.getInstance().updateUserByPage(request, uri);

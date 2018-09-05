@@ -128,20 +128,11 @@ public class SearchClient implements SearchClosable {
             SearchQuery searchQuery;
             switch (searchType) {
                 case CONTENT:
-                    if (isConceptualSearch) {
-                        Cookie[] cookies = request.getCookies();
-                        searchQuery = new ConceptualContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy,
-                                typeFilters, cookies);
-                    } else {
-                        searchQuery = new ContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters);
-                    }
+                    searchQuery = this.contentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters,
+                            request.getCookies(), isConceptualSearch);
                     break;
                 case COUNTS:
-                    if (isConceptualSearch) {
-                        searchQuery = new ConceptualTypeCountsQuery(searchTerm, listTypeEnum);
-                    } else {
-                        searchQuery = new TypeCountsQuery(searchTerm, listTypeEnum);
-                    }
+                    searchQuery = this.typeCountsQuery(searchTerm, listTypeEnum, isConceptualSearch);
                     break;
                 case FEATURED:
                     searchQuery = new FeaturedResultQuery(searchTerm, listTypeEnum);
@@ -156,6 +147,47 @@ public class SearchClient implements SearchClosable {
 
         // Wait until complete
         return processFutures(futures);
+    }
+
+    /**
+     * Build the content query request for standard or conceptual search
+     * @param searchTerm
+     * @param listType
+     * @param page
+     * @param pageSize
+     * @param sortBy
+     * @param typeFilters
+     * @param cookies
+     * @param isConceptualSearch
+     * @return
+     */
+    private SearchQuery contentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy,
+                                     Set<TypeFilter> typeFilters, Cookie[] cookies, boolean isConceptualSearch) {
+        SearchQuery searchQuery;
+        if (isConceptualSearch) {
+            searchQuery = new ConceptualContentQuery(searchTerm, listType, page, pageSize, sortBy,
+                    typeFilters, cookies);
+        } else {
+            searchQuery = new ContentQuery(searchTerm, listType, page, pageSize, sortBy, typeFilters);
+        }
+        return searchQuery;
+    }
+
+    /**
+     * Build the type counts query request for standard or conceptual search
+     * @param searchTerm
+     * @param listType
+     * @param isConceptualSearch
+     * @return
+     */
+    private SearchQuery typeCountsQuery(String searchTerm, ListType listType, boolean isConceptualSearch) {
+        SearchQuery searchQuery;
+        if (isConceptualSearch) {
+            searchQuery = new ConceptualTypeCountsQuery(searchTerm, listType);
+        } else {
+            searchQuery = new TypeCountsQuery(searchTerm, listType);
+        }
+        return searchQuery;
     }
 
     public UserSession updateUserByPage(HttpServletRequest request, String uri) throws Exception {
@@ -179,9 +211,9 @@ public class SearchClient implements SearchClosable {
             UserSession userSession = future.get();
 
             return userSession;
-        } else {
-            throw new Exception("User/Session ID cookies not specified");
         }
+
+        throw new Exception("User/Session ID cookies not specified");
     }
 
     private static LinkedHashMap<String, SearchResult> processFutures(Map<String, Future<SearchResult>> futures) throws ExecutionException, InterruptedException {
