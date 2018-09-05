@@ -1,5 +1,6 @@
 package com.github.onsdigital.babbage.search.external;
 
+import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.search.external.requests.base.SearchClosable;
 import com.github.onsdigital.babbage.search.external.requests.base.ShutdownThread;
 import com.github.onsdigital.babbage.search.external.requests.recommend.models.UserSession;
@@ -73,8 +74,18 @@ public class SearchClient implements SearchClosable {
         Map<String, Future<SearchResult>> futures = new HashMap<>();
 
         for (ONSQuery query : queryList) {
-            ProxyONSQuery request = new ProxyONSQuery(query);
-            Future<SearchResult> future = SearchClientExecutorService.getInstance().submit(request);
+            int page, pageSize;
+
+            if (null != query) {
+                page = query.page() != null ? query.page() : 1;
+                pageSize = query.size();
+            } else {
+                page = 1;
+                pageSize = Configuration.GENERAL.getResultsPerPage();
+            }
+
+            ProxyONSQuery proxyONSQuery = new ProxyONSQuery(query, page, pageSize);
+            Future<SearchResult> future = SearchClientExecutorService.getInstance().submit(proxyONSQuery);
             futures.put(query.name(), future);
         }
 

@@ -26,10 +26,14 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
     private static final String FILTER_KEY = "filter";
 
     private final ONSQuery query;
+    private final int page;
+    private final int pageSize;
 
-    public ProxyONSQuery(ONSQuery query) {
+    public ProxyONSQuery(ONSQuery query, int page, int pageSize) {
         super(SearchResult.class);
         this.query = query;
+        this.page = page;
+        this.pageSize = pageSize;
     }
 
     @Override
@@ -37,7 +41,9 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
         URIBuilder uriBuilder = new URIBuilder()
                 .setScheme(HttpScheme.HTTP.asString())
                 .setHost(HOST)
-                .setPath(Endpoint.SEARCH.endpoint);
+                .setPath(Endpoint.SEARCH.endpoint)
+                .addParameter(SearchQuery.SearchParam.PAGE.getParam(), String.valueOf(this.page))
+                .addParameter(SearchQuery.SearchParam.SIZE.getParam(), String.valueOf(this.pageSize));
 
         return uriBuilder;
     }
@@ -79,6 +85,16 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
         Request request = super.post()
                 .content(this.stringPayload());
         return request;
+    }
+
+    enum Endpoint {
+        SEARCH("/search/");
+
+        private String endpoint;
+
+        Endpoint(String endpoint) {
+            this.endpoint = endpoint;
+        }
     }
 
     enum Endpoint {
