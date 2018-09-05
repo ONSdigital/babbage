@@ -6,6 +6,7 @@ import com.github.onsdigital.babbage.search.external.requests.search.requests.Li
 import com.github.onsdigital.babbage.search.input.SortBy;
 import com.github.onsdigital.babbage.search.input.TypeFilter;
 
+import javax.servlet.http.Cookie;
 import java.util.Set;
 
 /**
@@ -13,16 +14,9 @@ import java.util.Set;
  */
 public class ConceptualContentQuery extends ContentQuery {
 
-    public ConceptualContentQuery(String searchTerm, ListType listType, int page, int pageSize) {
-        super(searchTerm, listType, page, pageSize);
-    }
-
-    public ConceptualContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy) {
-        super(searchTerm, listType, page, pageSize, sortBy);
-    }
-
-    public ConceptualContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy, Set<TypeFilter> typeFilters) {
-        super(searchTerm, listType, page, pageSize, sortBy, typeFilters);
+    public ConceptualContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy, Set<TypeFilter> typeFilters,
+                                  Cookie[] cookies) {
+        super(searchTerm, listType, page, pageSize, sortBy, typeFilters, cookies);
     }
 
     @Override

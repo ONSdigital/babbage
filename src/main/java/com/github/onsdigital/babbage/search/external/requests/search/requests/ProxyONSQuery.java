@@ -7,7 +7,6 @@ import com.github.onsdigital.babbage.search.helpers.SearchHelper;
 import com.github.onsdigital.babbage.search.model.ContentType;
 import com.github.onsdigital.babbage.search.model.SearchResult;
 import org.apache.http.client.utils.URIBuilder;
-import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.util.StringContentProvider;
 import org.eclipse.jetty.http.HttpScheme;
@@ -34,13 +33,13 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
     }
 
     @Override
-    public String targetUri() {
+    public URIBuilder targetUri() {
         URIBuilder uriBuilder = new URIBuilder()
                 .setScheme(HttpScheme.HTTP.asString())
                 .setHost(HOST)
                 .setPath(Endpoint.SEARCH.endpoint);
 
-        return uriBuilder.toString();
+        return uriBuilder;
     }
 
     private String queryToString() {
@@ -76,10 +75,10 @@ public class ProxyONSQuery extends AbstractSearchRequest<SearchResult> {
     }
 
     @Override
-    protected ContentResponse getContentResponse() throws Exception {
+    protected Request getRequest() throws Exception {
         Request request = super.post()
                 .content(this.stringPayload());
-        return request.send();
+        return request;
     }
 
     enum Endpoint {

@@ -13,10 +13,6 @@ public enum SearchEndpoints {
         this.endpoint = endpoint;
     }
 
-    public String getEndpoint() {
-        return endpoint;
-    }
-
     public String getEndpointForListType(ListType listType) {
         return String.format(this.endpoint, listType.getEndpoint());
     }

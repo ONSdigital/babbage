@@ -7,10 +7,10 @@ import com.github.onsdigital.babbage.search.input.SortBy;
 import com.github.onsdigital.babbage.search.input.TypeFilter;
 import com.github.onsdigital.babbage.search.model.ContentType;
 import org.apache.http.client.utils.URIBuilder;
-import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.util.StringContentProvider;
 
+import javax.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -38,7 +38,12 @@ public class ContentQuery extends SearchQuery {
 
     public ContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy,
                         Set<TypeFilter> typeFilters) {
-        super(searchTerm, listType, SearchType.CONTENT);
+        this(searchTerm, listType, page, pageSize, sortBy, typeFilters, null);
+    }
+
+    public ContentQuery(String searchTerm, ListType listType, int page, int pageSize, SortBy sortBy,
+                        Set<TypeFilter> typeFilters, Cookie[] cookies) {
+        super(searchTerm, listType, SearchType.CONTENT, cookies);
         this.page = page;
         this.pageSize = pageSize;
         this.sortBy = sortBy;
@@ -80,8 +85,8 @@ public class ContentQuery extends SearchQuery {
      * @return
      */
     @Override
-    protected URIBuilder buildUri() {
-        return super.buildUri()
+    public URIBuilder targetUri() {
+        return super.targetUri()
                 .addParameter(SearchParam.PAGE.getParam(), String.valueOf(this.page))
                 .addParameter(SearchParam.SIZE.getParam(), String.valueOf(this.pageSize));
     }
@@ -92,7 +97,7 @@ public class ContentQuery extends SearchQuery {
      * @throws Exception
      */
     @Override
-    protected ContentResponse getContentResponse() throws Exception {
+    protected Request getRequest() throws Exception {
         final String filterString = this.contentTypeFiltersAsString();
         final Map<String, String> content = new HashMap<String, String>() {{
             put(SearchParam.FILTER.getParam(), filterString);
@@ -101,6 +106,6 @@ public class ContentQuery extends SearchQuery {
 
         Request request = super.post()
                 .content(new StringContentProvider(MAPPER.writeValueAsString(content)));
-        return request.send();
+        return request;
     }
 }

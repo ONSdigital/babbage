@@ -2,6 +2,8 @@ package com.github.onsdigital.babbage.search.external;
 
 import com.github.onsdigital.babbage.search.external.requests.base.SearchClosable;
 import com.github.onsdigital.babbage.search.external.requests.base.ShutdownThread;
+import com.github.onsdigital.babbage.search.external.requests.recommend.models.UserSession;
+import com.github.onsdigital.babbage.search.external.requests.recommend.requests.UpdateUserRecommendations;
 import com.github.onsdigital.babbage.search.external.requests.search.requests.*;
 import com.github.onsdigital.babbage.search.external.requests.search.requests.conceptual.ConceptualContentQuery;
 import com.github.onsdigital.babbage.search.external.requests.search.requests.conceptual.ConceptualTypeCountsQuery;
@@ -13,6 +15,7 @@ import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.http.HttpMethod;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -115,7 +118,9 @@ public class SearchClient implements SearchClosable {
             switch (searchType) {
                 case CONTENT:
                     if (isConceptualSearch) {
-                        searchQuery = new ConceptualContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters);
+                        Cookie[] cookies = request.getCookies();
+                        searchQuery = new ConceptualContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy,
+                                typeFilters, cookies);
                     } else {
                         searchQuery = new ContentQuery(searchTerm, listTypeEnum, page, pageSize, sortBy, typeFilters);
                     }
@@ -140,6 +145,32 @@ public class SearchClient implements SearchClosable {
 
         // Wait until complete
         return processFutures(futures);
+    }
+
+    public UserSession updateUserByPage(HttpServletRequest request, String uri) throws Exception {
+
+        Cookie[] cookies = request.getCookies();
+
+        String userId = null;
+        String sessionId = null;
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(UpdateUserRecommendations.USER_ID_COOKIE)) {
+                userId = cookie.getValue();
+            } else if (cookie.getName().equals(UpdateUserRecommendations.SESSION_ID_COOKIE)) {
+                sessionId = cookie.getValue();
+            }
+        }
+
+        if (null != userId && null != sessionId) {
+            UpdateUserRecommendations updateUserRequest = new UpdateUserRecommendations(uri, userId, sessionId);
+            Future<UserSession> future = SearchClientExecutorService.getInstance().submit(updateUserRequest);
+            UserSession userSession = future.get();
+
+            return userSession;
+        } else {
+            throw new Exception("User/Session ID cookies not specified");
+        }
     }
 
     private static LinkedHashMap<String, SearchResult> processFutures(Map<String, Future<SearchResult>> futures) throws ExecutionException, InterruptedException {

@@ -5,8 +5,10 @@ import com.github.onsdigital.babbage.search.external.SearchType;
 import com.github.onsdigital.babbage.search.external.requests.base.AbstractSearchRequest;
 import com.github.onsdigital.babbage.search.model.SearchResult;
 import org.apache.http.client.utils.URIBuilder;
-import org.eclipse.jetty.client.api.ContentResponse;
+import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.http.HttpScheme;
+
+import javax.servlet.http.Cookie;
 
 /**
  * Class for querying the dp-conceptual-search APIs
@@ -18,7 +20,11 @@ public abstract class SearchQuery extends AbstractSearchRequest<SearchResult> {
     private final SearchType searchType;
 
     public SearchQuery(String searchTerm, ListType listType, SearchType searchType) {
-        super(SearchResult.class);
+        this(searchTerm, listType, searchType, null);
+    }
+
+    public SearchQuery(String searchTerm, ListType listType, SearchType searchType, Cookie[] cookies) {
+        super(SearchResult.class, cookies);
         this.searchTerm = searchTerm;
         this.listType = listType;
         this.searchType = searchType;
@@ -30,7 +36,8 @@ public abstract class SearchQuery extends AbstractSearchRequest<SearchResult> {
      * Method to build the target URI with desired URL parameters
      * @return
      */
-    protected URIBuilder buildUri() {
+    @Override
+    public URIBuilder targetUri() {
         String path = this.getEndpoint().getEndpointForListType(this.listType) +
                 this.searchType.getSearchType();
 
@@ -44,22 +51,13 @@ public abstract class SearchQuery extends AbstractSearchRequest<SearchResult> {
     }
 
     /**
-     * Simply calls buildUri to get the target for HTTP requests and returns as a string
-     * @return
-     */
-    @Override
-    public String targetUri() {
-        return this.buildUri().toString();
-    }
-
-    /**
      * Defaults to an empty GET request
      * @return
      * @throws Exception
      */
     @Override
-    protected ContentResponse getContentResponse() throws Exception {
-        return super.get().send();
+    protected Request getRequest() throws Exception {
+        return super.get();
     }
 
     /**
