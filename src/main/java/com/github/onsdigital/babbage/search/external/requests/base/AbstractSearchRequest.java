@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.onsdigital.babbage.configuration.Configuration;
 import com.github.onsdigital.babbage.search.external.SearchClient;
+import com.github.onsdigital.babbage.search.external.requests.search.exceptions.InvalidSearchResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.client.api.ContentResponse;
@@ -79,7 +81,12 @@ public abstract class AbstractSearchRequest<T> implements Callable<T> {
 
     @Override
     public T call() throws Exception {
-        String response = this.getContentResponseAsString();
+        ContentResponse contentResponse = this.getContentResponse();
+
+        if (contentResponse.getStatus() != HttpStatus.SC_OK) {
+            throw new InvalidSearchResponse(contentResponse);
+        }
+        String response = contentResponse.getContentAsString();
 
         // Either typeReference or returnClass are guaranteed to not be null
         if (this.typeReference != null) {

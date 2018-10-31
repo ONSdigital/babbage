@@ -1,38 +1,14 @@
 package com.github.onsdigital.babbage.search.external;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.onsdigital.babbage.search.model.SearchResult;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.http.HttpFields;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.http.HttpVersion;
 
-import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-public abstract class MockedSearchResponse implements ContentResponse {
-
-    protected static final ObjectMapper MAPPER = new ObjectMapper();
-
-    protected static final Long numberOfResults = 533L;
-
-    public abstract SearchResult getSearchResult() throws IOException;
-
-    public abstract LinkedHashMap<String, Integer> getDocCounts();
-
-    @Override
-    public String getContentAsString() {
-        try {
-            SearchResult testResult = this.getSearchResult();
-            return MAPPER.writeValueAsString(testResult);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
+public class MockedSearchErrorResponse implements ContentResponse {
     @Override
     public String getMediaType() {
         return null;
@@ -46,6 +22,11 @@ public abstract class MockedSearchResponse implements ContentResponse {
     @Override
     public byte[] getContent() {
         return new byte[0];
+    }
+
+    @Override
+    public String getContentAsString() {
+        return "Error";
     }
 
     @Override
@@ -65,7 +46,7 @@ public abstract class MockedSearchResponse implements ContentResponse {
 
     @Override
     public int getStatus() {
-        return HttpStatus.OK_200;
+        return HttpStatus.INTERNAL_SERVER_ERROR_500;
     }
 
     @Override
@@ -82,5 +63,4 @@ public abstract class MockedSearchResponse implements ContentResponse {
     public boolean abort(Throwable throwable) {
         return false;
     }
-
 }
