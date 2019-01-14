@@ -17,6 +17,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.MDC;
+
 public class LogEvent extends LogMessageBuilder {
 
     private static final String REQ_ID = "X-Request-Id";
@@ -132,13 +134,8 @@ public class LogEvent extends LogMessageBuilder {
 
     public LogEvent requestID(HttpRequestBase req) {
         if (req != null) {
-            HeaderIterator it = req.headerIterator(REQ_ID);
-            while (it.hasNext()) {
-                Header h = it.nextHeader();
-                if (h.getName().equals(REQ_ID)) {
-                    addParamSafe("requestID", h.getValue());
-                }
-            }
+            String requestID = MDC.get(REQ_ID);
+            addParamSafe("requestID", requestID);
         }
         return this;
     }
