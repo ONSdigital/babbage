@@ -7,8 +7,6 @@ import com.github.onsdigital.babbage.error.InternalServerErrorException;
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
 import com.github.onsdigital.logging.builder.LogMessageBuilder;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HeaderIterator;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 

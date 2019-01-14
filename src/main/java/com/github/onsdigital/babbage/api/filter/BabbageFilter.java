@@ -17,6 +17,7 @@ public class BabbageFilter implements com.github.davidcarboni.restolino.framewor
     private static final List<Filter> filters = new ImmutableList.Builder<Filter>()
             .add(
                     new RequestContextFilter(),
+                    new MDCFilter(),
                     new CorsFilter(),
                     new UrlRedirectFilter(),
                     new ShortUrlFilter(),
