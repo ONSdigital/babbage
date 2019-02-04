@@ -77,7 +77,7 @@ public class RssSearchFilter {
 	}
 
 	private void setFilters(HttpServletRequest request) {
-		this.filters = Optional.ofNullable(request.getParameterMap().get("filter"));
+		this.filters = Optional.ofNullable((String[])request.getParameterMap().get("filter"));
 
 		if (filters.isPresent()) {
 				StringBuilder sb = new StringBuilder();

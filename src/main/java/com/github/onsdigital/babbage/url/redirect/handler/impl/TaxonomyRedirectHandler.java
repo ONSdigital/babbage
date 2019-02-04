@@ -31,7 +31,7 @@ public final class TaxonomyRedirectHandler extends RedirectHandler {
 				.getParameterMap()
 				.entrySet()
 				.stream()
-				.filter(entry -> entry.getKey().equalsIgnoreCase(NSCL_KEY))
+				.filter(entry -> ((Map.Entry<String,String>)entry).getKey().equalsIgnoreCase(NSCL_KEY))
 				.findFirst();
 
 		String redirect;

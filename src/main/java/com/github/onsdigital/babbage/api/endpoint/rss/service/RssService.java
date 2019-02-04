@@ -19,10 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.github.onsdigital.babbage.search.builders.ONSQueryBuilders.toList;
@@ -79,7 +76,7 @@ public class RssService {
 		return request.getParameterMap()
 				.entrySet()
 				.stream()
-				.filter(entry -> entry.getKey().equalsIgnoreCase(RSS_PARAM))
+				.filter(entry -> ((Map.Entry<String,String>)entry).getKey().equalsIgnoreCase(RSS_PARAM))
 				.findFirst()
 				.isPresent();
 	}
