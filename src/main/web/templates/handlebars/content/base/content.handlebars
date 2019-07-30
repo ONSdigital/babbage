@@ -1,12 +1,12 @@
 {{#partial "block-main"}}
-{{#if_eq type "bulletin"}}	
+{{#if_eq type "bulletin"}}
 	{{#block "bulletin-page"}}
 		{{> content/partials/bulletin-header}}
 	{{/block}}
 {{else if_eq type "compendium_landing_page"}}
 	{{> content/partials/compendium-landing-header}}
-{{else}}
-    {{> content/partials/standard-header}}
+{{!else}}
+{{!-- hide A-Z and intro panel > content/partials/standard-header --}}
 {{/if_eq}}
 <div class="page-content">
 	{{#block "block-content"}}{{/block}}
