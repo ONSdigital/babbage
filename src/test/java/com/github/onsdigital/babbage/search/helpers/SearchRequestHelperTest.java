@@ -225,7 +225,7 @@ public class SearchRequestHelperTest {
     public void shouldRejectFromDateIfViewIsNotUpcoming() throws Exception {
         Date futureDate = DateTime.now().plusMonths(1).plusYears(1).toDate();
         String month = new SimpleDateFormat("MM").format(futureDate);
-        String year = new SimpleDateFormat("YY").format(futureDate);
+        String year = new SimpleDateFormat("yy").format(futureDate);
         setFrom("1", month, year);
 
         List<ValidationError> expectedErrors = new ImmutableList.Builder<ValidationError>()
@@ -245,7 +245,7 @@ public class SearchRequestHelperTest {
         DateTime futureDateTime = DateTime.now().plusMonths(1).plusYears(1);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String month = new SimpleDateFormat("MM").format(futureDateTime.toDate());
-        String year = new SimpleDateFormat("YY").format(futureDateTime.toDate());
+        String year = new SimpleDateFormat("yy").format(futureDateTime.toDate());
         String day = new SimpleDateFormat("dd").format(futureDateTime.toDate());
         setFrom(day, month, year);
 

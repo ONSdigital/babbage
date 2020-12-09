@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="no-js lt-ie8 lt-ie7" {{> partials/subdomain-lang }}><![endif]-->
-<!--[if IE 7]><html class="no-js lt-ie8 ie7"  {{> partials/subdomain-lang }}><![endif]-->
-<!--[if IE 8]><html class="ie8" {{> partials/subdomain-lang }}><![endif]-->
-<!--[if gt IE 8]><!--><!-->
 <html {{> partials/subdomain-lang }}>
-	<!--<![endif]-->
 	<head>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <title>{{> partials/page-title }} - Office for National Statistics</title>
         <meta charset="utf-8" />
         <meta content="width=device-width,initial-scale=1.0,user-scalable=1" name="viewport">
-        <meta content="on" http-equiv="cleartype" />
         <meta name="theme-color" content="#58595B">
         <meta name="apple-mobile-web-app-status-bar-style" content="#58595B">
 
@@ -138,7 +131,6 @@
 			{{/if_eq}}
 		{{/if_eq}}
 
-
         <!--[if gt IE 8]><!-->
         <script type="text/javascript" src="{{#if is_dev}}//{{location.hostname}}:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/be61a32{{/if}}/js/main.js"></script>
         <script type="text/javascript" src="/js/app.js"></script>
@@ -150,8 +142,6 @@
             <script type="text/javascript" src="/js/third-party/highcharts-heatmap-5.0.7.js"></script>
             <script type="text/javascript" src="/js/third-party/highcharts-exporting-5.0.7.js"></script>
         {{/if}}
-
-        <![endif]-->
 
 	</body>
 </html>
