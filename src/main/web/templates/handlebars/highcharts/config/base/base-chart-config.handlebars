@@ -175,6 +175,9 @@ TODO: split out colours palette selection, axis alignment and positioning
 				color:'rgb(112, 112,112)'{{#if_eq chartType 'small-multiples'}},
 				width: 110{{/if_eq}}
 	        },
+
+	        symbolWidth: {{#if_any (eq chartType 'line') (eq chartType 'barline') (eq chartType 'small-multiples') (eq chartType 'rotated-barline')}}53{{else}}16{{/if_any}},
+
             navigation: {
                 enabled: false
             }
@@ -194,10 +197,10 @@ TODO: split out colours palette selection, axis alignment and positioning
 				connectNulls: true{{/if}}
 			},
 			line: {
-				lineWidth: 2,
+				lineWidth: 3,
 				marker: {
 					enabled:{{#if showMarker }}true{{else}}false{{/if}},
-					radius: 2,
+					radius: 3,
 					symbol: "circle"
 				}
 			},
