@@ -352,6 +352,11 @@
                             <artifactId>itext</artifactId>
                             <version>2.1.7</version>
                         </exclude>
+                        <exclude>
+                            <groupId>org.jsoup</groupId>
+                            <artifactId>jsoup</artifactId>
+                            <version>1.8.3</version>
+                        </exclude>
                     </excludeCoordinates>
                 </configuration>
             </plugin>
