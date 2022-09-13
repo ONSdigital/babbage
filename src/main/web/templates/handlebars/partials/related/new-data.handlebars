@@ -17,7 +17,7 @@
 
 			{{!-- if "self" use page title and edition if one exists --}}
 			{{#if_eq relatedTitle "self"}}
-				{{labels.view-all-data-used-in-this}} <span class="lowercase">{{> type-label type_code=type}}</span>
+				{{label "view-all-data-used-in-this" (lowercase (typeLabel type))}}
 			{{/if_eq}}
 
 			{{!-- if not "self" or "parent" use custom title --}}

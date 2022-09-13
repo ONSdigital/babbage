@@ -1,6 +1,6 @@
 {{#if relatedData}}
 	<div class="tiles__item tiles__item--nav-type flush-col print--hide flex flex-direction--column height--fill margin--0">
-		<h3 class="tiles__title-h3 tiles__title-h3--nav">{{labels.data-in-this}} {{> type-label type_code=type }}</h3>
+		<h3 class="tiles__title-h3 tiles__title-h3--nav">{{label "data-in-this" (lowercase (typeLabel type))}}</h3>
 		{{!-- Shows link to view all spreadsheets at that topic level --}}
 		 <div class="tiles__extra flex--1">
 			<a href="{{uri}}/relateddata"

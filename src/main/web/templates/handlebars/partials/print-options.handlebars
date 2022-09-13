@@ -3,7 +3,7 @@
 <div class="col col--md-15 col--lg-16 margin-bottom-sm--2 margin-top-md--7 margin-bottom-md--2 margin-left-lg--2 padding-bottom-sm--2 padding-left-sm--1 padding-bottom-md--1 border-top--iron-sm border-right--iron-sm border-bottom--iron-sm border-left--iron-sm border-top--iron-md border-right--iron-md border-bottom--iron-md border-left--iron-md js-print-pdf print--hide">
     <p class="text-right--md padding-top-md--0 padding-bottom-md--0 height--5 margin-bottom-md--0 print--hide nojs--hide js--show">
         <a href="" class="link-complex nojs--hide js--show js-print-page">
-            {{labels.print-this}} <span class="lowercase">{{#if_eq type "compendium_chapter"}}chapter{{else}}{{> type-label type_code=type}}{{/if_eq}}</span>
+            {{label "print-this" (lowercase (typeLabel type))}}
         </a>
         <span class="icon icon-print--dark"></span>
     </p>
