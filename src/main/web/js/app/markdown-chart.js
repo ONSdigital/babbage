@@ -126,11 +126,13 @@ $(function() {
         $this.empty();
 
         //Read chart configuration from server using container's width
-        var jqxhr = $.get("/chartconfig", {
+        var jqxhr = $.ajax({
+            url: "/chartconfig",
+            data: {
                 uri: chartUri,
                 width: nominalWidth
             },
-            function() {
+            success: function() {
                 chartConfig = window["chart-" + chartId];
 
                 // remove the title, subtitle and any renderers for client side display
@@ -259,7 +261,9 @@ $(function() {
 
 
                 }
-            }, "script");
-
+            }, 
+            dataType: "script",
+            cache: true
+        });
     });
 });

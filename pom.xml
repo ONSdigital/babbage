@@ -418,7 +418,7 @@
                             <artifactId>guava</artifactId>
                             <version>18.0</version>
                         </exclude>
-
+                        
                     </excludeCoordinates>
                 </configuration>
             </plugin>

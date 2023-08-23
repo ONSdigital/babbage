@@ -76,11 +76,14 @@ The commented code below is what needs to go in the parent.
         var chartUri = $this.data('uri');
         $this.empty();
 
-        $.get("/chartconfig", {
-              uri: chartUri,
-              width: chartWidth
-            },
-            function () {
+
+        $.ajax({
+          url: "/chartconfig",
+          data: {
+            uri: chartUri,
+            width: chartWidth
+          },
+          success: function () {
               var chartConfig = window["chart-" + chartId];
               if (chartConfig) {
                 chartConfig.chart.marginTop = 25;
@@ -93,9 +96,11 @@ The commented code below is what needs to go in the parent.
                 new Highcharts.Chart(chartConfig);
                 delete window["chart-" + chartId]; //clear data from window object after rendering
 
-                pymChild.sendHeight()
-              }
-            }, "script");
+            pymChild.sendHeight()
+          }
+        },
+        dataType: "script",
+        cache: true
       });
     }
 
