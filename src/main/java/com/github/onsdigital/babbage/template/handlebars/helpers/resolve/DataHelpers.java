@@ -40,7 +40,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
      */
     resolve {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             ContentResponse contentResponse;
             try {
                 validateUri(uri);
@@ -74,7 +74,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
 
     resolveDatasets {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             ContentResponse contentResponse;
             try {
                 validateUri(uri);
@@ -105,7 +105,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
     resolveTimeSeriesList {
         @Override
 
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             try {
 
                 validateUri(uri);
@@ -132,7 +132,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
     //Resolve latest article or bulletin with given uri
     resolveLatest {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             ContentResponse contentResponse;
             try {
                 validateUri(uri);
@@ -169,7 +169,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
      */
     resolveTaxonomy {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             ContentResponse stream = null;
             Integer depth;
             try {
@@ -208,7 +208,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
      */
     resolveResource {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             ContentResponse contentResponse = null;
             try {
                 validateUri(uri);
@@ -239,7 +239,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
      */
     resolveParents {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             ContentResponse stream = null;
 
             try {
@@ -268,7 +268,7 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
      */
     fs {
         @Override
-        public CharSequence apply(Object uri, Options options) throws IOException {
+        public Object apply(Object uri, Options options) throws IOException {
             if (options.isFalsy(uri)) {
                 return null;
             }

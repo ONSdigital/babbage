@@ -20,7 +20,7 @@ public class SubscriptHelper implements BabbageHandlebarsHelper<String> {
     }
 
     @Override
-    public CharSequence apply(String text, Options options) throws IOException {
+    public Object apply(String text, Options options) throws IOException {
         if (options.isFalsy(text)) {
             return "";
         }

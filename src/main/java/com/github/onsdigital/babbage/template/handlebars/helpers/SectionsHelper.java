@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.template.handlebars.helpers;
 
-import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHandlebarsHelper;
@@ -17,7 +16,7 @@ public enum SectionsHelper implements BabbageHandlebarsHelper<Object> {
 
     totalWordCount {
         @Override
-        public CharSequence apply(Object context, Options options) throws IOException {
+        public Object apply(Object context, Options options) throws IOException {
             if (isEmpty(context, options)) {
                 return null;
             }

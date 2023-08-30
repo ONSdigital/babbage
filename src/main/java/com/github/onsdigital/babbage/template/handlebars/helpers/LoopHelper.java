@@ -24,7 +24,7 @@ public class LoopHelper extends EachHelper implements BabbageHandlebarsHelper<Ob
     public static final String HELPER_NAME = "loop";
 
     @Override
-    public CharSequence apply(Object context, Options options) throws IOException {
+    public Object apply(Object context, Options options) throws IOException {
         if (options.isFalsy(context)) {
             return options.inverse();
         }
@@ -42,12 +42,12 @@ public class LoopHelper extends EachHelper implements BabbageHandlebarsHelper<Ob
         return super.apply(buildList((Number) context), options);
     }
 
-    private CharSequence apply(final List list, final Options options, int limit)
+    private Object apply(final List list, final Options options, int limit)
             throws IOException {
         return render(list, options, limit);
     }
 
-    private CharSequence render(final List<Object> context, final Options options, int limit)
+    private Object render(final List<Object> context, final Options options, int limit)
             throws IOException {
         StringBuilder buffer = new StringBuilder();
         int index = -1;

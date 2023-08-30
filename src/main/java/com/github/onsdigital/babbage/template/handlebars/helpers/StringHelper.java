@@ -17,7 +17,7 @@ public enum StringHelper implements BabbageHandlebarsHelper<String> {
     //Concat given strings
     concat {
         @Override
-        public CharSequence apply(String context, Options options) throws IOException {
+        public Object apply(String context, Options options) throws IOException {
             if (options.isFalsy(context)) {
                 return null;
             }
@@ -39,7 +39,7 @@ public enum StringHelper implements BabbageHandlebarsHelper<String> {
 
     lowercase {
         @Override
-        public CharSequence apply(String context, Options options) throws IOException {
+        public Object apply(String context, Options options) throws IOException {
             if (options.isFalsy(context)) {
                 return null;
             }
@@ -54,7 +54,7 @@ public enum StringHelper implements BabbageHandlebarsHelper<String> {
 
     startsWith {
         @Override
-        public CharSequence apply(String context, Options options) throws IOException {
+        public Object apply(String context, Options options) throws IOException {
             if (options.isFalsy(context) || options.params.length == 0) {
                 return null;
             }
@@ -69,7 +69,7 @@ public enum StringHelper implements BabbageHandlebarsHelper<String> {
 
     endsWith {
         @Override
-        public CharSequence apply(String context, Options options) throws IOException {
+        public Object apply(String context, Options options) throws IOException {
             if (options.isFalsy(context) || options.params.length == 0) {
                 return null;
             }
@@ -84,7 +84,7 @@ public enum StringHelper implements BabbageHandlebarsHelper<String> {
 
     containsAny {
         @Override
-        public CharSequence apply(String context, Options options) throws IOException {
+        public Object apply(String context, Options options) throws IOException {
             if (options.isFalsy(context) || options.params == null) {
                 return null;
             }
@@ -108,7 +108,7 @@ public enum StringHelper implements BabbageHandlebarsHelper<String> {
         private final Pattern htmlTagRegexPattern = Pattern.compile("\\<[^>]*>");
 
         @Override
-        public CharSequence apply(String context, Options options) throws IOException {
+        public Object apply(String context, Options options) throws IOException {
             if (options.isFalsy(context)) {
                 return null;
             }

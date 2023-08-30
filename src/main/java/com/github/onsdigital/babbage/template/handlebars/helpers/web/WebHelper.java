@@ -14,7 +14,7 @@ public enum WebHelper implements BabbageHandlebarsHelper<Object> {
 
     query_string {
         @Override
-        public CharSequence apply(Object context, Options options) throws IOException {
+        public Object apply(Object context, Options options) throws IOException {
             Map<String, Object> queryParameters = (Map<String, Object>) options.context.get("parameters");
             String exclude = options.hash("exclude");
 

@@ -22,7 +22,7 @@ public class NumberFormatHelper implements BabbageHandlebarsHelper<Object> {
     }
 
     @Override
-    public CharSequence apply(Object context, Options options) throws IOException {
+    public Object apply(Object context, Options options) throws IOException {
         Double number = HelperUtils.toNumber(context);
         if (number == null) {
             Object o = options.hash("alt");

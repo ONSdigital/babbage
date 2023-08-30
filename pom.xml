@@ -9,7 +9,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <handlebars-java-version>4.0.3</handlebars-java-version>
+        <handlebars-java-version>4.2.1</handlebars-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <powermock.version>1.5.6</powermock.version>
         <dp-logging.version>v2.0.0-beta.5</dp-logging.version>
@@ -84,13 +84,6 @@
             <version>${handlebars-java-version}</version>
         </dependency>
 
-        <!--Handlebars Java markdown uses an older version of pegdown with a peculiar bug, overwriting dependency explicitly-->
-        <dependency>
-            <groupId>org.pegdown</groupId>
-            <artifactId>pegdown</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-
         <!-- Cryptography -->
         <dependency>
             <groupId>com.github.onsdigital</groupId>
@@ -150,6 +143,12 @@
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.14.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>4.13.0</version>
         </dependency>
 
         <!-- Test -->
@@ -249,12 +248,13 @@
             <artifactId>jackson-dataformat-cbor</artifactId>
             <version>${fasterxml.jackson.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>2.0.26</version>
         </dependency>
-     
+
 
     </dependencies>
 
@@ -372,19 +372,6 @@
                         </exclude>
 
                         <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/ATXjzIlG/1005-upgrade-handlebars -->
-                            <groupId>com.github.jknack</groupId>
-                            <artifactId>handlebars</artifactId>
-                            <version>4.0.3</version>
-                        </exclude>
-                        <exclude>
-                            <!-- This is a transitive dependency of com.github.jknack:handlebars:4.0.3 -->
-                            <groupId>org.mozilla</groupId>
-                            <artifactId>rhino</artifactId>
-                            <version>1.7R4</version>
-                        </exclude>
-
-                        <exclude>
                             <!-- Trello card for this exclude: https://trello.com/c/1XDM7LBH/1006-upgrade-rome-rome-dependency -->
                             <groupId>rome</groupId>
                             <artifactId>rome</artifactId>
@@ -413,12 +400,17 @@
                         </exclude>
 
                         <exclude>
-                            <!-- This is to exclude vulnerability CVE-2023-2976 -->
+                            <!-- This is to exclude vulnerability CVE-2023-2976 - transitive depedency of elasticsearch -->
                             <groupId>com.google.guava</groupId>
                             <artifactId>guava</artifactId>
                             <version>18.0</version>
                         </exclude>
-                        
+                        <exclude>
+                            <!-- This is to exclude vulnerability CVE-2023-2976 transitive depedency of handlebars -->
+                            <groupId>com.google.guava</groupId>
+                            <artifactId>guava</artifactId>
+                            <version>23.0</version>
+                        </exclude>
                     </excludeCoordinates>
                 </configuration>
             </plugin>

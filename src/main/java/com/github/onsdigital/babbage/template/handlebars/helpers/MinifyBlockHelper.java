@@ -3,11 +3,8 @@ package com.github.onsdigital.babbage.template.handlebars.helpers;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHandlebarsHelper;
-import com.github.onsdigital.babbage.template.handlebars.helpers.util.HelperUtils;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class MinifyBlockHelper implements BabbageHandlebarsHelper {
 
@@ -26,7 +23,7 @@ public class MinifyBlockHelper implements BabbageHandlebarsHelper {
 
      */
     @Override
-    public CharSequence apply(Object context, Options options) throws IOException {
+    public Object apply(Object context, Options options) throws IOException {
         return options.fn().toString().trim().replace("\t", "").replace("\n", "");
     }
 
