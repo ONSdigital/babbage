@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
 public class ContentClientTest {
 
@@ -49,6 +50,8 @@ public class ContentClientTest {
 
     private String uriStr = "economy/environmentalaccounts/articles/environmentaltaxes/2015-06-01";
     private int maxAgeSeconds = 900;
+    private int postPublishMaxAgeSeconds = 10;
+    private int postPublishExpiryOffsetSeconds = 180;
 
     @Before
     public void setup() throws Exception {
@@ -60,14 +63,19 @@ public class ContentClientTest {
         TestsUtil.setPrivateStaticField(contentClient, "client", clientMock);
         TestsUtil.setPrivateStaticField(contentClient, "cacheEnabled", true);
         TestsUtil.setPrivateStaticField(contentClient, "maxAge", maxAgeSeconds);
+        TestsUtil.setPrivateStaticField(contentClient, "postPublishCacheMaxAge", postPublishMaxAgeSeconds);
+        TestsUtil.setPrivateStaticField(contentClient, "postPublishCacheExpiryOffset", postPublishExpiryOffsetSeconds);
     }
 
-    @Test
-    public void testPublishDateNotPresentIsIncremented() throws Exception {
-        //Given
-        PublishInfo nextPublish = new PublishInfo(uriStr, null, null, null);
+    //** Provides a PublishingManager response based on secondsUntilPublish */
+    private void generateMockPublishManagerResponse(int secondsUntilPublish) throws Exception {
+        Date publishDate = DateTime.now().plusSeconds(secondsUntilPublish).toDate();
+        PublishInfo nextPublish = new PublishInfo(uriStr, null, publishDate, null);
         when(publishingManagerMock.getNextPublishInfo(uriStr)).thenReturn(nextPublish);
+    }
 
+    //** Sets mock responses to allow the request to work correctly. */
+    private void generateMockResponse() throws Exception {
         List<NameValuePair> parameters = new ArrayList<>();
         parameters.add(new BasicNameValuePair("uri", "/" + uriStr));
         Header[] headers = {
@@ -80,6 +88,112 @@ public class ContentClientTest {
         parameters2.add(new BasicNameValuePair("lang", null));
         parameters2.add(new BasicNameValuePair("uri", uriStr));
         when(clientMock.sendGet("/data", null, parameters2)).thenReturn(closeableHttpResponseMock);
+    }
+
+    @Test
+    public void testResolveMaxAgeDefault() throws Exception {
+        //Given
+        int secondsUntilPublish = 1000; //This needs to be more than maxAge to be too far in the future
+
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = maxAgeSeconds;
+        int actualCacheMaxAge = response.getMaxAge();
+        
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testResolveMaxAgeInRange() throws Exception {
+        //Given
+        int secondsUntilPublish = 800;
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = secondsUntilPublish - 1;
+        int actualCacheMaxAge = response.getMaxAge();
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testResolveMaxAgePostPublish() throws Exception {
+        //Given
+        int secondsUntilPublish = -5;
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = postPublishMaxAgeSeconds;
+        int actualCacheMaxAge = response.getMaxAge();
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testResolveMaxAgeExactPublishTime() throws Exception {
+        //Given
+        int secondsUntilPublish = 0;
+
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = postPublishMaxAgeSeconds;
+        int actualCacheMaxAge = response.getMaxAge();
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testResolveMaxAgePostExpiryOffset() throws Exception {
+        //Given
+        int secondsUntilPublish = -200;
+
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+        // After it drops the publish date, return null for the second request.
+        when(publishingManagerMock.getNextPublishInfo(uriStr)).thenReturn(null);
+
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = maxAgeSeconds;
+        int actualCacheMaxAge = response.getMaxAge();
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testResolveMaxAgeExactExpiryOffset() throws Exception {
+        //Given
+        int secondsUntilPublish = 0 - postPublishExpiryOffsetSeconds;
+
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+        // After it drops the publish date, return null for the second request.
+        when(publishingManagerMock.getNextPublishInfo(uriStr)).thenReturn(null);
+
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = maxAgeSeconds;
+        int actualCacheMaxAge = response.getMaxAge();
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testPublishDateNotPresentIsIncremented() throws Exception {
+        //Given
+        PublishInfo nextPublish = new PublishInfo(uriStr, null, null, null);
+        when(publishingManagerMock.getNextPublishInfo(uriStr)).thenReturn(nextPublish);
+        generateMockResponse();
 
         //When
         contentClient.getContent(uriStr);
@@ -92,22 +206,8 @@ public class ContentClientTest {
     public void testPublishDateInRangeIsIncremented() throws Exception {
         //Given
         int secondsUntilPublish = 600; //This needs to be less than maxAge to be in range
-        Date publishDate = DateTime.now().plusSeconds(secondsUntilPublish).toDate();
-        PublishInfo nextPublish = new PublishInfo(uriStr, null, publishDate, null);
-        when(publishingManagerMock.getNextPublishInfo(uriStr)).thenReturn(nextPublish);
-
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("uri", "/" + uriStr));
-        Header[] headers = {
-                new BasicHeader("Content-type", "application/json")
-        };
-        when(httpEntityMock.getContentType()).thenReturn(headers[0]);
-        when(closeableHttpResponseMock.getEntity()).thenReturn(httpEntityMock);
-
-        List<NameValuePair> parameters2 = new ArrayList<>();
-        parameters2.add(new BasicNameValuePair("lang", null));
-        parameters2.add(new BasicNameValuePair("uri", uriStr));
-        when(clientMock.sendGet("/data", null, parameters2)).thenReturn(closeableHttpResponseMock);
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
 
         //When
         contentClient.getContent(uriStr);
@@ -121,22 +221,8 @@ public class ContentClientTest {
     public void testPublishDateTooFarInFutureIsIncremented() throws Exception {
         //Given
         int secondsUntilPublish = 1000; //This needs to be more than maxAge to be too far in the future
-        Date publishDate = DateTime.now().plusSeconds(secondsUntilPublish).toDate();
-        PublishInfo nextPublish = new PublishInfo(uriStr, null, publishDate, null);
-        when(publishingManagerMock.getNextPublishInfo(uriStr)).thenReturn(nextPublish);
-
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("uri", "/" + uriStr));
-        Header[] headers = {
-                new BasicHeader("Content-type", "application/json")
-        };
-        when(httpEntityMock.getContentType()).thenReturn(headers[0]);
-        when(closeableHttpResponseMock.getEntity()).thenReturn(httpEntityMock);
-
-        List<NameValuePair> parameters2 = new ArrayList<>();
-        parameters2.add(new BasicNameValuePair("lang", null));
-        parameters2.add(new BasicNameValuePair("uri", uriStr));
-        when(clientMock.sendGet("/data", null, parameters2)).thenReturn(closeableHttpResponseMock);
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
 
         //When
         contentClient.getContent(uriStr);

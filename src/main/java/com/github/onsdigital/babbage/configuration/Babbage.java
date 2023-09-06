@@ -25,6 +25,8 @@ public class Babbage implements AppConfig {
     private static final String MAXAGE_SERVICE_KEY = "MAXAGE_SERVER";
     private static final String MAX_CACHE_ENTRIES = "CACHE_ENTRIES";
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
+    private static final String POST_PUBLISH_CACHE_MAX_AGE_KEY = "POST_PUBLISH_CACHE_MAX_AGE";
+    private static final String POST_PUBLISH_CACHE_EXPIRY_OFFSET_KEY = "POST_PUBLISH_CACHE_EXPIRY_OFFSET";
     private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
     private static final String REINDEX_SERVICE_KEY = "REINDEX_SERVER";
     private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
@@ -75,6 +77,16 @@ public class Babbage implements AppConfig {
     private final int resultsPerPage;
     private final long searchResponseCacheTime;
 
+    /**
+     * Post publish, temporary cache time to alleviate race conditions due to content copy
+     */
+    private final int postPublishCacheMaxAge;
+
+    /**
+     * Post publish, how long should we use the postPublishCacheMaxAge before going back to the default cache time
+     */
+    private final int postPublishCacheExpiryOffset;
+
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
         cacheEnabled = getStringAsBool(ENABLE_CACHE_KEY, "N");
@@ -93,6 +105,8 @@ public class Babbage implements AppConfig {
         maxHighchartsServerConnections = defaultIfBlank(getNumberValue("HIGHCHARTS_EXPORT_MAX_CONNECTION"), 50);
         maxResultsPerPage = 250;
         maxVisiblePaginatorLink = 5;
+        postPublishCacheMaxAge = defaultIfBlank(getNumberValue(POST_PUBLISH_CACHE_MAX_AGE_KEY), 10);
+        postPublishCacheExpiryOffset = defaultIfBlank(getNumberValue(POST_PUBLISH_CACHE_EXPIRY_OFFSET_KEY), 3 * 60);
         publishCacheTimeout = 60 * 60;
         redirectSecret = getValueOrDefault(REDIRECT_SECRET_KEY, "secret");
         resultsPerPage = 10;
@@ -177,6 +191,14 @@ public class Babbage implements AppConfig {
         return publishCacheTimeout;
     }
 
+    public int getPostPublishCacheMaxAge() {
+        return postPublishCacheMaxAge;
+    }
+
+    public int getPostPublishCacheExpiryOffset() {
+        return postPublishCacheExpiryOffset;
+    }
+
     public int getResultsPerPage() {
         return resultsPerPage;
     }
@@ -211,6 +233,8 @@ public class Babbage implements AppConfig {
         config.put("maxHighchartsServerConnections", maxHighchartsServerConnections);
         config.put("maxResultsPerPage", maxResultsPerPage);
         config.put("maxVisiblePaginatorLink", maxVisiblePaginatorLink);
+        config.put("postPublishCacheMaxAge", postPublishCacheMaxAge);
+        config.put("postPublishCacheExpiryOffset", postPublishCacheExpiryOffset);
         config.put("publishCacheTimeout", publishCacheTimeout);
         config.put("reindexSecret", reindexSecret);
         config.put("resultsPerPage", resultsPerPage);

@@ -37,6 +37,8 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
         assertEquals(testInstance.isPublishing(), false);
+        assertEquals(testInstance.getPostPublishCacheMaxAge(), 10);
+        assertEquals(testInstance.getPostPublishCacheExpiryOffset(), 180);
 
         Map<String, Object> mockConfig;
         mockConfig = Babbage.getInstance().getConfig();
@@ -54,6 +56,8 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("searchResponseCacheTime"), testInstance.getSearchResponseCacheTime());
         assertNotNull(mockConfig.get("maxAgeSecret"));
         assertNotNull(mockConfig.get("reindexSecret"));
+        assertEquals(mockConfig.get("postPublishCacheMaxAge"), testInstance.getPostPublishCacheMaxAge());
+        assertEquals(mockConfig.get("postPublishCacheExpiryOffset"), testInstance.getPostPublishCacheExpiryOffset());
     }
     @Test
     public void testGetApiRouterURL() {
@@ -69,12 +73,13 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.getServiceAuthToken(),"ahyofaem2ieVie6eipaX6ietigh1oeM0Aa1aiyaebiemiodaiJah0eenuchei1ai");
     }
 
-@Test
-public void testIsNavigationEnabled() {
-    Babbage testInstance = Babbage.getInstance();
-    assertNotNull(testInstance.isNavigationEnabled());
-    assertFalse(testInstance.isNavigationEnabled());
-}
+    @Test
+    public void testIsNavigationEnabled() {
+        Babbage testInstance = Babbage.getInstance();
+        assertNotNull(testInstance.isNavigationEnabled());
+        assertFalse(testInstance.isNavigationEnabled());
+    }
+
     @Test
     public void testGetMaxCacheEntries() {
         Babbage testInstance = Babbage.getInstance();
@@ -82,12 +87,12 @@ public void testIsNavigationEnabled() {
         assertEquals(testInstance.getMaxCacheEntries(),3000);
     }
 
-//    getMaxCacheObjectSize
-@Test
-public void testGetMaxCacheObjectSize() {
-    Babbage testInstance = Babbage.getInstance();
-    assertNotNull(testInstance.getMaxCacheObjectSize());
-    assertEquals(testInstance.getMaxCacheObjectSize(),50000);
-}
+    // getMaxCacheObjectSize
+    @Test
+    public void testGetMaxCacheObjectSize() {
+        Babbage testInstance = Babbage.getInstance();
+        assertNotNull(testInstance.getMaxCacheObjectSize());
+        assertEquals(testInstance.getMaxCacheObjectSize(),50000);
+    }
 
 }
