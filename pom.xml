@@ -52,9 +52,9 @@
 
         <!-- PDF Generation -->
         <dependency>
-            <groupId>dom4j</groupId>
+            <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
+            <version>2.1.4</version>
         </dependency>
 
         <!-- Handlebars Java-->
@@ -376,13 +376,6 @@
                             <groupId>rome</groupId>
                             <artifactId>rome</artifactId>
                             <version>1.0</version>
-                        </exclude>
-
-                         <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/fyFpvpZw/1007-upgrade-dom4j-dom4j-dependency -->
-                            <groupId>dom4j</groupId>
-                            <artifactId>dom4j</artifactId>
-                            <version>1.6.1</version>
                         </exclude>
 
                         <exclude>

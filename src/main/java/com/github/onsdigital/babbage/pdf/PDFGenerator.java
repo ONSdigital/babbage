@@ -22,7 +22,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 
