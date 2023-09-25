@@ -20,7 +20,7 @@ public class LookupBlockHelper implements BabbageHandlebarsHelper {
 
      */
     @Override
-    public Object apply(Object context, Options options) throws IOException {
+    public CharSequence apply(Object context, Options options) throws IOException {
         if (options.params.length <= 0) {
             return options.inverse();
         }

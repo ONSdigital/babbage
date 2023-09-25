@@ -6,8 +6,10 @@ import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHan
 import com.github.onsdigital.babbage.template.handlebars.helpers.util.HelperUtils;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bren on 06/07/15.
@@ -16,7 +18,7 @@ public enum ArrayHelpers implements BabbageHandlebarsHelper<Iterable> {
 
     contains {
         @Override
-        public Object apply(Iterable context, Options options) throws IOException {
+        public CharSequence apply(Iterable context, Options options) throws IOException {
             Object value = options.param(0);
             if (options.isFalsy(context)) {
                 return options.inverse();
@@ -45,7 +47,7 @@ public enum ArrayHelpers implements BabbageHandlebarsHelper<Iterable> {
      */
     last {
         @Override
-        public Object apply(Iterable context, Options options) throws IOException {
+        public CharSequence apply(Iterable context, Options options) throws IOException {
             if (options.isFalsy(context)) {
                 return options.inverse();
             }

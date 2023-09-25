@@ -21,7 +21,7 @@ public class SuperscriptHelper implements BabbageHandlebarsHelper<String> {
     }
 
     @Override
-    public Object apply(String text, Options options) throws IOException {
+    public CharSequence apply(String text, Options options) throws IOException {
         if (options.isFalsy(text)) {
             return "";
         }

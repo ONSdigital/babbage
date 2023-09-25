@@ -19,7 +19,7 @@ public enum SignedURLHelper implements BabbageHandlebarsHelper<String> {
     //Sign a URL
     sign_url {
         @Override
-        public Object apply(String context, Options options) throws IOException {
+        public CharSequence apply(String context, Options options) throws IOException {
             if (options.isFalsy(context)) {
                 return null;
             }

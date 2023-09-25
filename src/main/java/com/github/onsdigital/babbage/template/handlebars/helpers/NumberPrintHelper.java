@@ -22,7 +22,7 @@ public class NumberPrintHelper implements BabbageHandlebarsHelper<Object> {
     }
 
     @Override
-    public Object apply(Object context, Options options) throws IOException {
+    public CharSequence apply(Object context, Options options) throws IOException {
         Double num = HelperUtils.toNumber(context);
         if (num == null) {
             return "null";

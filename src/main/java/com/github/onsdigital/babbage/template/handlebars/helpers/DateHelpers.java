@@ -28,7 +28,7 @@ public enum DateHelpers implements BabbageHandlebarsHelper<String> {
      */
     df {
         @Override
-        public Object apply(String date, Options options) throws IOException {
+        public CharSequence apply(String date, Options options) throws IOException {
             if (options.isFalsy(date)) {
                 return "";
             }
@@ -55,7 +55,7 @@ public enum DateHelpers implements BabbageHandlebarsHelper<String> {
         }
 
         @Override
-        public Object apply(String date, Options options) throws IOException {
+        public CharSequence apply(String date, Options options) throws IOException {
             if (options.isFalsy(date)) {
                 return null;
             }

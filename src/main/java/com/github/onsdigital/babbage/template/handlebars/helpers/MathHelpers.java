@@ -3,6 +3,8 @@ package com.github.onsdigital.babbage.template.handlebars.helpers;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHandlebarsHelper;
+import com.github.onsdigital.babbage.template.handlebars.helpers.util.HelperUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
@@ -15,7 +17,7 @@ public enum MathHelpers implements BabbageHandlebarsHelper<Object> {
 
     increment {
         @Override
-        public Object apply(Object context, Options options) throws IOException {
+        public CharSequence apply(Object context, Options options) throws IOException {
             Double num = toNumber(context);
             if (num == null) {
                 return null;
@@ -32,7 +34,7 @@ public enum MathHelpers implements BabbageHandlebarsHelper<Object> {
     },
     decrement {
         @Override
-        public Object apply(Object context, Options options) throws IOException {
+        public CharSequence apply(Object context, Options options) throws IOException {
             Double num = toNumber(context);
             if (num == null) {
                 return null;
@@ -50,7 +52,7 @@ public enum MathHelpers implements BabbageHandlebarsHelper<Object> {
 
     add {
         @Override
-        public Object apply(Object context, Options options) throws IOException {
+        public CharSequence apply(Object context, Options options) throws IOException {
             Double result = toNumber(context);
             Object[] params = options.params;
             for (Object param : params) {

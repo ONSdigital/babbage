@@ -25,7 +25,7 @@ public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandl
     private final String HELPER_NAME = "md";
 
     @Override
-    public Object apply(Object context, Options options) throws IOException {
+    public CharSequence apply(Object context, Options options) throws IOException {
         if (options.isFalsy(context)) {
             return "";
         }

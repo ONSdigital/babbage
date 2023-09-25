@@ -18,7 +18,7 @@ public enum PathHelper implements BabbageHandlebarsHelper<String> {
 
     absolute   {
         @Override
-        public Object apply(String uri, Options options) throws IOException {
+        public CharSequence apply(String uri, Options options) throws IOException {
             if(options.isFalsy(uri)) {
                 return null;
             }
@@ -34,7 +34,7 @@ public enum PathHelper implements BabbageHandlebarsHelper<String> {
 
     parentPath {
         @Override
-        public Object apply(String uri, Options options) throws IOException {
+        public CharSequence apply(String uri, Options options) throws IOException {
             if (options.isFalsy(uri)) {
                 return null;
             }
@@ -51,7 +51,7 @@ public enum PathHelper implements BabbageHandlebarsHelper<String> {
     fe {
 
         @Override
-        public Object apply(String uri, Options options) throws IOException {
+        public CharSequence apply(String uri, Options options) throws IOException {
             if (options.isFalsy(uri)) {
                 return null;
             }
@@ -68,7 +68,7 @@ public enum PathHelper implements BabbageHandlebarsHelper<String> {
     /*File name*/
     fn {
         @Override
-        public Object apply(String uri, Options options) throws IOException {
+        public CharSequence apply(String uri, Options options) throws IOException {
             if (options.isFalsy(uri)) {
                 return null;
             }
