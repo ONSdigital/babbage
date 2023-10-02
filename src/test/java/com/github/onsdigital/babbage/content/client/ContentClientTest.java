@@ -115,10 +115,13 @@ public class ContentClientTest {
         generateMockResponse();
         //When
         ContentResponse response = contentClient.getContent(uriStr);
-        int expectedCacheMaxAge = secondsUntilPublish - 1;
+        int expectedCacheMaxAge = secondsUntilPublish;
         int actualCacheMaxAge = response.getMaxAge();
         //Then
-        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+        // The below has been given a threshold of 2 seconds to work. When providing an exact value, this 
+        // was erroring intermittently due to the length of time between generating the mock PM response and
+        // getting the content.
+        assertTrue(actualCacheMaxAge >= expectedCacheMaxAge -2 && actualCacheMaxAge <= expectedCacheMaxAge);
     }
 
     @Test
