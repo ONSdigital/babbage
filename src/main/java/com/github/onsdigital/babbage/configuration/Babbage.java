@@ -30,6 +30,8 @@ public class Babbage implements AppConfig {
     private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
     private static final String REINDEX_SERVICE_KEY = "REINDEX_SERVER";
     private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
+    private static final String DEFAULT_CACHE_TIME = "DEFAULT_CACHE_TIME";
+    private static final String PUBLISH_CACHE_TIMEOUT = "PUBLISH_CACHE_TIMEOUT";
 
     private static Babbage INSTANCE;
 
@@ -90,7 +92,7 @@ public class Babbage implements AppConfig {
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
         cacheEnabled = getStringAsBool(ENABLE_CACHE_KEY, "N");
-        defaultCacheTime = 15 * 60;
+        defaultCacheTime = defaultIfBlank(getNumberValue(DEFAULT_CACHE_TIME), 15 * 60);
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
@@ -107,7 +109,7 @@ public class Babbage implements AppConfig {
         maxVisiblePaginatorLink = 5;
         postPublishCacheMaxAge = defaultIfBlank(getNumberValue(POST_PUBLISH_CACHE_MAX_AGE_KEY), 10);
         postPublishCacheExpiryOffset = defaultIfBlank(getNumberValue(POST_PUBLISH_CACHE_EXPIRY_OFFSET_KEY), 3 * 60);
-        publishCacheTimeout = 60 * 60;
+        publishCacheTimeout = defaultIfBlank(getNumberValue(PUBLISH_CACHE_TIMEOUT), 60 * 60);
         redirectSecret = getValueOrDefault(REDIRECT_SECRET_KEY, "secret");
         resultsPerPage = 10;
         searchResponseCacheTime = 5;
