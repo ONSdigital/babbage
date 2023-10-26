@@ -30,10 +30,7 @@ java $JAVA_OPTS \
  -Drestolino.classes=$RESTOLINO_CLASSES \
  -Drestolino.packageprefix=$PACKAGE_PREFIX \
  -javaagent:target/dependency/aws-opentelemetry-agent-1.30.0.jar \
- -Dotel.javaagent.debug=true \
+ -Dotel.propagators=tracecontext,baggage \
  -cp "target/classes/:target/dependency/*" \
  com.github.davidcarboni.restolino.Main
 
-#  -Djavax.net.ssl.keyStore=./babbage_cacerts \
-#  -Djavax.net.ssl.trustStoreType=jks \
-#  -Djavax.net.ssl.keyStorePassword=babbage \
