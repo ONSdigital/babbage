@@ -51,7 +51,7 @@ job "babbage" {
           "-Drestolino.packageprefix=com.github.onsdigital.babbage.api",
           "-javaagent:target/dependency/aws-opentelemetry-agent-1.30.0.jar",
           "-Dotel.propagators=tracecontext,baggage",
-          "-Dotel.service.name={{OTEL_SERVICE_NAME}}",
+          "-Dotel.service.name=babbage",
           "-Dotel.exporter.otlp.endpoint={{OTEL_ENDPOINT}}",          
           "com.github.davidcarboni.restolino.Main",
         ]
