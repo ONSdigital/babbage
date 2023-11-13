@@ -58,6 +58,7 @@ public class BabbageTest extends junit.framework.TestCase {
         assertNotNull(mockConfig.get("reindexSecret"));
         assertEquals(mockConfig.get("postPublishCacheMaxAge"), testInstance.getPostPublishCacheMaxAge());
         assertEquals(mockConfig.get("postPublishCacheExpiryOffset"), testInstance.getPostPublishCacheExpiryOffset());
+        assertEquals(testInstance.isPostPublishMicroCacheEnabled(),false);
     }
     @Test
     public void testGetApiRouterURL() {
