@@ -24,7 +24,7 @@ public class TaxonomyRenderer {
                     Map<String, Object> itemDescriptionMap = new HashMap<String, Object>();
 
                     itemMap.put("uri", item.get("uri"));
-                    itemDescriptionMap.put("title", item.get("title"));
+                    itemDescriptionMap.put("title", item.get("label"));
                     itemMap.put("description", itemDescriptionMap);
                     itemMap.put("type", "taxonomy_landing_page");
 
@@ -37,7 +37,7 @@ public class TaxonomyRenderer {
                             Map<String, Object> childMap = new HashMap<String, Object>();
                             Map<String, Object> childDescriptionMap = new HashMap<String, Object>();
                             childMap.put("uri", child.get("uri"));
-                            childDescriptionMap.put("title", child.get("title"));
+                            childDescriptionMap.put("title", child.get("label"));
                             childMap.put("description", childDescriptionMap);
                             childMap.put("type", "taxonomy_landing_page");
                             children.add(childMap);

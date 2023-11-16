@@ -27,9 +27,12 @@ public class Babbage implements AppConfig {
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
     private static final String POST_PUBLISH_CACHE_MAX_AGE_KEY = "POST_PUBLISH_CACHE_MAX_AGE";
     private static final String POST_PUBLISH_CACHE_EXPIRY_OFFSET_KEY = "POST_PUBLISH_CACHE_EXPIRY_OFFSET";
+    private static final String POST_PUBLISH_MICRO_CACHE_ENABLED_KEY = "POST_PUBLISH_MICRO_CACHE_ENABLED";
     private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
     private static final String REINDEX_SERVICE_KEY = "REINDEX_SERVER";
     private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
+    private static final String DEFAULT_CACHE_TIME = "DEFAULT_CACHE_TIME";
+    private static final String PUBLISH_CACHE_TIMEOUT = "PUBLISH_CACHE_TIMEOUT";
 
     private static Babbage INSTANCE;
 
@@ -86,11 +89,12 @@ public class Babbage implements AppConfig {
      * Post publish, how long should we use the postPublishCacheMaxAge before going back to the default cache time
      */
     private final int postPublishCacheExpiryOffset;
+    private final boolean postPublishMicroCacheEnabled;
 
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
         cacheEnabled = getStringAsBool(ENABLE_CACHE_KEY, "N");
-        defaultCacheTime = 15 * 60;
+        defaultCacheTime = defaultIfBlank(getNumberValue(DEFAULT_CACHE_TIME), 15 * 60);
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
@@ -107,7 +111,8 @@ public class Babbage implements AppConfig {
         maxVisiblePaginatorLink = 5;
         postPublishCacheMaxAge = defaultIfBlank(getNumberValue(POST_PUBLISH_CACHE_MAX_AGE_KEY), 10);
         postPublishCacheExpiryOffset = defaultIfBlank(getNumberValue(POST_PUBLISH_CACHE_EXPIRY_OFFSET_KEY), 3 * 60);
-        publishCacheTimeout = 60 * 60;
+        postPublishMicroCacheEnabled = getStringAsBool(POST_PUBLISH_MICRO_CACHE_ENABLED_KEY, "N");
+        publishCacheTimeout = defaultIfBlank(getNumberValue(PUBLISH_CACHE_TIMEOUT), 60 * 60);
         redirectSecret = getValueOrDefault(REDIRECT_SECRET_KEY, "secret");
         resultsPerPage = 10;
         searchResponseCacheTime = 5;
@@ -197,6 +202,10 @@ public class Babbage implements AppConfig {
 
     public int getPostPublishCacheExpiryOffset() {
         return postPublishCacheExpiryOffset;
+    }
+
+    public boolean isPostPublishMicroCacheEnabled() {
+        return postPublishMicroCacheEnabled;
     }
 
     public int getResultsPerPage() {

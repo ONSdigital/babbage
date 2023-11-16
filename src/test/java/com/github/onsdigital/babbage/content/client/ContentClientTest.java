@@ -65,6 +65,7 @@ public class ContentClientTest {
         TestsUtil.setPrivateStaticField(contentClient, "maxAge", maxAgeSeconds);
         TestsUtil.setPrivateStaticField(contentClient, "postPublishCacheMaxAge", postPublishMaxAgeSeconds);
         TestsUtil.setPrivateStaticField(contentClient, "postPublishCacheExpiryOffset", postPublishExpiryOffsetSeconds);
+        TestsUtil.setPrivateStaticField(contentClient, "postPublishMicroCacheEnabled", true);
     }
 
     //** Provides a PublishingManager response based on secondsUntilPublish */
@@ -134,6 +135,23 @@ public class ContentClientTest {
         //When
         ContentResponse response = contentClient.getContent(uriStr);
         int expectedCacheMaxAge = postPublishMaxAgeSeconds;
+        int actualCacheMaxAge = response.getMaxAge();
+        //Then
+        assertEquals(expectedCacheMaxAge, actualCacheMaxAge);
+    }
+
+    @Test
+    public void testResolveMaxAgePostPublishMicroCacheDisabled() throws Exception {
+        TestsUtil.setPrivateStaticField(contentClient, "postPublishMicroCacheEnabled", false);
+
+        //Given
+        int secondsUntilPublish = -5;
+        generateMockPublishManagerResponse(secondsUntilPublish);
+        generateMockResponse();
+
+        //When
+        ContentResponse response = contentClient.getContent(uriStr);
+        int expectedCacheMaxAge = maxAgeSeconds;
         int actualCacheMaxAge = response.getMaxAge();
         //Then
         assertEquals(expectedCacheMaxAge, actualCacheMaxAge);

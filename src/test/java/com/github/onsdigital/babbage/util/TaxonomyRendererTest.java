@@ -37,6 +37,16 @@ public class TaxonomyRendererTest {
         testItemMap.put("uri", "/businessindustryandtrade");
         return testItemMap;
     }
+    public static Map<String, Object> ItemMapBusinessWithoutSubtopicsWelsh () {
+        Map<String, Object> testItemMap = new HashMap<String, Object>();
+        testItemMap.put("description", "Activities of businesses and industry in the UK, including data on the production and trade of goods and services, sales by retailers, characteristics of businesses, the construction and manufacturing sectors, and international trade.");
+        testItemMap.put("label", "Busnes, diwydiant a masnach");
+        testItemMap.put("links", "{self={href=/topics/businessindustryandtrade, id=businessindustryandtrade}}");
+        testItemMap.put("name", "business-industry-and-trade");
+        testItemMap.put("title", "Business, industry and trade");
+        testItemMap.put("uri", "/businessindustryandtrade");
+        return testItemMap;
+    }
     public static Map<String, Object> ItemMapBusinessSubtopics () {
         Map<String, Object> testItemMap = new HashMap<String, Object>();
         testItemMap.put("description", "Activities of businesses and industry in the UK, including data on the production and trade of goods and services, sales by retailers, characteristics of businesses, the construction and manufacturing sectors, and international trade.");
@@ -182,5 +192,32 @@ public class TaxonomyRendererTest {
         Map<String, Object> child = new HashMap<>();
         child = itemsArray.get(0);
         Assert.assertTrue(child.size() == 3);
+    }
+
+    @Test
+    public void testNavigationToTaxonomy_Input3() throws IOException, URISyntaxException {
+        List<Map<String, Object>> contextTest = new ArrayList<>();
+        List<Map<String, Object>> testItemList = new ArrayList<Map<String, Object>>();
+
+        testItemList.add(ItemMapBusinessWithoutSubtopicsWelsh());
+        Assert.assertFalse(testItemList.isEmpty());
+        Assert.assertTrue(testItemList.size() == 1);
+
+        try {
+            contextTest = TaxonomyRenderer.navigationToTaxonomy(testItemList);
+        } catch (Exception ex) {
+            assertThat("Incorrect exception message", ex.getMessage(),
+                    equalTo("item is null"));
+            throw ex;
+        }
+
+        Assert.assertFalse(contextTest.isEmpty());
+        assertThat(contextTest.get(0).get("uri"), equalTo("/businessindustryandtrade") );
+        assertThat(contextTest.get(0).get("type"), equalTo("taxonomy_landing_page") );
+        Map<String, Object> tmpMap = new HashMap<String,Object>();
+        tmpMap.put("title", "Busnes, diwydiant a masnach");
+        assertThat(contextTest.get(0).get("description"), equalTo(tmpMap));
+        List<?> tmpList = new ArrayList();
+        assertThat(contextTest.get(0).get("children"), equalTo(tmpList));
     }
 }
