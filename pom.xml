@@ -12,7 +12,7 @@
         <handlebars-java-version>4.0.3</handlebars-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <powermock.version>1.5.6</powermock.version>
-        <dp-logging.version>v2.0.0-beta.5</dp-logging.version>
+        <dp-logging.version>v2.0.0-beta.6</dp-logging.version>
         <fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
         <jetty.version>9.4.46.v20220331</jetty.version>
         <flying-saucer.version>9.1.22</flying-saucer.version>
