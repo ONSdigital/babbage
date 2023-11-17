@@ -10,6 +10,6 @@ CMD java -Xmx2048m -cp "target/dependency/*:target/classes/"  \
   -Drestolino.packageprefix=com.github.onsdigital.babbage.api \
   -Drestolino.files=target/web       \
   -Drestolino.classes=target/classes \
-  -javaagent:target/dependency/aws-opentelemetry-agent-1.30.0.jar \
+  -javaagent:target/dependency/aws-opentelemetry-agent-1.31.0.jar \
   -Dotel.propagators=tracecontext,baggage \
   com.github.davidcarboni.restolino.Main
