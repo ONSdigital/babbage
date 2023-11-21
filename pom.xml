@@ -9,17 +9,21 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <handlebars-java-version>4.0.3</handlebars-java-version>
+        <handlebars-java-version>4.2.1</handlebars-java-version>
+        <handlebars-markdown-java-version>4.2.0</handlebars-markdown-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <powermock.version>1.5.6</powermock.version>
-        <dp-logging.version>v2.0.0-beta.8</dp-logging.version>
-        <fasterxml.jackson.version>2.15.0</fasterxml.jackson.version>
+        <dp-logging.version>v2.0.0-beta.11</dp-logging.version>
+        <fasterxml.jackson.version>2.16.1</fasterxml.jackson.version>
         <jetty.version>9.4.53.v20231009</jetty.version>
-        <flying-saucer.version>9.1.22</flying-saucer.version>
+        <flying-saucer.version>9.4.1</flying-saucer.version>
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>4.13.1</version>
+        </dependency>
         <!-- Prometheus client libraries -->
         <!-- Exposition HTTPServer-->
         <dependency>
@@ -28,19 +32,25 @@
             <version>0.16.0</version>
         </dependency>
 
-        <!-- Prototyping framework -->
+         <!-- Logging -->
+        <dependency>
+            <groupId>com.github.onsdigital</groupId>
+            <artifactId>dp-logging</artifactId>
+            <version>${dp-logging.version}</version>
+        </dependency>
 
+        <!-- Prototyping framework -->
         <dependency>
             <groupId>com.github.onsdigital</groupId>
             <artifactId>restolino</artifactId>
-            <version>v0.7.0</version>
+            <version>0.7.1</version>
         </dependency>
 
 
         <dependency>
             <groupId>com.github.davidcarboni</groupId>
             <artifactId>resource-utils</artifactId>
-            <version>1.1.2</version>
+            <version>1.2.2</version>
         </dependency>
 
         <!-- Taxonomy generator -->
@@ -66,7 +76,7 @@
         <dependency>
             <groupId>com.github.jknack</groupId>
             <artifactId>handlebars-markdown</artifactId>
-            <version>${handlebars-java-version}</version>
+            <version>${handlebars-markdown-java-version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.jknack</groupId>
@@ -82,13 +92,6 @@
             <groupId>com.github.jknack</groupId>
             <artifactId>handlebars-jackson2</artifactId>
             <version>${handlebars-java-version}</version>
-        </dependency>
-
-        <!--Handlebars Java markdown uses an older version of pegdown with a peculiar bug, overwriting dependency explicitly-->
-        <dependency>
-            <groupId>org.pegdown</groupId>
-            <artifactId>pegdown</artifactId>
-            <version>1.4.2</version>
         </dependency>
 
         <!-- Cryptography -->
@@ -109,14 +112,14 @@
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>2.1.1</version>
+            <version>2.4.6</version>
         </dependency>
 
         <!-- Elastic search multicast, used for discovering elastic search  instances-->
         <dependency>
             <groupId>org.elasticsearch.plugin</groupId>
             <artifactId>discovery-multicast</artifactId>
-            <version>2.1.1</version>
+            <version>2.4.6</version>
         </dependency>
 
 
@@ -124,14 +127,14 @@
         <dependency>
             <groupId>org.mnode.ical4j</groupId>
             <artifactId>ical4j</artifactId>
-            <version>2.0.5</version>
+            <version>2.2.7</version>
         </dependency>
 
         <!-- RSS Feeds -->
         <dependency>
-            <groupId>rome</groupId>
+            <groupId>com.rometools</groupId>
             <artifactId>rome</artifactId>
-            <version>1.0</version>
+            <version>2.1.0</version>
         </dependency>
 
         <dependency>
@@ -149,7 +152,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.14.2</version>
+            <version>1.17.2</version>
         </dependency>
 
         <!-- Test -->
@@ -162,40 +165,34 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
+            <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.13</version>
+            <version>4.5.14</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient-cache</artifactId>
-            <version>4.5.13</version>
+            <version>4.5.14</version>
         </dependency>
 
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.12</version>
+            <version>0.10.2</version>
         </dependency>
 
-        <!-- Logging -->
-        <dependency>
-            <groupId>com.github.onsdigital</groupId>
-            <artifactId>dp-logging</artifactId>
-            <version>${dp-logging.version}</version>
-        </dependency>
 
         <!-- JWTs for signed URLs -->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.1.0</version>
+            <version>3.19.4</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-client -->
@@ -252,14 +249,14 @@
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
-            <version>2.0.26</version>
+            <version>2.0.30</version>
         </dependency>
 
         <!-- OpenTelemetry-->
         <dependency>
             <groupId>software.amazon.opentelemetry</groupId>
             <artifactId>aws-opentelemetry-agent</artifactId>
-            <version>1.31.0</version>
+            <version>1.32.0</version>
         </dependency>
     </dependencies>
 
@@ -293,12 +290,11 @@
             </resource>
         </resources>
         <plugins>
-
             <!-- Needs Java 1.8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.12.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -310,7 +306,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -352,98 +348,33 @@
                             <!-- Trello card for this exclude: https://trello.com/c/ahkwEM74/1720-babbage-elasticsearch-library-multiple-vulnerabilities-s2 -->
                             <groupId>org.elasticsearch</groupId>
                             <artifactId>elasticsearch</artifactId>
-                            <version>2.1.1</version>
+                            <version>2.4.6</version>
                         </exlude>
                         <exclude>
-                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.1.1 -->
+                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>org.apache.lucene</groupId>
                             <artifactId>lucene-queryparser</artifactId>
-                            <version>5.3.1</version>
+                            <version>5.5.4</version>
                         </exclude>
-
                         <exlude>
                             <!-- Trello card for this exclude: https://trello.com/c/MCpbYlIT/1721-babbage-netty-multiple-vulnerabilities-s1 -->
-                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.1.1 -->
+                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>io.netty</groupId>
                             <artifactId>netty</artifactId>
-                            <version>3.10.5.Final</version>
+                            <version>3.10.6.Final</version>
                         </exlude>
-
-                        <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/9HypMsIt -->
-                            <groupId>com.lowagie</groupId>
-                            <artifactId>itext</artifactId>
-                            <version>2.1.7</version>
-                        </exclude>
-
-                        <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/ATXjzIlG/1005-upgrade-handlebars -->
-                            <groupId>com.github.jknack</groupId>
-                            <artifactId>handlebars</artifactId>
-                            <version>4.0.3</version>
-                        </exclude>
-                        <exclude>
-                            <!-- This is a transitive dependency of com.github.jknack:handlebars:4.0.3 -->
-                            <groupId>org.mozilla</groupId>
-                            <artifactId>rhino</artifactId>
-                            <version>1.7R4</version>
-                        </exclude>
-
-                        <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/1XDM7LBH/1006-upgrade-rome-rome-dependency -->
-                            <groupId>rome</groupId>
-                            <artifactId>rome</artifactId>
-                            <version>1.0</version>
-                        </exclude>
-
                         <exclude>
                             <!-- https://trello.com/c/wotCeMmc -->
                             <groupId>org.yaml</groupId>
                             <artifactId>snakeyaml</artifactId>
-                            <version>1.33</version>
+                            <version>1.15</version>
                         </exclude>
-
-                        <exclude>
-                            <!-- This is to exclude vulnerability CVE-2023-35116 -->
-                            <groupId>com.fasterxml.jackson.core</groupId>
-                            <artifactId>jackson-databind</artifactId>
-                            <version>2.15.0</version>
-                        </exclude>
-
                         <exclude>
                             <!-- This is to exclude vulnerability CVE-2023-2976 -->
                             <groupId>com.google.guava</groupId>
                             <artifactId>guava</artifactId>
-                            <version>18.0</version>
+                            <version>23.0</version>
                         </exclude>
-
-                        <exclude>
-                            <!-- This is to exclude vulnerability CVE-2023-45960 -->
-                            <groupId>org.dom4j</groupId>
-                            <artifactId>dom4j</artifactId>
-                            <version>2.1.4</version>
-                        </exclude>
-
-                        <exclude>
-                            <!-- This is to exclude vulnerability CVE-2023-6378 
-                            Upgrading dp-logging causes clashes with restolino for 
-                            backing logging service. To be addressed by ANDDigital
-                            maintenance package -->
-                            <groupId>ch.qos.logback</groupId>
-                            <artifactId>logback-core</artifactId>
-                            <version>1.2.11</version>
-                        </exclude>
-
-                        <exclude>
-                            <!-- This is to exclude vulnerability CVE-2023-6378 
-                            Upgrading dp-logging causes clashes with restolino for 
-                            backing logging service. To be addressed by ANDDigital
-                            maintenance package -->
-                            <groupId>ch.qos.logback</groupId>
-                            <artifactId>logback-classic</artifactId>
-                            <version>1.2.11</version>
-                        </exclude>
-
                     </excludeCoordinates>
                 </configuration>
             </plugin>

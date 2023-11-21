@@ -2,10 +2,10 @@ package com.github.onsdigital.babbage.api.endpoint.rss.builder;
 
 import com.github.onsdigital.babbage.search.model.field.Field;
 import com.github.onsdigital.babbage.util.ThreadContext;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndContentImpl;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndEntryImpl;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
 
 import java.text.DateFormat;
 import java.text.ParseException;

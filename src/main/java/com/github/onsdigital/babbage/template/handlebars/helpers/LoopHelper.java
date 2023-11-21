@@ -39,7 +39,7 @@ public class LoopHelper extends EachHelper implements BabbageHandlebarsHelper<Ob
             return apply(list, options, limit);
         }
         //Create an integer list with given number and delegate to each helper to be able to use all features of each helper (index, last , first etc)
-        return super.apply(buildList((Number) context), options);
+        return (CharSequence) super.apply(buildList((Number) context), options);
     }
 
     private CharSequence apply(final List list, final Options options, int limit)

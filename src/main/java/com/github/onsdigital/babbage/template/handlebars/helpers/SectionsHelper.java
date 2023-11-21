@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.template.handlebars.helpers;
 
-import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
 import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHandlebarsHelper;
@@ -49,9 +48,8 @@ public enum SectionsHelper implements BabbageHandlebarsHelper<Object> {
 
             CustomMarkdownHelper mdHelper = new CustomMarkdownHelper();
             String mdHtml = mdHelper.apply(md, options).toString();
-            
             // String Helper returns a CharSequence that can sometimes be null.
-            CharSequence wordCountSeq = StringHelper.wordCount.apply(mdHtml, options);
+            CharSequence wordCountSeq = (CharSequence) StringHelper.wordCount.apply(mdHtml, options);
 
             if (wordCountSeq == null) {
                 return 0;

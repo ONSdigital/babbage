@@ -76,7 +76,7 @@ public class RequestDelegator {
         try {
 
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder().addUrls(BaseRequestHandler.class.getProtectionDomain().getCodeSource().getLocation());
-            configurationBuilder.addClassLoader(BaseRequestHandler.class.getClassLoader());
+            configurationBuilder.addClassLoaders(BaseRequestHandler.class.getClassLoader());
             Set<Class<? extends RequestHandler>> requestHandlerClasses = new Reflections(configurationBuilder).getSubTypesOf(RequestHandler.class);
 
             // force the timeseries landing request to be first in the request processing pipeline by inserting it first.
