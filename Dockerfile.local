@@ -6,6 +6,9 @@ ADD ./target/dependency /usr/src/target/dependency
 ADD ./target/classes /usr/src/target/classes
 ADD ./target/web /usr/src/target/web
 
+COPY src/main/resources/LabelsBundle.properties /usr/src/target/classes/LabelsBundle.properties
+COPY src/main/resources/url-shortcuts /usr/src/target/classes/url-shortcuts
+
 # Update the entry point script
 ENTRYPOINT java $JAVA_OPTS \
     -Drestolino.realm=$REALM \
