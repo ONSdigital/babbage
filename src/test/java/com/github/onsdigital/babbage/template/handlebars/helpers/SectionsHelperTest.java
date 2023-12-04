@@ -115,4 +115,17 @@ public class SectionsHelperTest {
         CharSequence result = SectionsHelper.totalWordCount.apply(sections, options);
         assertThat(result, equalTo(null));
     }
+
+    @Test
+    public void testTotalWordCount_WithBlankSpace_NoErrors() throws Exception {
+        List<Map<String, String>> sections = new ArrayList<>();
+
+        Map<String, String> section1 = new HashMap<>();
+        section1.put("markdown", " ");
+        section1.put("title", "");
+        sections.add(section1);
+
+        String result = SectionsHelper.totalWordCount.apply(sections, options).toString();
+        assertThat(result, equalTo("0"));
+    }
 }

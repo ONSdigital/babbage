@@ -49,8 +49,16 @@ public enum SectionsHelper implements BabbageHandlebarsHelper<Object> {
 
             CustomMarkdownHelper mdHelper = new CustomMarkdownHelper();
             String mdHtml = mdHelper.apply(md, options).toString();
-            String wordCount = StringHelper.wordCount.apply(mdHtml, options).toString();
-            return Integer.parseInt(wordCount);
+            
+            // String Helper returns a CharSequence that can sometimes be null.
+            CharSequence wordCountSeq = StringHelper.wordCount.apply(mdHtml, options);
+
+            if (wordCountSeq == null) {
+                return 0;
+            } else {
+                String wordCount = wordCountSeq.toString();
+                return Integer.parseInt(wordCount);
+            }
         }
 
         private int calculateWordCountFromSection(String title, Options options) throws IOException {
