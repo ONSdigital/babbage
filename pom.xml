@@ -423,7 +423,27 @@
                             <artifactId>dom4j</artifactId>
                             <version>2.1.4</version>
                         </exclude>
-                        
+
+                        <exclude>
+                            <!-- This is to exclude vulnerability CVE-2023-6378 
+                            Upgrading dp-logging causes clashes with restolino for 
+                            backing logging service. To be addressed by ANDDigital
+                            maintenance package -->
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-core</artifactId>
+                            <version>1.2.11</version>
+                        </exclude>
+
+                        <exclude>
+                            <!-- This is to exclude vulnerability CVE-2023-6378 
+                            Upgrading dp-logging causes clashes with restolino for 
+                            backing logging service. To be addressed by ANDDigital
+                            maintenance package -->
+                            <groupId>ch.qos.logback</groupId>
+                            <artifactId>logback-classic</artifactId>
+                            <version>1.2.11</version>
+                        </exclude>
+
                     </excludeCoordinates>
                 </configuration>
             </plugin>
