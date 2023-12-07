@@ -8,6 +8,8 @@ ADD ./target/web /usr/src/target/web
 
 COPY src/main/resources/LabelsBundle.properties /usr/src/target/classes/LabelsBundle.properties
 COPY src/main/resources/url-shortcuts /usr/src/target/classes/url-shortcuts
+COPY src/main/resources/rss_feed.properties /usr/src/target/classes/rss_feed.properties
+COPY src/main/web/templates/handlebars /usr/src/target/classes/templates/handlebars
 
 # Update the entry point script
 ENTRYPOINT java $JAVA_OPTS \
