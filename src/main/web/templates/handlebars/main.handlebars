@@ -27,6 +27,21 @@
 
         {{> partials/json-ld/base }}
 
+		{{!-- "hack" to pin footer to bottom of error pages --}}
+		{{#if (eq type "error")}}
+			<style>
+				body {
+    				min-height: 100vh;
+   	 				display: flex;
+    				flex-direction: column;
+				}
+
+				footer {
+    				margin-top: auto;
+				}
+			</style>
+		{{/if}}
+
 	</head>
 	<body class="{{type}}">
     <script>document.body.className = ((document.body.className) ? document.body.className + ' js' : 'js');</script>
