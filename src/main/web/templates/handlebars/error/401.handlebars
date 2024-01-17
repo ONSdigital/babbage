@@ -1,28 +1,15 @@
-<div class="page-header slate">
-  <div class="wrapper">
-    <p class="page-header--error-desc"><strong>We're Sorry</strong></p>
-    <h1 class="page-header__title flush--half--bottom">401 - Unauthorised</h1>
-  </div>
-  <!-- /nav-panel -->
-</div>
-<div class="wrapper panel--mar margin-bottom--8">
+{{#partial "block-main"}}
+<div class="wrapper panel--mar margin-bottom--8 adjust-font-size--18 line-height--32">
   <div class="grid-wrap">
     <div class="grid-col desktop-grid-full-width">
-      <article>
         <div class="box box--padded box--red-dark box--red-dark--separated-left sectioned">
-          <header class="box__header">
-            <h2 class="gamma">Restricted</h2>
-          </header>
-          <!-- /box__header -->
-          <div class="grid-wrap">
-            <div class="grid-col desktop-full-width">
-              <p> The page you are requesting has restricted access, please <a href="/florence/index.html" title="Florence" target="_self">log in</a>.</p>
-          </div>
+          <h1 class="page-header__title margin-bottom--0" style="font-weight:700">Sorry, there is a problem</h1>
+            <p class="margin-bottom--8">To access this page, you need to <a href="/florence/index.html" title="Florence" target="_self">sign in</a>.</p>
         </div>
 		</div>
-      </article>
-    </div>
-    <!-- /article__content -->
   </div>
-  <!-- /grid-col -->
 </div>
+{{/partial}}
+
+{{!-- Inheriting from base template --}}
+{{> base/base}}
