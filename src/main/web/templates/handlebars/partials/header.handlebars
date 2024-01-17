@@ -1,4 +1,4 @@
-<header>
+<header {{#if (eq code 500) (eq code 501)}}class="border-bottom--iron-sm border-bottom--iron-md"{{/if}}>
 	{{!-- Skip to main content accessibility link --}}
     <a class="skiplink" href="#main" tabindex="0">
         Skip to main content
@@ -17,6 +17,7 @@
 						<img class="logo" src="https://cdn.ons.gov.uk/assets/images/ons-logo/v2/ons-logo.svg" alt="{{labels.ons-logo-alt}}">
 					</a>
 				</div>
+				{{#if (ne code 500) (ne code 501)}}
                 <div class="col col--lg-two-thirds col--md-two-thirds hide--sm print--hide language--js__container">
                     {{!-- Show bothe language's and toggle--}}
                     <div class="language">
@@ -48,11 +49,13 @@
 						</li>
 					</ul>
 				</div>
+				{{/if}}
 			</div>
 		</div>
 	{{!-- /wrapper --}}
 
 	{{!-- MAIN NAV --}}
+	{{#if (ne code 500) (ne code 501)}}
 	<div class="primary-nav print--hide">
 		<nav aria-label="Header links">
 			{{!-- MENU AND SEARCH TOGGLES ON MOBILE --}}
@@ -126,4 +129,5 @@
 		</div>
 	{{/block}}
 	{{> partials/census-banner}}
+	{{/if}}
 </header>
