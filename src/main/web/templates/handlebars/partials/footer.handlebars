@@ -4,7 +4,7 @@
 		<div class="wrapper">
 			<nav aria-label="Footer links">
                 <div class="footer-nav col-wrap">
-                    {{#if (ne code 500) (ne code 501)}}
+                    {{#if_all (ne code 500) (ne code 501)}}
                     <div class="col col--lg-one-third col--md-one-third">
                         <h3 class="footer-nav__heading">{{labels.help}}</h3>
                         <ul class="footer-nav__list">
@@ -42,7 +42,7 @@
                             </li>
                         </ul>
                     </div>
-                    {{/if}}
+                    {{/if_all}}
                     <div class="col col--lg-one-third col--md-one-third">
                         <h3 class="footer-nav__heading">{{labels.connect-with-us}}</h3>
                         <ul class="footer-nav__list">
