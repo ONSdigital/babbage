@@ -44,7 +44,7 @@ public class PDFGenerator {
                 html = TemplateService.getInstance().renderTemplate("pdf/pdf", dataStream, additionalData);
 
                 html = html.replace("\"\"/>", " \"/>"); // img tags from markdown have an extra " at the end of the tag for some reason
-                html = html.replace("alt= \"/>", "alt=\"\"/>");//above replacement adds an incorrect alt tag
+                html = html.replace("= \"/>", "=\"\"/>");//above replacement adds an incorrect alt tag
                 html = Jsoup.parse(html, URL, Parser.xmlParser()).toString();
                 html = html.replace("&nbsp;", "&#160;");
             }
