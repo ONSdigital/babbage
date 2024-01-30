@@ -19,17 +19,12 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Created by bren on 23/07/15.
@@ -187,7 +182,7 @@ public class ContentClient {
             } else if (timeToExpire <= 0 && Math.abs(timeToExpire) < postPublishCacheExpiryOffset) {
                 // For a configured timeout after publish, set cache headers to a lower value to prevent
                 // caching old content.
-                if (postPublishMicroCacheEnabled){
+                if (postPublishMicroCacheEnabled) {
                     response.setMaxAge(postPublishCacheMaxAge);
                 } else {
                     response.setMaxAge(maxAge);
@@ -251,8 +246,19 @@ public class ContentClient {
 
     private ContentResponse sendGet(String path, List<NameValuePair> getParameters) throws ContentReadException {
         CloseableHttpResponse response = null;
+        Optional<NameValuePair> uriPair = Optional.empty();
+        if (path.equals("/data")) {
+            uriPair = getParameters.parallelStream().filter(nameValuePair -> nameValuePair.getName().equals("uri")).findFirst();
+        }
         try {
+            if (uriPair.isPresent() && Objects.equals(getSecondLastSegment(uriPair.get().getValue()), "latest")) {
+                throw new InvalidURIException(HttpStatus.SC_BAD_REQUEST, "invalid uri");
+            }
             return new ContentResponse(client.sendGet(path, getHeaders(), getParameters));
+        } catch (InvalidURIException e) {
+            info().data("uri", path).log("ContentClient requested uri invalid");
+            throw wrapException(path, e);
+
         } catch (HttpResponseException e) {
             IOUtils.closeQuietly(response);
 
@@ -267,6 +273,22 @@ public class ContentClient {
             IOUtils.closeQuietly(response);
             throw wrapException(path, e);
         }
+    }
+
+    public static String getSecondLastSegment(String uri) {
+        if (isEmpty(uri)) {
+            return null;
+        }
+        String[] segments = getSegments(uri);
+        if (ArrayUtils.isEmpty(segments)) {
+            return null;
+        }
+
+        return segments[segments.length - 2];
+    }
+
+    public static String[] getSegments(String uri) {
+        return uri.split("/");
     }
 
     private ContentResponse sendPost(String path, List<NameValuePair> postParameters) throws ContentReadException {
@@ -308,7 +330,7 @@ public class ContentClient {
         if (parameters == null) {
             return null;
         }
-        uri = StringUtils.isEmpty(uri) ? "/" : uri;
+        uri = isEmpty(uri) ? "/" : uri;
         //uris are requested as get parameter from content service
         parameters.add(new BasicNameValuePair("uri", uri));
         return parameters;
@@ -342,6 +364,11 @@ public class ContentClient {
     private ContentReadException wrapException(String uri, IOException e) {
         error().exception(e).log("ContentClient request returned error");
         return new ContentReadException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Failed reading from content service", e);
+    }
+
+    private ContentReadException wrapException(String uri, InvalidURIException e) {
+        error().exception(e).log("ContentClient request returned error");
+        return new ContentReadException(e.getStatusCode(), e.getMessage(), e);
     }
 
     //Reads collection cookie saved in thread context
