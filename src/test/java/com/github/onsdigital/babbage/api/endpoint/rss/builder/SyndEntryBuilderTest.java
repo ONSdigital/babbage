@@ -3,7 +3,7 @@ package com.github.onsdigital.babbage.api.endpoint.rss.builder;
 import com.github.onsdigital.babbage.search.model.field.Field;
 import com.github.onsdigital.babbage.util.RequestUtil;
 import com.github.onsdigital.babbage.util.ThreadContext;
-import com.sun.syndication.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntry;
 import org.junit.Before;
 import org.junit.Test;
 

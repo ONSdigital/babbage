@@ -89,7 +89,7 @@ public class HandlebarsRenderer {
 
             List<String> helpersList = new ArrayList<>();
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder().addUrls(HandlebarsRenderer.class.getProtectionDomain().getCodeSource().getLocation());
-            configurationBuilder.addClassLoader(HandlebarsRenderer.class.getClassLoader());
+            configurationBuilder.addClassLoaders(HandlebarsRenderer.class.getClassLoader());
             Set<Class<? extends BabbageHandlebarsHelper>> classes = new Reflections(configurationBuilder).getSubTypesOf(BabbageHandlebarsHelper.class);
 
             for (Class<? extends BabbageHandlebarsHelper> helperClass : classes) {

@@ -49,8 +49,9 @@ job "babbage" {
           "-Drestolino.files=target/web",
           "-Drestolino.classes=target/classes",
           "-Drestolino.packageprefix=com.github.onsdigital.babbage.api",
-          "-javaagent:target/dependency/aws-opentelemetry-agent-1.31.0.jar",
+          "-javaagent:target/dependency/aws-opentelemetry-agent-1.32.0.jar",
           "-Dotel.propagators=tracecontext,baggage",
+          "-Dotel.javaagent.enabled=false",
           "-Dotel.exporter.otlp.protocol=grpc",
           "com.github.davidcarboni.restolino.Main",
         ]
@@ -129,8 +130,9 @@ job "babbage" {
           "-Drestolino.files=target/web",
           "-Drestolino.classes=target/classes",
           "-Drestolino.packageprefix=com.github.onsdigital.babbage.api",
-          "-javaagent:target/dependency/aws-opentelemetry-agent-1.31.0.jar",
+          "-javaagent:target/dependency/aws-opentelemetry-agent-1.32.0.jar",
           "-Dotel.propagators=tracecontext,baggage",
+          "-Dotel.javaagent.enabled=false",
           "-Dotel.exporter.otlp.protocol=grpc",
           "com.github.davidcarboni.restolino.Main",
         ]

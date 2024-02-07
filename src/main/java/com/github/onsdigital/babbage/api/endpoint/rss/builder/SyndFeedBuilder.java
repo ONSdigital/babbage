@@ -2,14 +2,9 @@ package com.github.onsdigital.babbage.api.endpoint.rss.builder;
 
 import com.github.onsdigital.babbage.api.endpoint.rss.RssSearchFilter;
 import com.github.onsdigital.babbage.api.endpoint.rss.service.PropertiesService;
-import com.sun.syndication.feed.synd.SyndCategory;
-import com.sun.syndication.feed.synd.SyndCategoryImpl;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.feed.synd.SyndFeedImpl;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedOutput;
-
+import com.rometools.rome.feed.synd.*;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedOutput;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;

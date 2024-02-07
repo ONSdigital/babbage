@@ -59,7 +59,7 @@ public class DataRequestHandler extends BaseRequestHandler {
     private synchronized static void registerListHandlers() {
         try {
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder().addUrls(BaseRequestHandler.class.getProtectionDomain().getCodeSource().getLocation());
-            configurationBuilder.addClassLoader(BaseRequestHandler.class.getClassLoader());
+            configurationBuilder.addClassLoaders(BaseRequestHandler.class.getClassLoader());
             Set<Class<? extends ListRequestHandler>> requestHandlerClasses = new Reflections(configurationBuilder).getSubTypesOf(ListRequestHandler.class);
 
             for (Class<? extends ListRequestHandler> handlerClass : requestHandlerClasses) {

@@ -112,7 +112,7 @@ public class SectionsHelperTest {
     public void testTotalWordCount_WithNoSections_ReturnsNull() throws Exception {
         List<Map<String, String>> sections = new ArrayList<>();
 
-        CharSequence result = SectionsHelper.totalWordCount.apply(sections, options);
+        CharSequence result = (CharSequence)SectionsHelper.totalWordCount.apply(sections, options);
         assertThat(result, equalTo(null));
     }
 

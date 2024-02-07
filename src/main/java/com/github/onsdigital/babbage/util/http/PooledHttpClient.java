@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.util.http;
 
-import org.apache.commons.io.Charsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -19,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +84,7 @@ public class PooledHttpClient extends BabbageHttpClient {
         HttpPost request = new HttpPost(uri);
         addHeaders(headers, request);
         if (postParameters != null) {
-            request.setEntity(new UrlEncodedFormEntity(postParameters, Charsets.UTF_8));
+            request.setEntity(new UrlEncodedFormEntity(postParameters, StandardCharsets.UTF_8));
         }
 
         CloseableHttpResponse response = executeRequest(request);

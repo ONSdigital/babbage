@@ -73,7 +73,7 @@ public class DataHelpersTest {
         mockDH.isPublication = false;
         mockDH.isNavigation = true;
 
-        CharSequence resolve = DataHelpers.resolveTaxonomy.apply(uri, options);
+        CharSequence resolve = (CharSequence) DataHelpers.resolveTaxonomy.apply(uri, options);
         assertTrue(resolve.toString().isEmpty());
     }
     @Test
@@ -89,7 +89,7 @@ public class DataHelpersTest {
         mockDH.isPublication = true;
         mockDH.isNavigation = true;
 
-        CharSequence resolve = DataHelpers.resolveTaxonomy.apply(uri, options);
+        CharSequence resolve = (CharSequence) DataHelpers.resolveTaxonomy.apply(uri, options);
         assertTrue(resolve.toString().isEmpty());
     }
 
