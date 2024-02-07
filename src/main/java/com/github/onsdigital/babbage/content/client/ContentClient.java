@@ -42,6 +42,7 @@ public class ContentClient {
     private static int postPublishCacheMaxAge = appConfig().babbage().getPostPublishCacheMaxAge();
     private static int postPublishCacheExpiryOffset = appConfig().babbage().getPostPublishCacheExpiryOffset();
     private static boolean postPublishMicroCacheEnabled = appConfig().babbage().isPostPublishMicroCacheEnabled();
+    private static final boolean legacyCacheAPIEnabled = appConfig().babbage().isLegacyCacheAPIEnabled();
 
     private static PooledHttpClient client;
     private static ContentClient instance;
@@ -145,9 +146,8 @@ public class ContentClient {
         return resolveMaxAge(uri, sendGet(getPath(GENERATOR_ENDPOINT), addUri(uri, getParameters(queryParameters))));
     }
 
-
     private ContentResponse resolveMaxAge(String uri, ContentResponse response) {
-        if (!cacheEnabled) {
+        if (!cacheEnabled || legacyCacheAPIEnabled) {
             return response;
         }
 
