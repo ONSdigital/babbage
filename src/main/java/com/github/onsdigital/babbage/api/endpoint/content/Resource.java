@@ -6,6 +6,7 @@ import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.response.BabbageContentBasedBinaryResponse;
+import com.github.onsdigital.babbage.response.util.CacheControlHelper;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +49,9 @@ public class Resource {
 
             String contentDispositionHeader = "inline; ";
             contentDispositionHeader += contentResponse.getName() == null ? "" : "filename=\"" + contentResponse.getName() + "\"";
+
+            CacheControlHelper.setCacheHeaders(request, response, contentResponse.getHash(), contentResponse.getMaxAge());
+
             response.setHeader("Content-Disposition", contentDispositionHeader);
 
             try (InputStream contentResponseBody = contentResponse.getDataStream()) {

@@ -5,6 +5,7 @@ import com.github.onsdigital.babbage.api.error.ErrorHandler;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.response.BabbageBinaryResponse;
+import com.github.onsdigital.babbage.response.util.CacheControlHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ public class Export {
             String contentDispositionHeader = "attachment; ";
             contentDispositionHeader += contentResponse.getName() == null ? "" : "filename=\"" + contentResponse.getName() + "\"";
             response.setCharacterEncoding("UTF-8");
+            CacheControlHelper.setCacheHeaders(request, response, contentResponse.getHash(), contentResponse.getMaxAge());
             response.setHeader("Content-Disposition", contentDispositionHeader);
             new BabbageBinaryResponse(contentResponse.getDataStream(), contentResponse.getMimeType(), appConfig().babbage().getSearchResponseCacheTime())
                     .apply(request, response);

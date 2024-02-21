@@ -5,6 +5,7 @@ import com.github.onsdigital.babbage.api.error.ErrorHandler;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.response.BabbageContentBasedBinaryResponse;
+import com.github.onsdigital.babbage.response.util.CacheControlHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ public class File {
             ContentResponse contentResponse = ContentClient.getInstance().getResource(request.getParameter("uri"));
             String contentDispositionHeader = "attachment; ";
             contentDispositionHeader += contentResponse.getName() == null ? "" : "filename=\"" + contentResponse.getName() + "\"";
+            CacheControlHelper.setCacheHeaders(request, response, contentResponse.getHash(), contentResponse.getMaxAge());
             response.setHeader("Content-Disposition", contentDispositionHeader);
             new BabbageContentBasedBinaryResponse(contentResponse, contentResponse.getDataStream(), contentResponse.getMimeType()).apply(request, response);
         } catch (Throwable t) {
