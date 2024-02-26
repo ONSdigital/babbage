@@ -16,6 +16,7 @@
         <fasterxml.jackson.version>2.16.1</fasterxml.jackson.version>
         <jetty.version>9.4.53.v20231009</jetty.version>
         <flying-saucer.version>9.4.1</flying-saucer.version>
+        <mockito.version>3.12.4</mockito.version>
     </properties>
 
     <dependencies>
@@ -164,8 +165,14 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
 
