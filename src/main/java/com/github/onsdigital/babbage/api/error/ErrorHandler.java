@@ -34,9 +34,6 @@ public class ErrorHandler implements ServerError {
     }
 
     public static void handle(HttpServletRequest req, HttpServletResponse response, Throwable t) throws IOException {
-        System.out.println("\n\n\n\n\n");
-        System.out.println(t);
-        System.out.println("\n\n\n\n\n");
 
         response.setContentType(MediaType.TEXT_HTML);
         if (ContentReadException.class.isAssignableFrom(t.getClass())) {
