@@ -9,7 +9,6 @@ import javax.ws.rs.core.Context;
 
 import com.github.davidcarboni.cryptolite.Password;
 import com.github.davidcarboni.restolino.framework.Api;
-import com.github.onsdigital.babbage.api.util.LegacyCacheProxyMaxAge;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
@@ -25,8 +24,15 @@ import static com.github.onsdigital.babbage.configuration.ApplicationConfigurati
 @Api
 public class MaxAge {
     private static final String MAXAGE_KEY_HASH = appConfig().babbage().getMaxAgeSecret();
+    private static final boolean IS_LEGACY_CACHE_API_ENABLED = appConfig().babbage().isLegacyCacheAPIEnabled();
+
     @GET
     public Object get(@Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
+        if (IS_LEGACY_CACHE_API_ENABLED){
+            response.setStatus(HttpServletResponse.SC_GONE);
+            return "MaxAge endpoint is no longer available within Babbage";
+        }
+
         try {
             String key = request.getParameter("key");
             if (verifyKey(key)) {
@@ -56,12 +62,6 @@ public class MaxAge {
 
     protected int getMaxAge(HttpServletRequest request) throws Exception {
         String uri = request.getParameter("uri");
-
-        if (appConfig().babbage().isLegacyCacheAPIEnabled()) {
-            String legacyCacheProxyURL = appConfig().babbage().getLegacyCacheProxyUrl();
-            LegacyCacheProxyMaxAge legacyCacheProxyMaxAge = new LegacyCacheProxyMaxAge(legacyCacheProxyURL);
-            return legacyCacheProxyMaxAge.getMaxAgeValueFromLegacyCacheProxy(uri);
-        }
 
         ContentResponse contentResponse = ContentClient.getInstance().getContent(uri);
         return contentResponse.getMaxAge();

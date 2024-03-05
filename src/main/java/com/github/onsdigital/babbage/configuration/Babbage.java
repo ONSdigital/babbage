@@ -20,7 +20,6 @@ public class Babbage implements AppConfig {
     private static final String METRICS_FORMAT_KEY = "METRICS_FORMAT";
     private static final String ENABLE_NAVIGATION_KEY = "ENABLE_NAVIGATION";
     private static final String ENABLE_LEGACY_CACHE_API = "ENABLE_LEGACY_CACHE_API";
-    private static final String LEGACY_CACHE_PROXY_URL = "LEGACY_CACHE_PROXY_URL";
     private static final String HIGHCHARTS_EXPORT_SERVER_KEY = "HIGHCHARTS_EXPORT_SERVER";
     private static final String IS_PUBLISHING_KEY = "IS_PUBLISHING";
     private static final String MATHJAX_EXPORT_SERVER_KEY = "MATHJAX_EXPORT_SERVER";
@@ -63,7 +62,6 @@ public class Babbage implements AppConfig {
      **/
     private final String apiRouterURL;
     private final String exportSeverUrl;
-    private final String legacyCacheProxyUrl;
     private final String mathjaxExportServer;
     private final String maxAgeSecret;
     private final String reindexSecret;
@@ -100,7 +98,6 @@ public class Babbage implements AppConfig {
         cacheEnabled = getStringAsBool(ENABLE_CACHE_KEY, "N");
         defaultCacheTime = defaultIfBlank(getNumberValue(DEFAULT_CACHE_TIME), 15 * 60);
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
-        legacyCacheProxyUrl = getValueOrDefault(LEGACY_CACHE_PROXY_URL, "http://localhost:29200");
         isLegacyCacheAPIEnabled = getStringAsBool(ENABLE_LEGACY_CACHE_API, "N");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
@@ -131,10 +128,6 @@ public class Babbage implements AppConfig {
 
     public String getExportSeverUrl() {
         return exportSeverUrl;
-    }
-
-    public String getLegacyCacheProxyUrl() {
-        return legacyCacheProxyUrl;
     }
 
     public boolean isLegacyCacheAPIEnabled() {

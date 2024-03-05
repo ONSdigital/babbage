@@ -99,30 +99,4 @@ public class MaxAgeTest {
         assertEquals(maxAge, endpoint.get(request, response));
     }
 
-    @Test
-    public void testGetEndpointWithCacheAPIEnabled() throws Exception {
-        Babbage mockBabbage = mock(Babbage.class);
-        when(mockBabbage.isLegacyCacheAPIEnabled()).thenReturn(true);
-        when(mockBabbage.getLegacyCacheProxyUrl()).thenReturn("mock-legacy-cache-proxy-url");
-
-        ApplicationConfiguration mockAppConfigInstance = mock(ApplicationConfiguration.class);
-        when(mockAppConfigInstance.babbage()).thenReturn(mockBabbage);
-
-        when(ApplicationConfiguration.appConfig()).thenReturn(mockAppConfigInstance);
-
-        CloseableHttpResponse mockResponse = mock(CloseableHttpResponse.class);
-        when(mockResponse.getFirstHeader("Cache-Control")).thenReturn(new BasicHeader("Cache-Control", "max-age=3600"));
-
-        CloseableHttpClient mockClient = mock(CloseableHttpClient.class);
-        when(mockClient.execute(any())).thenReturn(mockResponse);
-
-        mockHttpClients.when(HttpClients::createDefault).thenReturn(mockClient);
-
-        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
-        when(mockRequest.getParameter("uri")).thenReturn("/test/uri");
-
-        int maxAge = endpoint.getMaxAge(mockRequest);
-
-        assertEquals(3600, maxAge);
-    }
 }
