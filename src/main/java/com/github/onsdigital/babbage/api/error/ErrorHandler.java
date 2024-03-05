@@ -1,5 +1,6 @@
 package com.github.onsdigital.babbage.api.error;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.github.davidcarboni.restolino.api.RequestHandler;
 import com.github.davidcarboni.restolino.framework.ServerError;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
@@ -17,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 
 /**
  * Created by bren on 28/05/15.
@@ -32,6 +34,10 @@ public class ErrorHandler implements ServerError {
     }
 
     public static void handle(HttpServletRequest req, HttpServletResponse response, Throwable t) throws IOException {
+        System.out.println("\n\n\n\n\n");
+        System.out.println(t);
+        System.out.println("\n\n\n\n\n");
+
         response.setContentType(MediaType.TEXT_HTML);
         if (ContentReadException.class.isAssignableFrom(t.getClass())) {
             ContentReadException exception = (ContentReadException) t;
@@ -45,7 +51,11 @@ public class ErrorHandler implements ServerError {
         } else if (t instanceof LegacyPDFException) {
             error().exception(t).log("LegacyPDFException error");
             renderErrorPage(501, response);
-        } else {
+        }else if(t instanceof MismatchedInputException){
+            error().exception(t).log("user is logged out");
+            renderErrorPage(401, response);
+        } 
+        else {
             error().exception(t).log("unknown error");
             renderErrorPage(500, response);
         }
