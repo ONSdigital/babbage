@@ -6,6 +6,7 @@ import com.github.davidcarboni.restolino.framework.ServerError;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.error.LegacyPDFException;
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
+import com.github.onsdigital.babbage.error.UnauthorizedException;
 import com.github.onsdigital.babbage.template.TemplateService;
 import org.apache.commons.io.IOUtils;
 
@@ -47,7 +48,8 @@ public class ErrorHandler implements ServerError {
         } else if (t instanceof LegacyPDFException) {
             error().exception(t).log("LegacyPDFException error");
             renderErrorPage(501, response);
-        }else if(t instanceof MismatchedInputException){
+        }else if(t instanceof UnauthorizedException){
+            
             error().exception(t).log("user is logged out");
             renderErrorPage(401, response);
         } 

@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.content.client;
 
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
+import com.github.onsdigital.babbage.error.UnauthorizedException;
 import com.github.onsdigital.babbage.metrics.Metrics;
 import com.github.onsdigital.babbage.metrics.MetricsFactory;
 import com.github.onsdigital.babbage.publishing.PublishingManager;
@@ -384,8 +385,12 @@ public class ContentClient {
         Map<String, String> cookies = (Map<String, String>) ThreadContext.getData("cookies");
         if (cookies != null) {
             HashMap<String, String> headers = new HashMap<String, String>();
-            headers.put(TOKEN_HEADER, cookies.get("access_token"));
-            return headers;
+            if (cookies.get("access_token") == null) {
+                throw new UnauthorizedException("User needs to login");
+            }else{
+                headers.put(TOKEN_HEADER, cookies.get("access_token"));
+                return headers;
+            }
         }
         return null;
     }
