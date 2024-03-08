@@ -1,7 +1,5 @@
 package com.github.onsdigital.babbage.api.endpoint.content;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
@@ -24,11 +22,10 @@ import static com.github.onsdigital.babbage.configuration.ApplicationConfigurati
 @Api
 public class MaxAge {
     private static final String MAXAGE_KEY_HASH = appConfig().babbage().getMaxAgeSecret();
-    private static final boolean IS_LEGACY_CACHE_API_ENABLED = appConfig().babbage().isLegacyCacheAPIEnabled();
 
     @GET
-    public Object get(@Context HttpServletRequest request, @Context HttpServletResponse response) throws IOException {
-        if (IS_LEGACY_CACHE_API_ENABLED){
+    public Object get(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+        if (appConfig().babbage().isLegacyCacheAPIEnabled()){
             response.setStatus(HttpServletResponse.SC_GONE);
             return "MaxAge endpoint is no longer available within Babbage";
         }
@@ -45,12 +42,12 @@ public class MaxAge {
         } catch (BabbageException e) {
             response.setStatus(e.getStatusCode());
             return e.getMessage();
-        } catch (Throwable t) {
+        } catch (Exception t) {
             return handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t);
         }
     }
 
-    private String handleError(@Context HttpServletResponse response, int statusCode, Throwable e) throws IOException {
+    private String handleError(@Context HttpServletResponse response, int statusCode, Throwable e) {
         SimpleEvent.error().exception(e).log("api " + getApiName() + ": error calculating max age");
         response.setStatus(statusCode);
         return "Failed calculating max age";
