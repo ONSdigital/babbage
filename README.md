@@ -42,6 +42,7 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | ENABLE_CACHE                     | N                      | Switch to use (or not) the cache                                                                                  |
 | ENABLE_COVID19_FEATURE           |                        | Switch to use (or not) the covid feature                                                                          |
 | ENABLE_METRICS                   | N                      | Switch to collect (or not) metrics about cache expiry times                                                       |
+| ENABLE_LEGACY_CACHE_API          | N                      | Enable legacy cache API                                                                                           |
 | METRICS_FORMAT                   | Text                   | Available options are Text or Open documented here <https://prometheus.io/docs/instrumenting/exposition_formats/> |
 | HIGHCHARTS_EXPORT_SERVER         | http://localhost:9999/ | The URL to the highcharts export server                                                                           |
 | IS_PUBLISHING                    | N                      | Switch to use (or not) the publishing functionality                                                               |

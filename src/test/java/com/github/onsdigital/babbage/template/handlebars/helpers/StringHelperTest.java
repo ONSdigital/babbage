@@ -50,7 +50,7 @@ public class StringHelperTest {
     @Test
     public void testWordCount_WithEmptyString_ReturnsNull() throws Exception {
         when(options.isFalsy(any())).thenReturn(true);
-        CharSequence result = StringHelper.wordCount.apply("", options);
+        CharSequence result = (CharSequence) StringHelper.wordCount.apply("", options);
         assertThat(result, equalTo(null));
     }
 }

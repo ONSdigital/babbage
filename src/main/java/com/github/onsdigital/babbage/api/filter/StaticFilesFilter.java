@@ -91,8 +91,7 @@ public class StaticFilesFilter implements Filter {
         String path;
         String jsonPath = String.format("/%s/%s", visualisationRoot, uid);
         ContentResponse contentResponse = ContentClient.getInstance().getContent(jsonPath);
-        JsonParser parser = new JsonParser();
-        JsonObject obj = parser.parse(contentResponse.getAsString()).getAsJsonObject();
+        JsonObject obj = JsonParser.parseString(contentResponse.getAsString()).getAsJsonObject();
         JsonElement indexPage = obj.get("indexPage");
         path = indexPage == null ? "" : indexPage.getAsString();
         return path;
