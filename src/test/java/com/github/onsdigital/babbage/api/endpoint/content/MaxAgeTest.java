@@ -1,7 +1,6 @@
 package com.github.onsdigital.babbage.api.endpoint.content;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -12,11 +11,7 @@ import static org.mockito.Mockito.when;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.impl.client.CloseableHttpClient;
-
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicHeader;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +35,9 @@ public class MaxAgeTest {
     private MockedStatic<HttpClients> mockHttpClients;
 
     @Mock
+    private Babbage mockBabbage;
+
+    @Mock
     private HttpServletRequest request;
 
     @Mock
@@ -55,6 +53,11 @@ public class MaxAgeTest {
         mockAppConfig = mockStatic(ApplicationConfiguration.class);
         mockHttpClients = mockStatic(HttpClients.class);
 
+        ApplicationConfiguration mockAppConfigInstance = mock(ApplicationConfiguration.class);
+        when(ApplicationConfiguration.appConfig()).thenReturn(mockAppConfigInstance);
+        when(mockAppConfigInstance.babbage()).thenReturn(mockBabbage);
+        when(mockBabbage.isLegacyCacheAPIEnabled()).thenReturn(false);
+
         when(endpoint.verifyKey(KEY_HASH)).thenReturn(true);
     }
 
@@ -66,14 +69,14 @@ public class MaxAgeTest {
     }
 
     @Test
-    public void testGetNoKey() throws Exception {
+    public void testGetNoKey() {
         Object result = endpoint.get(request, response);
         assertEquals("Wrong key, make sure you pass in the right key", result);
         verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
     @Test
-    public void testGetWrongKey() throws Exception {
+    public void testGetWrongKey() {
         when(request.getParameter("key")).thenReturn("wrong");
         Object result = endpoint.get(request, response);
         assertEquals("Wrong key, make sure you pass in the right key", result);
@@ -83,7 +86,7 @@ public class MaxAgeTest {
     @Test
     public void testGetEndpointErrorReadingContent() throws Exception {
         when(request.getParameter("key")).thenReturn(KEY_HASH);
-        
+
         ContentReadException ex = new ContentReadException(HttpServletResponse.SC_NOT_FOUND, "Content not found");
         doThrow(ex).when(endpoint).getMaxAge(request);
 
@@ -100,29 +103,12 @@ public class MaxAgeTest {
     }
 
     @Test
-    public void testGetEndpointWithCacheAPIEnabled() throws Exception {
-        Babbage mockBabbage = mock(Babbage.class);
+    public void testGetEndpointWithCacheAPIEnabled() {
         when(mockBabbage.isLegacyCacheAPIEnabled()).thenReturn(true);
-        when(mockBabbage.getLegacyCacheProxyUrl()).thenReturn("mock-legacy-cache-proxy-url");
 
-        ApplicationConfiguration mockAppConfigInstance = mock(ApplicationConfiguration.class);
-        when(mockAppConfigInstance.babbage()).thenReturn(mockBabbage);
+        Object result = endpoint.get(request, response);
 
-        when(ApplicationConfiguration.appConfig()).thenReturn(mockAppConfigInstance);
-
-        CloseableHttpResponse mockResponse = mock(CloseableHttpResponse.class);
-        when(mockResponse.getFirstHeader("Cache-Control")).thenReturn(new BasicHeader("Cache-Control", "max-age=3600"));
-
-        CloseableHttpClient mockClient = mock(CloseableHttpClient.class);
-        when(mockClient.execute(any())).thenReturn(mockResponse);
-
-        mockHttpClients.when(HttpClients::createDefault).thenReturn(mockClient);
-
-        HttpServletRequest mockRequest = mock(HttpServletRequest.class);
-        when(mockRequest.getParameter("uri")).thenReturn("/test/uri");
-
-        int maxAge = endpoint.getMaxAge(mockRequest);
-
-        assertEquals(3600, maxAge);
+        assertEquals("MaxAge endpoint is no longer available within Babbage", result);
+        verify(response).setStatus(HttpServletResponse.SC_GONE);
     }
 }
