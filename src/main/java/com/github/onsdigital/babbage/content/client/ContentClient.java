@@ -255,6 +255,12 @@ public class ContentClient {
             if (uriPair.isPresent() && Objects.equals(getSecondLastSegment(uriPair.get().getValue()), "latest")) {
                 throw new InvalidURIException(HttpStatus.SC_BAD_REQUEST, "invalid uri");
             }
+            ContentResponse abc = new ContentResponse(client.sendGet(path, getHeaders(), getParameters));
+
+            System.out.println("\n\n lll");
+            System.out.println(abc.getName());
+            System.out.println("\n\n lll end");
+
             return new ContentResponse(client.sendGet(path, getHeaders(), getParameters));
         } catch (InvalidURIException e) {
             info().data("uri", path).log("ContentClient requested uri invalid");
@@ -387,7 +393,7 @@ public class ContentClient {
             HashMap<String, String> headers = new HashMap<String, String>();
             if (cookies.get("access_token") == null) {
                 throw new UnauthorizedException("User needs to login");
-            }else{
+            } else {
                 headers.put(TOKEN_HEADER, cookies.get("access_token"));
                 return headers;
             }

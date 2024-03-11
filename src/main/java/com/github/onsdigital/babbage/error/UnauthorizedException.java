@@ -18,5 +18,4 @@ public class UnauthorizedException extends BabbageException {
     public UnauthorizedException() {
         super(UNAUTHORIZED);
     }
-
 }

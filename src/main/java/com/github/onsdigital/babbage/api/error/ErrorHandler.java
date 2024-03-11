@@ -48,12 +48,10 @@ public class ErrorHandler implements ServerError {
         } else if (t instanceof LegacyPDFException) {
             error().exception(t).log("LegacyPDFException error");
             renderErrorPage(501, response);
-        }else if(t instanceof UnauthorizedException){
-            
+        } else if (t instanceof UnauthorizedException){
             error().exception(t).log("user is logged out");
             renderErrorPage(401, response);
-        } 
-        else {
+        } else {
             error().exception(t).log("unknown error");
             renderErrorPage(500, response);
         }
