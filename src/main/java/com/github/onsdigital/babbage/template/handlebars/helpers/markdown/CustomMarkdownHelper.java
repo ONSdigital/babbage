@@ -7,10 +7,16 @@ import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHan
 import com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.*;
 import com.github.onsdigital.babbage.util.RequestUtil;
 import com.github.onsdigital.babbage.util.ThreadContext;
-import org.pegdown.Extensions;
-import org.pegdown.PegDownProcessor;
+import com.vladsch.flexmark.ext.gfm.strikethrough.SubscriptExtension;
+import com.vladsch.flexmark.ext.tables.TablesExtension;
+import com.vladsch.flexmark.ext.superscript.SuperscriptExtension;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
 import static com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.MapTagReplacer.MapType.SVG;
@@ -40,19 +46,26 @@ public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandl
 
         String markdown = context.toString();
 
-        // Extensions are defined via a bitmask passed into the pegdown constructor.
-        // To enable further extensions just add the value to the extensions variable.
-        int extensions = Extensions.TABLES;
-        PegDownProcessor processor = new PegDownProcessor(extensions);
-        markdown = processor.markdownToHtml(markdown);
+        MutableDataSet flexOptions = new MutableDataSet();
 
-        markdown = SubscriptHelper.doSubscript(markdown);
-        markdown = SuperscriptHelper.doSuperscript(markdown);
+        // Set optional markdown extensions
+        // Available options… https://github.com/vsch/flexmark-java/wiki/Extensions
+        flexOptions.set(Parser.EXTENSIONS, Arrays.asList(
+                TablesExtension.create(),
+                SuperscriptExtension.create(),
+                SubscriptExtension.create()
+        ));
 
-        markdown = processCustomMarkdownTags(path, markdown);
+        Parser parser = Parser.builder(flexOptions).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(flexOptions).build();
 
-        //markdown = MathjaxRenderer.render(markdown);
-        return new Handlebars.SafeString(markdown) ;
+        // You can re-use parser and renderer instances
+        Node document = parser.parse(markdown);
+        String html = renderer.render(document);
+
+        html = processCustomMarkdownTags(path, html);
+
+        return new Handlebars.SafeString(html) ;
     }
 
     protected String processCustomMarkdownTags(String path, String markdown) throws IOException {
