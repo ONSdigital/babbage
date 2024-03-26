@@ -7,11 +7,16 @@ import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHan
 import com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.*;
 import com.github.onsdigital.babbage.util.RequestUtil;
 import com.github.onsdigital.babbage.util.ThreadContext;
-import org.pegdown.Extensions;
-import org.pegdown.PegDownProcessor;
+import org.commonmark.Extension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import static com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.MapTagReplacer.MapType.SVG;
 
@@ -40,19 +45,23 @@ public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandl
 
         String markdown = context.toString();
 
-        // Extensions are defined via a bitmask passed into the pegdown constructor.
-        // To enable further extensions just add the value to the extensions variable.
-        int extensions = Extensions.TABLES;
-        PegDownProcessor processor = new PegDownProcessor(extensions);
-        markdown = processor.markdownToHtml(markdown);
+        List<Extension> extensions = Arrays.asList(
+                TablesExtension.create()
+                // TODO superscript and subscript extensions
+        );
+        Parser parser = Parser.builder()
+                .extensions(extensions)
+                .build();
+        HtmlRenderer renderer = HtmlRenderer.builder()
+                .extensions(extensions)
+                .build();
 
-        markdown = SubscriptHelper.doSubscript(markdown);
-        markdown = SuperscriptHelper.doSuperscript(markdown);
+        Node document = parser.parse(markdown);
+        String html = renderer.render(document);
 
-        markdown = processCustomMarkdownTags(path, markdown);
+        html = processCustomMarkdownTags(path, html);
 
-        //markdown = MathjaxRenderer.render(markdown);
-        return new Handlebars.SafeString(markdown) ;
+        return new Handlebars.SafeString(html) ;
     }
 
     protected String processCustomMarkdownTags(String path, String markdown) throws IOException {
