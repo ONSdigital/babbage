@@ -17,6 +17,7 @@
         <jetty.version>9.4.53.v20231009</jetty.version>
         <flying-saucer.version>9.4.1</flying-saucer.version>
         <mockito.version>3.12.4</mockito.version>
+        <restolino.version>0.8.0</restolino.version>
     </properties>
 
     <dependencies>
@@ -44,7 +45,7 @@
         <dependency>
             <groupId>com.github.onsdigital</groupId>
             <artifactId>restolino</artifactId>
-            <version>0.7.1</version>
+            <version>${restolino.version}</version>
         </dependency>
 
 
@@ -93,6 +94,13 @@
             <groupId>com.github.jknack</groupId>
             <artifactId>handlebars-jackson2</artifactId>
             <version>${handlebars-java-version}</version>
+        </dependency>
+
+        <!--Handlebars Java markdown uses a newer version of pegdown with a peculiar bug, overwriting dependency explicitly-->
+        <dependency>
+            <groupId>org.pegdown</groupId>
+            <artifactId>pegdown</artifactId>
+            <version>1.4.2</version>
         </dependency>
 
         <!-- Cryptography -->
