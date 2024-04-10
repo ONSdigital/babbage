@@ -48,9 +48,9 @@ public class ErrorHandler implements ServerError {
         } else {
             Exception e = (Exception) t;
             if (e.getMessage().contains("Access Token required but none provided.") || e.getMessage().contains("JWT verification failed as token is expired.")){
-                error().exception(t).log("authorization error ");
+                error().exception(t).log("authorization error");
                 renderErrorPage(401, response);
-            }else {
+            } else {
                 error().exception(t).log("unknown error");
                 renderErrorPage(500, response);
             }
