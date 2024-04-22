@@ -390,6 +390,12 @@
                             <artifactId>guava</artifactId>
                             <version>23.0</version>
                         </exclude>
+                        <exclude>
+                            <!-- This is to exclude vulnerability CVE-2024-29857 - task has been created to address -->
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcprov-jdk15on</artifactId>
+                            <version>1.70</version>
+                        </exclude>
                     </excludeCoordinates>
                 </configuration>
             </plugin>
