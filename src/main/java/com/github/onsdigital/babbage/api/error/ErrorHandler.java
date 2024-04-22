@@ -46,8 +46,15 @@ public class ErrorHandler implements ServerError {
             error().exception(t).log("LegacyPDFException error");
             renderErrorPage(501, response);
         } else {
-            error().exception(t).log("unknown error");
-            renderErrorPage(500, response);
+            Exception e = (Exception) t;
+            // When user is not logged in and we request authenticated resources from Zebedee, the expected response is 401. Zebedee currently gives 200, with the following error message:
+            if (e.getMessage().contains("Access Token required but none provided.") || e.getMessage().contains("JWT verification failed as token is expired.")){
+                error().exception(t).log("authorization error");
+                renderErrorPage(401, response);
+            } else {
+                error().exception(t).log("unknown error");
+                renderErrorPage(500, response);
+            }
         }
     }
 
