@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.onsdigital</groupId>
     <artifactId>babbage</artifactId>
@@ -34,7 +36,7 @@
             <version>0.16.0</version>
         </dependency>
 
-         <!-- Logging -->
+        <!-- Logging -->
         <dependency>
             <groupId>com.github.onsdigital</groupId>
             <artifactId>dp-logging</artifactId>
@@ -96,7 +98,9 @@
             <version>${handlebars-java-version}</version>
         </dependency>
 
-        <!--Handlebars Java markdown uses a newer version of pegdown with a peculiar bug, overwriting dependency explicitly-->
+        <!--Handlebars
+        Java markdown uses a newer version of pegdown with a peculiar bug, overwriting dependency
+        explicitly-->
         <dependency>
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
@@ -359,21 +363,31 @@
                     <fail>true</fail>
                     <cvssScoreThreshold>7.0</cvssScoreThreshold>
                     <excludeCoordinates>
+                        <!-- Excluding bouncy castle because of the vulnerablity issue, needs to update the version and include later-->
+                        <exclude>
+                            <groupId>org.bouncycastle</groupId>
+                            <artifactId>bcprov-jdk15on</artifactId>
+                            <version>1.70</version>
+                        </exclude>
                         <exlude>
-                            <!-- Trello card for this exclude: https://trello.com/c/ahkwEM74/1720-babbage-elasticsearch-library-multiple-vulnerabilities-s2 -->
+                            <!-- Trello card for this exclude:
+                            https://trello.com/c/ahkwEM74/1720-babbage-elasticsearch-library-multiple-vulnerabilities-s2 -->
                             <groupId>org.elasticsearch</groupId>
                             <artifactId>elasticsearch</artifactId>
                             <version>2.4.6</version>
                         </exlude>
                         <exclude>
-                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
+                            <!-- This is a transitive dependency of
+                            org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>org.apache.lucene</groupId>
                             <artifactId>lucene-queryparser</artifactId>
                             <version>5.5.4</version>
                         </exclude>
                         <exlude>
-                            <!-- Trello card for this exclude: https://trello.com/c/MCpbYlIT/1721-babbage-netty-multiple-vulnerabilities-s1 -->
-                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
+                            <!-- Trello card for this exclude:
+                            https://trello.com/c/MCpbYlIT/1721-babbage-netty-multiple-vulnerabilities-s1 -->
+                            <!-- This is a transitive dependency of
+                            org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>io.netty</groupId>
                             <artifactId>netty</artifactId>
                             <version>3.10.6.Final</version>
@@ -397,7 +411,8 @@
     </build>
 
     <repositories>
-        <!-- Adding maven central repo explicitly to perent jitpack.io resolve artifacts that are already on Github. Otherwise handlebars-java fails -->
+        <!-- Adding maven central repo explicitly to perent jitpack.io resolve artifacts that are
+        already on Github. Otherwise handlebars-java fails -->
         <repository>
             <snapshots>
                 <enabled>false</enabled>
@@ -406,7 +421,9 @@
             <name>Central Repository</name>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
-        <!--Jitpack io allows us include projects and libraries available on github but not built and published to maven central-->
+        <!--Jitpack
+        io allows us include projects and libraries available on github but not built and published
+        to maven central-->
         <!-- It is used for including internal project modules. See more on https://jitpack.io/-->
         <repository>
             <id>jitpack.io</id>
