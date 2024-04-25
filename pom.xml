@@ -107,7 +107,7 @@
         <dependency>
             <groupId>com.github.onsdigital</groupId>
             <artifactId>dp-cryptolite-java</artifactId>
-            <version>1.5.1</version>
+            <version>1.6.0</version>
         </dependency>
 
         <!-- Commons -->
@@ -389,12 +389,6 @@
                             <groupId>com.google.guava</groupId>
                             <artifactId>guava</artifactId>
                             <version>23.0</version>
-                        </exclude>
-                        <exclude>
-                            <!-- This is to exclude vulnerability CVE-2024-29857 - task has been created to address -->
-                            <groupId>org.bouncycastle</groupId>
-                            <artifactId>bcprov-jdk15on</artifactId>
-                            <version>1.70</version>
                         </exclude>
                     </excludeCoordinates>
                 </configuration>
