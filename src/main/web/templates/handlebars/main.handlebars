@@ -12,8 +12,8 @@
         {{#if_any (eq type "bulletin") (eq type "article") (eq type "compendium_landing_page") (eq type "compendium_chapter")}}
             <link rel="canonical" href="{{uri}}" />
         {{/if_any}}
-        <link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/749a88b{{/if}}/css/main.css">
-		{{#if pdf_style}}<link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/749a88b{{/if}}/css/pdf.css">{{/if}}
+        <link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/3dbba29{{/if}}/css/main.css">
+		{{#if pdf_style}}<link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/3dbba29{{/if}}/css/pdf.css">{{/if}}
 
         {{> partials/gtm-data-layer }}
 
@@ -136,7 +136,7 @@
 			{{/if_eq}}
 		{{/if_eq}}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/749a88b{{/if}}/js/main.js"></script>
+        <script src="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/3dbba29{{/if}}/js/main.js"></script>
         <script src="/js/app.js"></script>
 
         {{!-- Add extra highcharts source files if page contains any charts --}}
