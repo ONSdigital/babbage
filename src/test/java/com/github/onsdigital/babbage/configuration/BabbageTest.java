@@ -36,6 +36,7 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.isCacheEnabled(), false);
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
+        assertEquals(testInstance.isOfficialStatisticsLogoEnabled(), false);
         assertEquals(testInstance.isPublishing(), false);
         assertEquals(testInstance.getPostPublishCacheMaxAge(), 10);
         assertEquals(testInstance.getPostPublishCacheExpiryOffset(), 180);
@@ -46,6 +47,7 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("defaultCacheTime"), testInstance.getDefaultContentCacheTime());
         assertEquals(mockConfig.get("exportSeverUrl"), testInstance.getExportSeverUrl());
         assertEquals(mockConfig.get("isDevEnv"), testInstance.isDevEnv());
+        assertEquals(mockConfig.get("isOfficialStatisticsLogoEnabled"), testInstance.isOfficialStatisticsLogoEnabled());
         assertEquals(mockConfig.get("isPublishing"), testInstance.isPublishing());
         assertEquals(mockConfig.get("mathjaxExportServer"), testInstance.getMathjaxExportServer());
         assertEquals(mockConfig.get("maxHighchartsServerConnections"), testInstance.getMaxHighchartsServerConnections());
