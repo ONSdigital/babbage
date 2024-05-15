@@ -1,8 +1,7 @@
 {{!-- Contact --}}
 <p class="col {{class}} meta__item">
-    {{#if description.nationalStatistic}} <a
-            href="https://www.statisticsauthority.gov.uk/national-statistician/types-of-official-statistics/"><img
-            class="meta__image" src="/img/national-statistics.png"
-            alt="This is an accredited National Statistic. Click for information about types of official statistics."/></a>{{/if}}
+    {{#if description.nationalStatistic}}
+        {{> partials/logos/uksa-kitemark}}
+    {{/if}}
 	<span>{{labels.contact}}: </span><br/><a href="mailto:{{description.contact.email}}">{{#if description.contact.name}}{{description.contact.name}}{{else}}{{description.contact.email}}{{/if}}</a>
 </p>
