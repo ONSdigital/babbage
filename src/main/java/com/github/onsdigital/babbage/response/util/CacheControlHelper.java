@@ -56,7 +56,7 @@ public class CacheControlHelper {
                 .data("new_hash", newHash)
                 .log("resolving cache headers");
 
-        response.setHeader("Etag", newHash);
+        response.setHeader("Etag", "\"" + newHash + "\"");
         if (StringUtils.equals(oldHash, newHash)) {
             response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
         }

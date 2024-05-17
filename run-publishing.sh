@@ -5,7 +5,7 @@
 ./build-web.sh
 
 ### 2 - BUILD API
-./build-api.sh 
+./build-api.sh
 
 ### 3 - START BABBAGE
 export JAVA_OPTS="-Xdebug -Xmx256m -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
