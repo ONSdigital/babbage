@@ -19,7 +19,7 @@ job "babbage" {
     count = "{{WEB_TASK_COUNT}}"
 
     spread {
-      attribute = "${node.class}"
+      attribute = "${node.unique.id}"
       weight    = 100
       # with `target` omitted, Nomad will spread allocations evenly across all values of the attribute.
     }
