@@ -3,10 +3,6 @@ job "babbage" {
   region      = "eu"
   type        = "service"
 
-  constraint {
-    distinct_hosts = true
-  }
-
   update {
     min_healthy_time = "30s"
     healthy_deadline = "5m"
@@ -17,6 +13,12 @@ job "babbage" {
 
   group "web" {
     count = "{{WEB_TASK_COUNT}}"
+
+    spread {
+      attribute = "${node.unique.id}"
+      weight    = 100
+      # with `target` omitted, Nomad will spread allocations evenly across all values of the attribute.
+    }
 
     constraint {
       attribute = "${node.class}"
@@ -98,6 +100,10 @@ job "babbage" {
 
   group "publishing" {
     count = "{{PUBLISHING_TASK_COUNT}}"
+
+    constraint {
+      distinct_hosts = true
+    }
 
     constraint {
       attribute = "${node.class}"
