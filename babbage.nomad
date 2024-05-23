@@ -3,10 +3,6 @@ job "babbage" {
   region      = "eu"
   type        = "service"
 
-#  constraint {
-#    distinct_hosts = true
-#  }
-
   update {
     min_healthy_time = "30s"
     healthy_deadline = "5m"
