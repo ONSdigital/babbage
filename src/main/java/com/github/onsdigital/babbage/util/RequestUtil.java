@@ -28,6 +28,7 @@ public class RequestUtil {
     public static final String LANG_KEY = "lang";
     public static final String IS_DEV_KEY = "is_dev";
     public static final String IS_PUBLISHING = "is_publishing";
+    public static final String OFFICIAL_STATISTICS_LOGO_ENABLED = "official_statistics_logo_enabled";
 
     /**
      * Saves Authentication token and collection id to thread context if available when a request is made to babbage,
@@ -46,6 +47,7 @@ public class RequestUtil {
         ThreadContext.addData(LOCATION_KEY, getLocation(request));
         ThreadContext.addData(IS_DEV_KEY, appConfig().babbage().isDevEnvironment());
         ThreadContext.addData(IS_PUBLISHING, appConfig().babbage().isPublishing());
+        ThreadContext.addData(OFFICIAL_STATISTICS_LOGO_ENABLED, appConfig().babbage().isOfficialStatisticsLogoEnabled());
     }
 
     public static void clearContext() {
