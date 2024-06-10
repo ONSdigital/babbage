@@ -42,8 +42,6 @@ public class ContentClient {
     private static int postPublishCacheMaxAge = appConfig().babbage().getPostPublishCacheMaxAge();
     private static int postPublishCacheExpiryOffset = appConfig().babbage().getPostPublishCacheExpiryOffset();
     private static boolean postPublishMicroCacheEnabled = appConfig().babbage().isPostPublishMicroCacheEnabled();
-    private static final boolean legacyCacheAPIEnabled = appConfig().babbage().isLegacyCacheAPIEnabled();
-
     private static PooledHttpClient client;
     private static ContentClient instance;
 
@@ -119,7 +117,7 @@ public class ContentClient {
      *                              all other IO Exceptions are rethrown with HTTP status 500
      */
     public ContentResponse getContent(String uri, Map<String, String[]> queryParameters) throws ContentReadException {
-        return resolveMaxAge(uri, sendGet(getPath(DATA_ENDPOINT), addUri(uri, getParameters(queryParameters))));
+        return sendGet(getPath(DATA_ENDPOINT), addUri(uri, getParameters(queryParameters)));
     }
 
 
@@ -131,11 +129,11 @@ public class ContentClient {
 
 
     public ContentResponse getResource(String uri) throws ContentReadException {
-        return resolveMaxAge(uri, sendGet(getPath(RESOURCE_ENDPOINT), addUri(uri, new ArrayList<>())));
+        return sendGet(getPath(RESOURCE_ENDPOINT), addUri(uri, new ArrayList<>()));
     }
 
     public ContentResponse getFileSize(String uri) throws ContentReadException {
-        return resolveMaxAge(uri, sendGet(getPath(FILE_SIZE_ENDPOINT), addUri(uri, new ArrayList<>())));
+        return sendGet(getPath(FILE_SIZE_ENDPOINT), addUri(uri, new ArrayList<>()));
     }
 
     public ContentResponse getParents(String uri) throws ContentReadException {
@@ -143,64 +141,7 @@ public class ContentClient {
     }
 
     public ContentResponse getGenerator(String uri, Map<String, String[]> queryParameters) throws ContentReadException {
-        return resolveMaxAge(uri, sendGet(getPath(GENERATOR_ENDPOINT), addUri(uri, getParameters(queryParameters))));
-    }
-
-    private ContentResponse resolveMaxAge(String uri, ContentResponse response) {
-        if (!cacheEnabled || legacyCacheAPIEnabled) {
-            return response;
-        }
-
-        try {
-            PublishInfo nextPublish = publishingManager.getNextPublishInfo(uri);
-            Date nextPublishDate = nextPublish == null ? null : nextPublish.getPublishDate();
-            Integer timeToExpire = null;
-            if (nextPublishDate != null) {
-                Long time = (nextPublishDate.getTime() - new Date().getTime()) / 1000;
-                timeToExpire = time.intValue();
-            }
-
-            if (timeToExpire == null) {
-                response.setMaxAge(maxAge);
-                //increment count of requests where publish date is not present
-                metrics.incPublishDateNotPresent();
-            } else if (timeToExpire > 0) {
-                // requested uri cache expiry is set as either:-
-                // 1. the time remaining until the publishing time or
-                // 2. the maximum cache expiry time permitted
-                if (timeToExpire < maxAge) {
-                    //increment count of requests where the cache expiry is set as
-                    //the time remaining until the publishing time
-                    metrics.incPublishDateInRange();
-                    response.setMaxAge(timeToExpire);
-                } else {
-                    //increment count of requests where the cache expiry is set as
-                    //the maximum cache expiry time permitted
-                    metrics.incPublishDateTooFarInFuture();
-                    response.setMaxAge(maxAge);
-                }
-            } else if (timeToExpire <= 0 && Math.abs(timeToExpire) < postPublishCacheExpiryOffset) {
-                // For a configured timeout after publish, set cache headers to a lower value to prevent
-                // caching old content.
-                if (postPublishMicroCacheEnabled) {
-                    response.setMaxAge(postPublishCacheMaxAge);
-                } else {
-                    response.setMaxAge(maxAge);
-                }
-            } else if (timeToExpire <= 0 && Math.abs(timeToExpire) >= postPublishCacheExpiryOffset) {
-                //if publish is due but there is still a publish date record after an hour drop it
-                info().data("uri", uri).log("dropping publish date record due to publish wait timeout for uri");
-                publishingManager.dropPublishDate(nextPublish);
-                //increment count of requests where publish date is more than an hour ago
-                metrics.incPublishDateTooFarInPast();
-                return resolveMaxAge(uri, response);//resolve for next publish date if any
-            }
-        } catch (Exception e) {
-            error().exception(e)
-                    .data("uri", uri)
-                    .log("managing publish date failed for uri, skipping setting cache times");
-        }
-        return response;
+        return sendGet(getPath(GENERATOR_ENDPOINT), addUri(uri, getParameters(queryParameters)));
     }
 
     /**

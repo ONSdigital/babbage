@@ -26,8 +26,6 @@ public class BabbageRedirectResponse extends BabbageResponse {
 
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        setCacheHeaders(request, response);
-
         String forwardedHost = request.getHeader(HttpHeader.X_FORWARDED_HOST.asString());
         String forwardedProto = request.getHeader(HttpHeader.X_FORWARDED_PROTO.asString());
 

@@ -19,7 +19,6 @@ public class Babbage implements AppConfig {
     private static final String ENABLE_METRICS_KEY = "ENABLE_METRICS";
     private static final String METRICS_FORMAT_KEY = "METRICS_FORMAT";
     private static final String ENABLE_NAVIGATION_KEY = "ENABLE_NAVIGATION";
-    private static final String ENABLE_LEGACY_CACHE_API = "ENABLE_LEGACY_CACHE_API";
     private static final String HIGHCHARTS_EXPORT_SERVER_KEY = "HIGHCHARTS_EXPORT_SERVER";
     private static final String IS_PUBLISHING_KEY = "IS_PUBLISHING";
     private static final String MATHJAX_EXPORT_SERVER_KEY = "MATHJAX_EXPORT_SERVER";
@@ -71,7 +70,6 @@ public class Babbage implements AppConfig {
     private final boolean cacheEnabled;
     private final boolean isDevEnv;
     private final boolean isNavigationEnabled;
-    private final boolean isLegacyCacheAPIEnabled;
     private final boolean isOfficialStatisticsLogoEnabled;
     private final boolean isPublishing;
     private final int maxCacheEntries;
@@ -100,7 +98,6 @@ public class Babbage implements AppConfig {
         cacheEnabled = getStringAsBool(ENABLE_CACHE_KEY, "N");
         defaultCacheTime = defaultIfBlank(getNumberValue(DEFAULT_CACHE_TIME), 15 * 60);
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
-        isLegacyCacheAPIEnabled = getStringAsBool(ENABLE_LEGACY_CACHE_API, "N");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
         isOfficialStatisticsLogoEnabled = getStringAsBool(OFFICIAL_STATISTICS_LOGO_KEY, "N");
@@ -131,10 +128,6 @@ public class Babbage implements AppConfig {
 
     public String getExportSeverUrl() {
         return exportSeverUrl;
-    }
-
-    public boolean isLegacyCacheAPIEnabled() {
-        return isLegacyCacheAPIEnabled;
     }
 
     public String getMathjaxExportServer() {
@@ -245,7 +238,6 @@ public class Babbage implements AppConfig {
         config.put("defaultCacheTime", defaultCacheTime);
         config.put("exportSeverUrl", exportSeverUrl);
         config.put("isDevEnv", isDevEnv);
-        config.put("isLegacyCacheAPIEnabled", isLegacyCacheAPIEnabled);
         config.put("isNavigationEnable", isNavigationEnabled);
         config.put("isOfficialStatisticsLogoEnabled", isOfficialStatisticsLogoEnabled);
         config.put("isPublishing", isPublishing);

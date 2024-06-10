@@ -25,26 +25,8 @@ public class MaxAge {
 
     @GET
     public Object get(@Context HttpServletRequest request, @Context HttpServletResponse response) {
-        if (appConfig().babbage().isLegacyCacheAPIEnabled()){
-            response.setStatus(HttpServletResponse.SC_GONE);
-            return "MaxAge endpoint is no longer available within Babbage";
-        }
-
-        try {
-            String key = request.getParameter("key");
-            if (verifyKey(key)) {
-                return getMaxAge(request);
-            } else {
-                throw new BadRequestException("Wrong key, make sure you pass in the right key");
-            }
-        } catch (ContentReadException e) {
-            return handleError(response, e.getStatusCode(), e);
-        } catch (BabbageException e) {
-            response.setStatus(e.getStatusCode());
-            return e.getMessage();
-        } catch (Exception t) {
-            return handleError(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t);
-        }
+        response.setStatus(HttpServletResponse.SC_GONE);
+        return "MaxAge endpoint is no longer available within Babbage";
     }
 
     private String handleError(@Context HttpServletResponse response, int statusCode, Throwable e) {

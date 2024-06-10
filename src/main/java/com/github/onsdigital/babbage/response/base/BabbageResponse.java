@@ -1,7 +1,5 @@
 package com.github.onsdigital.babbage.response.base;
 
-import com.github.onsdigital.babbage.response.util.CacheControlHelper;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,15 +58,7 @@ public abstract class BabbageResponse {
                 response.setHeader(next.getKey(), next.getValue());
             }
         }
-        setCacheHeaders(request, response);
     }
-
-    protected void setCacheHeaders(HttpServletRequest request, HttpServletResponse response) {
-        if (maxAge != null) {
-            CacheControlHelper.setCacheHeaders(response, maxAge);
-        }
-    }
-
 
     public String getMimeType() {
         return mimeType;

@@ -56,8 +56,6 @@ public class MaxAgeTest {
         ApplicationConfiguration mockAppConfigInstance = mock(ApplicationConfiguration.class);
         when(ApplicationConfiguration.appConfig()).thenReturn(mockAppConfigInstance);
         when(mockAppConfigInstance.babbage()).thenReturn(mockBabbage);
-        when(mockBabbage.isLegacyCacheAPIEnabled()).thenReturn(false);
-
         when(endpoint.verifyKey(KEY_HASH)).thenReturn(true);
     }
 
@@ -69,43 +67,7 @@ public class MaxAgeTest {
     }
 
     @Test
-    public void testGetNoKey() {
-        Object result = endpoint.get(request, response);
-        assertEquals("Wrong key, make sure you pass in the right key", result);
-        verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
-    }
-
-    @Test
-    public void testGetWrongKey() {
-        when(request.getParameter("key")).thenReturn("wrong");
-        Object result = endpoint.get(request, response);
-        assertEquals("Wrong key, make sure you pass in the right key", result);
-        verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
-    }
-
-    @Test
-    public void testGetEndpointErrorReadingContent() throws Exception {
-        when(request.getParameter("key")).thenReturn(KEY_HASH);
-
-        ContentReadException ex = new ContentReadException(HttpServletResponse.SC_NOT_FOUND, "Content not found");
-        doThrow(ex).when(endpoint).getMaxAge(request);
-
-        assertEquals("Failed calculating max age", endpoint.get(request, response));
-        verify(response).setStatus(ex.getStatusCode());
-    }
-
-    @Test
-    public void testGetEndpoint() throws Exception {
-        int maxAge = 55;
-        when(request.getParameter("key")).thenReturn(KEY_HASH);
-        doReturn(maxAge).when(endpoint).getMaxAge(request);
-        assertEquals(maxAge, endpoint.get(request, response));
-    }
-
-    @Test
-    public void testGetEndpointWithCacheAPIEnabled() {
-        when(mockBabbage.isLegacyCacheAPIEnabled()).thenReturn(true);
-
+    public void testGetEndpoint() {
         Object result = endpoint.get(request, response);
 
         assertEquals("MaxAge endpoint is no longer available within Babbage", result);
