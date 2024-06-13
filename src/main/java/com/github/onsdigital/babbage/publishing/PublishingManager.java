@@ -202,7 +202,7 @@ public class PublishingManager {
 
     public static void init() throws IOException {
         info().log("initialising search service");
-        if (appConfig().babbage().isCacheEnabled()) {
+        if (!appConfig().babbage().isPublishing()) {
             initPublishDatesIndex();
         }
         info().log("initialising search service completed successfully");

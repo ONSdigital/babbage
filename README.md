@@ -39,7 +39,6 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | CONTENT_SERVICE_URL              | http://localhost:8082  | The URL to the content service (zebedee)                                                                          |
 | ELASTIC_SEARCH_SERVER            | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                            |
 | ELASTIC_SEARCH_CLUSTER           |                        | The elastic search cluster                                                                                        |
-| ENABLE_CACHE                     | N                      | Switch to use (or not) the cache                                                                                  |
 | ENABLE_COVID19_FEATURE           |                        | Switch to use (or not) the covid feature                                                                          |
 | ENABLE_METRICS                   | N                      | Switch to collect (or not) metrics about cache expiry times                                                       |
 | ENABLE_OFFICIAL_STATISTICS_LOGO  | N                      | Switch to use official statistics logo                                                                            |
@@ -56,42 +55,6 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | OTEL_EXPORTER_OTLP_ENDPOINT      | http://localhost:4317  | URL for OpenTelemetry endpoint                                                                                    |
 | OTEL_SERVICE_NAME                |                        | Service name to report to telemetry tools                                                                         |
 
-### Metrics
-
-To see the metrics, you need to set the ENABLE_METRICS and ENABLE_CACHE environment variables (default is N) when babbage starts up. Then call the following command while babbage is running:
-
-```bash
-curl -s http://localhost:8080/metrics
-```
-
-The metrics should look something like this:
-
-```shell
-# HELP publish_date_too_far_in_past_total Total requests for uris that have a past publishing date too long ago (outside a given time span)
-# TYPE publish_date_too_far_in_past_total counter
-publish_date_too_far_in_past_total 0.0
-# HELP publish_date_too_far_in_future_total Total requests for uris that have a future publishing date later than that calculated by the default expiry time
-# TYPE publish_date_too_far_in_future_total counter
-publish_date_too_far_in_future_total 0.0
-# HELP publish_date_not_present_total Total requests for uris that have no publishing date found
-# TYPE publish_date_not_present_total counter
-publish_date_not_present_total 0.0
-# HELP publish_date_in_range_total Total requests for uris that have a publishing date within the range required for setting the cache expiry time
-# TYPE publish_date_in_range_total counter
-publish_date_in_range_total 0.0
-# HELP publish_date_in_range_created Total requests for uris that have a publishing date within the range required for setting the cache expiry time
-# TYPE publish_date_in_range_created gauge
-publish_date_in_range_created 1.686667997375E9
-# HELP publish_date_not_present_created Total requests for uris that have no publishing date found
-# TYPE publish_date_not_present_created gauge
-publish_date_not_present_created 1.686667997376E9
-# HELP publish_date_too_far_in_future_created Total requests for uris that have a future publishing date later than that calculated by the default expiry time
-# TYPE publish_date_too_far_in_future_created gauge
-publish_date_too_far_in_future_created 1.686667997376E9
-# HELP publish_date_too_far_in_past_created Total requests for uris that have a past publishing date too long ago (outside a given time span)
-# TYPE publish_date_too_far_in_past_created gauge
-publish_date_too_far_in_past_created 1.686667997376E9
-```
 
 ### Debugging
 

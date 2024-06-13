@@ -33,7 +33,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.getSearchResponseCacheTime(), 5);
         assertNotNull(testInstance.getReindexServiceKey());
         assertNotNull(testInstance.getMaxAgeSecret());
-        assertEquals(testInstance.isCacheEnabled(), false);
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
         assertEquals(testInstance.isOfficialStatisticsLogoEnabled(), false);
@@ -43,7 +42,6 @@ public class BabbageTest extends junit.framework.TestCase {
 
         Map<String, Object> mockConfig;
         mockConfig = Babbage.getInstance().getConfig();
-        assertEquals(mockConfig.get("cacheEnabled"), testInstance.isCacheEnabled());
         assertEquals(mockConfig.get("defaultCacheTime"), testInstance.getDefaultContentCacheTime());
         assertEquals(mockConfig.get("exportSeverUrl"), testInstance.getExportSeverUrl());
         assertEquals(mockConfig.get("isDevEnv"), testInstance.isDevEnv());

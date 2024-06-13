@@ -21,7 +21,6 @@ public class BabbageRedirectResponse extends BabbageResponse {
 
     public BabbageRedirectResponse(String redirectAddress, Long maxAge) {
         this(redirectAddress);
-        setMaxAge(maxAge);
     }
 
     @Override

@@ -36,12 +36,10 @@ public abstract class BabbageResponse {
 
     public BabbageResponse(String mimeType, Long maxAge) {
         this(mimeType);
-        setMaxAge(maxAge);
     }
 
     public BabbageResponse(String mimeType, int status, Long maxAge) {
         this(mimeType, status);
-        setMaxAge(maxAge);
     }
 
     public BabbageResponse() {
@@ -99,16 +97,6 @@ public abstract class BabbageResponse {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public Long getMaxAge() {
-        return maxAge;
-    }
-
-    public void setMaxAge(Long maxAge) {
-        if (appConfig().babbage().isCacheEnabled()) {
-            this.maxAge = maxAge;
-        }
     }
 
     public List<String> getErrors() {

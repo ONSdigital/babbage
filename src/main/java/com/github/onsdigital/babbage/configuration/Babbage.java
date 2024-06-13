@@ -15,7 +15,6 @@ public class Babbage implements AppConfig {
     // env var keys
     private static final String API_ROUTER_URL = "API_ROUTER_URL";
     private static final String DEV_ENVIRONMENT_KEY = "DEV_ENVIRONMENT";
-    private static final String ENABLE_CACHE_KEY = "ENABLE_CACHE";
     private static final String ENABLE_METRICS_KEY = "ENABLE_METRICS";
     private static final String METRICS_FORMAT_KEY = "METRICS_FORMAT";
     private static final String ENABLE_NAVIGATION_KEY = "ENABLE_NAVIGATION";
@@ -67,7 +66,6 @@ public class Babbage implements AppConfig {
     private final String reindexSecret;
     private final String redirectSecret;
     private final String serviceAuthToken;
-    private final boolean cacheEnabled;
     private final boolean isDevEnv;
     private final boolean isNavigationEnabled;
     private final boolean isOfficialStatisticsLogoEnabled;
@@ -95,7 +93,6 @@ public class Babbage implements AppConfig {
 
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
-        cacheEnabled = getStringAsBool(ENABLE_CACHE_KEY, "N");
         defaultCacheTime = defaultIfBlank(getNumberValue(DEFAULT_CACHE_TIME), 15 * 60);
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
@@ -145,10 +142,6 @@ public class Babbage implements AppConfig {
     }
     public String getReindexServiceKey() {
         return reindexSecret;
-    }
-
-    public boolean isCacheEnabled() {
-        return cacheEnabled;
     }
 
     public boolean isDevEnv() {
@@ -234,7 +227,6 @@ public class Babbage implements AppConfig {
     @Override
     public Map<String, Object> getConfig() {
         Map<String, Object> config = new HashMap<>();
-        config.put("cacheEnabled", cacheEnabled);
         config.put("defaultCacheTime", defaultCacheTime);
         config.put("exportSeverUrl", exportSeverUrl);
         config.put("isDevEnv", isDevEnv);

@@ -37,7 +37,6 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class ContentClient {
 
     private static final String TOKEN_HEADER = "X-Florence-Token";
-    private static boolean cacheEnabled = appConfig().babbage().isCacheEnabled();
     private static int maxAge = appConfig().babbage().getDefaultContentCacheTime();
     private static int postPublishCacheMaxAge = appConfig().babbage().getPostPublishCacheMaxAge();
     private static int postPublishCacheExpiryOffset = appConfig().babbage().getPostPublishCacheExpiryOffset();
