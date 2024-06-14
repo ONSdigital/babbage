@@ -35,7 +35,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertNotNull(testInstance.getMaxAgeSecret());
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
-        assertEquals(testInstance.isOfficialStatisticsLogoEnabled(), false);
         assertEquals(testInstance.isPublishing(), false);
 
         Map<String, Object> mockConfig;
@@ -43,7 +42,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("defaultCacheTime"), testInstance.getDefaultContentCacheTime());
         assertEquals(mockConfig.get("exportSeverUrl"), testInstance.getExportSeverUrl());
         assertEquals(mockConfig.get("isDevEnv"), testInstance.isDevEnv());
-        assertEquals(mockConfig.get("isOfficialStatisticsLogoEnabled"), testInstance.isOfficialStatisticsLogoEnabled());
         assertEquals(mockConfig.get("isPublishing"), testInstance.isPublishing());
         assertEquals(mockConfig.get("mathjaxExportServer"), testInstance.getMathjaxExportServer());
         assertEquals(mockConfig.get("maxHighchartsServerConnections"), testInstance.getMaxHighchartsServerConnections());

@@ -22,7 +22,6 @@ public class Babbage implements AppConfig {
     private static final String MAXAGE_SERVICE_KEY = "MAXAGE_SERVER";
     private static final String MAX_CACHE_ENTRIES = "CACHE_ENTRIES";
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
-    private static final String OFFICIAL_STATISTICS_LOGO_KEY = "ENABLE_OFFICIAL_STATISTICS_LOGO";
     private static final String POST_PUBLISH_MICRO_CACHE_ENABLED_KEY = "POST_PUBLISH_MICRO_CACHE_ENABLED";
     private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
     private static final String REINDEX_SERVICE_KEY = "REINDEX_SERVER";
@@ -64,7 +63,6 @@ public class Babbage implements AppConfig {
     private final String serviceAuthToken;
     private final boolean isDevEnv;
     private final boolean isNavigationEnabled;
-    private final boolean isOfficialStatisticsLogoEnabled;
     private final boolean isPublishing;
     private final int maxCacheEntries;
     private final int maxCacheObjectSize;
@@ -85,7 +83,6 @@ public class Babbage implements AppConfig {
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
-        isOfficialStatisticsLogoEnabled = getStringAsBool(OFFICIAL_STATISTICS_LOGO_KEY, "N");
         isPublishing = getStringAsBool(IS_PUBLISHING_KEY, "N");
         mathjaxExportServer = getValue(MATHJAX_EXPORT_SERVER_KEY);
         maxAgeSecret = getValueOrDefault(MAXAGE_SERVICE_KEY, "mPHbKjCol7ObQ87qKVQgHz6kR3nsYJ3WJHgP7+JYyi5rSJbmbDAcQU8EQilFQ6QQ");
@@ -138,10 +135,6 @@ public class Babbage implements AppConfig {
 
     public boolean isNavigationEnabled() {
         return isNavigationEnabled;
-    }
-
-    public boolean isOfficialStatisticsLogoEnabled() {
-        return isOfficialStatisticsLogoEnabled;
     }
 
     public boolean isPublishing() {
@@ -199,7 +192,6 @@ public class Babbage implements AppConfig {
         config.put("exportSeverUrl", exportSeverUrl);
         config.put("isDevEnv", isDevEnv);
         config.put("isNavigationEnable", isNavigationEnabled);
-        config.put("isOfficialStatisticsLogoEnabled", isOfficialStatisticsLogoEnabled);
         config.put("isPublishing", isPublishing);
         config.put("mathjaxExportServer", mathjaxExportServer);
         config.put("maxAgeSecret", maxAgeSecret);
