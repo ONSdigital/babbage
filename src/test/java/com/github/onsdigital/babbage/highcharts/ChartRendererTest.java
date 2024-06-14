@@ -3,8 +3,6 @@ package com.github.onsdigital.babbage.highcharts;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
-import com.github.onsdigital.babbage.metrics.MetricsFactory;
-import com.github.onsdigital.babbage.metrics.NopMetricsImpl;
 import com.github.onsdigital.babbage.template.TemplateService;
 import com.github.onsdigital.babbage.util.TestsUtil;
 import org.apache.commons.lang3.CharEncoding;
@@ -68,12 +66,10 @@ public class ChartRendererTest {
         MockitoAnnotations.initMocks(this);
         renderer = ChartRenderer.getInstance();
         chartConfigMap = new HashMap<>();
-        MetricsFactory metricsFactory = new MetricsFactory();
 
         TestsUtil.setPrivateField(renderer, "contentClient", contentClientMock);
         TestsUtil.setPrivateField(renderer, "templateService", templateServiceMock);
         TestsUtil.setPrivateField(renderer, "highChartsExportClient", highChartsExportClientMock);
-        TestsUtil.setPrivateStaticField(metricsFactory, "metrics", new NopMetricsImpl());
     }
 
     @Test

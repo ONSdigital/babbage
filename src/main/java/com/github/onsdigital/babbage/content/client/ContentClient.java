@@ -1,8 +1,6 @@
 package com.github.onsdigital.babbage.content.client;
 
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
-import com.github.onsdigital.babbage.metrics.Metrics;
-import com.github.onsdigital.babbage.metrics.MetricsFactory;
 import com.github.onsdigital.babbage.publishing.PublishingManager;
 import com.github.onsdigital.babbage.publishing.model.PublishInfo;
 import com.github.onsdigital.babbage.util.RequestUtil;
@@ -52,7 +50,6 @@ public class ContentClient {
     private static final String RESOLVE_DATASETS_ENDPOINT = "/resolveDatasets";
     private static final String URI_PARAM = "uri";
 
-    private Metrics metrics = MetricsFactory.getMetrics();
     private PublishingManager publishingManager = PublishingManager.getInstance();
 
     //singleton

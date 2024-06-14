@@ -40,9 +40,7 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | ELASTIC_SEARCH_SERVER            | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                            |
 | ELASTIC_SEARCH_CLUSTER           |                        | The elastic search cluster                                                                                        |
 | ENABLE_COVID19_FEATURE           |                        | Switch to use (or not) the covid feature                                                                          |
-| ENABLE_METRICS                   | N                      | Switch to collect (or not) metrics about cache expiry times                                                       |
 | ENABLE_OFFICIAL_STATISTICS_LOGO  | N                      | Switch to use official statistics logo                                                                            |
-| METRICS_FORMAT                   | Text                   | Available options are Text or Open documented here <https://prometheus.io/docs/instrumenting/exposition_formats/> |
 | HIGHCHARTS_EXPORT_SERVER         | http://localhost:9999/ | The URL to the highcharts export server                                                                           |
 | IS_PUBLISHING                    | N                      | Switch to use (or not) the publishing functionality                                                               |
 | MAP_RENDERER_HOST                | http://localhost:23500 | The URL to the map renderer                                                                                       |

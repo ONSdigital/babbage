@@ -1,6 +1,5 @@
 package com.github.onsdigital.babbage.content.client;
 
-import com.github.onsdigital.babbage.metrics.Metrics;
 import com.github.onsdigital.babbage.publishing.PublishingManager;
 import com.github.onsdigital.babbage.publishing.model.PublishInfo;
 import com.github.onsdigital.babbage.util.TestsUtil;
@@ -43,9 +42,6 @@ public class ContentClientTest {
     private CloseableHttpResponse closeableHttpResponseMock;
 
     @Mock
-    private Metrics metricsMock;
-
-    @Mock
     private HttpEntity httpEntityMock;
 
     private String uriStr = "economy/environmentalaccounts/articles/environmentaltaxes/2015-06-01";
@@ -59,7 +55,6 @@ public class ContentClientTest {
         contentClient = ContentClient.getInstance();
 
         TestsUtil.setPrivateField(contentClient, "publishingManager", publishingManagerMock);
-        TestsUtil.setPrivateField(contentClient, "metrics", metricsMock);
         TestsUtil.setPrivateStaticField(contentClient, "client", clientMock);
         TestsUtil.setPrivateStaticField(contentClient, "cacheEnabled", true);
         TestsUtil.setPrivateStaticField(contentClient, "maxAge", maxAgeSeconds);
