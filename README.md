@@ -50,8 +50,6 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | TABLE_RENDERER_HOST              | http://localhost:23300 | The URL to the table renderer                                                                                     |
 | POOLED_CONNECTION_TIMEOUT        | 5000                   | The number of milliseconds to wait before closing expired connections                                             |
 | IDLE_CONNECTION_TIMEOUT          | 60                     | The number of seconds to wait before closing idle connections                                                     |
-| POST_PUBLISH_CACHE_MAX_AGE       | 10                     | The cache max age for the post publish window                                                                     |
-| POST_PUBLISH_CACHE_EXPIRY_OFFSET | 180                    | The length of the post publish window                                                                             |
 | OTEL_EXPORTER_OTLP_ENDPOINT      | http://localhost:4317  | URL for OpenTelemetry endpoint                                                                                    |
 | OTEL_SERVICE_NAME                |                        | Service name to report to telemetry tools                                                                         |
 

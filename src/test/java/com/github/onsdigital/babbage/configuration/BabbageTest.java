@@ -37,8 +37,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.isDevEnvironment(), false);
         assertEquals(testInstance.isOfficialStatisticsLogoEnabled(), false);
         assertEquals(testInstance.isPublishing(), false);
-        assertEquals(testInstance.getPostPublishCacheMaxAge(), 10);
-        assertEquals(testInstance.getPostPublishCacheExpiryOffset(), 180);
 
         Map<String, Object> mockConfig;
         mockConfig = Babbage.getInstance().getConfig();
@@ -56,8 +54,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("searchResponseCacheTime"), testInstance.getSearchResponseCacheTime());
         assertNotNull(mockConfig.get("maxAgeSecret"));
         assertNotNull(mockConfig.get("reindexSecret"));
-        assertEquals(mockConfig.get("postPublishCacheMaxAge"), testInstance.getPostPublishCacheMaxAge());
-        assertEquals(mockConfig.get("postPublishCacheExpiryOffset"), testInstance.getPostPublishCacheExpiryOffset());
         assertEquals(testInstance.isPostPublishMicroCacheEnabled(),false);
     }
     @Test
