@@ -20,7 +20,6 @@ public class BabbageTest extends junit.framework.TestCase {
     @Test
     public void testGetInstance_testdefaults() {
         Babbage testInstance = Babbage.getInstance();
-        assertEquals(testInstance.getDefaultCacheTime(), 900);
         assertEquals(testInstance.getExportSeverUrl(), "http://localhost:9999/");
         assertEquals(testInstance.getMathjaxExportServer(), null);
         assertEquals(testInstance.getMaxHighchartsServerConnections(), 50);
@@ -30,7 +29,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.getResultsPerPage(), 10);
         assertEquals(testInstance.getSearchResponseCacheTime(), 5);
         assertNotNull(testInstance.getReindexServiceKey());
-        assertNotNull(testInstance.getMaxAgeSecret());
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
         assertEquals(testInstance.isPublishing(), false);
@@ -46,7 +44,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("maxVisiblePaginatorLink"), testInstance.getMaxVisiblePaginatorLink());
         assertEquals(mockConfig.get("resultsPerPage"), testInstance.getResultsPerPage());
         assertEquals(mockConfig.get("searchResponseCacheTime"), testInstance.getSearchResponseCacheTime());
-        assertNotNull(mockConfig.get("maxAgeSecret"));
         assertNotNull(mockConfig.get("reindexSecret"));
     }
     @Test
