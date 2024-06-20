@@ -35,7 +35,6 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 public class ContentClient {
 
     private static final String TOKEN_HEADER = "X-Florence-Token";
-    private static int maxAge = appConfig().babbage().getDefaultContentCacheTime();
     private static PooledHttpClient client;
     private static ContentClient instance;
 
