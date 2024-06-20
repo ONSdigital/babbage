@@ -60,7 +60,6 @@ public class ContentClientTest {
         TestsUtil.setPrivateStaticField(contentClient, "maxAge", maxAgeSeconds);
         TestsUtil.setPrivateStaticField(contentClient, "postPublishCacheMaxAge", postPublishMaxAgeSeconds);
         TestsUtil.setPrivateStaticField(contentClient, "postPublishCacheExpiryOffset", postPublishExpiryOffsetSeconds);
-        TestsUtil.setPrivateStaticField(contentClient, "postPublishMicroCacheEnabled", true);
     }
 
     //** Provides a PublishingManager response based on secondsUntilPublish */
