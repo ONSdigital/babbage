@@ -131,10 +131,6 @@ public class Babbage implements AppConfig {
         return defaultCacheTime;
     }
 
-    public int getDefaultContentCacheTime() {
-        return defaultCacheTime;
-    }
-
     public int getMaxCacheEntries() {
         return maxCacheEntries;
     }

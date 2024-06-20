@@ -21,7 +21,6 @@ public class BabbageTest extends junit.framework.TestCase {
     public void testGetInstance_testdefaults() {
         Babbage testInstance = Babbage.getInstance();
         assertEquals(testInstance.getDefaultCacheTime(), 900);
-        assertEquals(testInstance.getDefaultContentCacheTime(), 900);
         assertEquals(testInstance.getExportSeverUrl(), "http://localhost:9999/");
         assertEquals(testInstance.getMathjaxExportServer(), null);
         assertEquals(testInstance.getMaxHighchartsServerConnections(), 50);
@@ -38,7 +37,6 @@ public class BabbageTest extends junit.framework.TestCase {
 
         Map<String, Object> mockConfig;
         mockConfig = Babbage.getInstance().getConfig();
-        assertEquals(mockConfig.get("defaultCacheTime"), testInstance.getDefaultContentCacheTime());
         assertEquals(mockConfig.get("exportSeverUrl"), testInstance.getExportSeverUrl());
         assertEquals(mockConfig.get("isDevEnv"), testInstance.isDevEnv());
         assertEquals(mockConfig.get("isPublishing"), testInstance.isPublishing());
