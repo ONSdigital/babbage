@@ -36,7 +36,6 @@ public class ContentClient {
 
     private static final String TOKEN_HEADER = "X-Florence-Token";
     private static int maxAge = appConfig().babbage().getDefaultContentCacheTime();
-    private static boolean postPublishMicroCacheEnabled = appConfig().babbage().isPostPublishMicroCacheEnabled();
     private static PooledHttpClient client;
     private static ContentClient instance;
 

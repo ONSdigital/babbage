@@ -22,13 +22,10 @@ public class Babbage implements AppConfig {
     private static final String MAXAGE_SERVICE_KEY = "MAXAGE_SERVER";
     private static final String MAX_CACHE_ENTRIES = "CACHE_ENTRIES";
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
-    private static final String POST_PUBLISH_MICRO_CACHE_ENABLED_KEY = "POST_PUBLISH_MICRO_CACHE_ENABLED";
     private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
     private static final String REINDEX_SERVICE_KEY = "REINDEX_SERVER";
     private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
     private static final String DEFAULT_CACHE_TIME = "DEFAULT_CACHE_TIME";
-    private static final String PUBLISH_CACHE_TIMEOUT = "PUBLISH_CACHE_TIMEOUT";
-
     private static Babbage INSTANCE;
 
     static Babbage getInstance() {
@@ -49,11 +46,7 @@ public class Babbage implements AppConfig {
     /**
      * If content that should be published is more than an hour due delete publish date to get it caching again
      **/
-    private final int publishCacheTimeout;
 
-    /**
-     * search results max age header in seconds
-     **/
     private final String apiRouterURL;
     private final String exportSeverUrl;
     private final String mathjaxExportServer;
@@ -72,11 +65,6 @@ public class Babbage implements AppConfig {
     private final int resultsPerPage;
     private final long searchResponseCacheTime;
 
-    /**
-     * Post publish, how long should we use the postPublishCacheMaxAge before going back to the default cache time
-     */
-    private final boolean postPublishMicroCacheEnabled;
-
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
         defaultCacheTime = defaultIfBlank(getNumberValue(DEFAULT_CACHE_TIME), 15 * 60);
@@ -92,8 +80,6 @@ public class Babbage implements AppConfig {
         maxHighchartsServerConnections = defaultIfBlank(getNumberValue("HIGHCHARTS_EXPORT_MAX_CONNECTION"), 50);
         maxResultsPerPage = 250;
         maxVisiblePaginatorLink = 5;
-        postPublishMicroCacheEnabled = getStringAsBool(POST_PUBLISH_MICRO_CACHE_ENABLED_KEY, "N");
-        publishCacheTimeout = defaultIfBlank(getNumberValue(PUBLISH_CACHE_TIMEOUT), 60 * 60);
         redirectSecret = getValueOrDefault(REDIRECT_SECRET_KEY, "secret");
         resultsPerPage = 10;
         searchResponseCacheTime = 5;
@@ -169,14 +155,6 @@ public class Babbage implements AppConfig {
         return maxVisiblePaginatorLink;
     }
 
-    public int getPublishCacheTimeout() {
-        return publishCacheTimeout;
-    }
-
-    public boolean isPostPublishMicroCacheEnabled() {
-        return postPublishMicroCacheEnabled;
-    }
-
     public int getResultsPerPage() {
         return resultsPerPage;
     }
@@ -200,7 +178,6 @@ public class Babbage implements AppConfig {
         config.put("maxHighchartsServerConnections", maxHighchartsServerConnections);
         config.put("maxResultsPerPage", maxResultsPerPage);
         config.put("maxVisiblePaginatorLink", maxVisiblePaginatorLink);
-        config.put("publishCacheTimeout", publishCacheTimeout);
         config.put("reindexSecret", reindexSecret);
         config.put("resultsPerPage", resultsPerPage);
         config.put("searchResponseCacheTime", searchResponseCacheTime);

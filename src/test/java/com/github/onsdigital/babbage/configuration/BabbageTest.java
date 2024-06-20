@@ -27,7 +27,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.getMaxHighchartsServerConnections(), 50);
         assertEquals(testInstance.getMaxResultsPerPage(), 250);
         assertEquals(testInstance.getMaxVisiblePaginatorLink(), 5);
-        assertEquals(testInstance.getPublishCacheTimeout(), 3600);
         assertEquals(testInstance.getRedirectSecret(), "secret");
         assertEquals(testInstance.getResultsPerPage(), 10);
         assertEquals(testInstance.getSearchResponseCacheTime(), 5);
@@ -47,12 +46,10 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("maxHighchartsServerConnections"), testInstance.getMaxHighchartsServerConnections());
         assertEquals(mockConfig.get("maxResultsPerPage"), testInstance.getMaxResultsPerPage());
         assertEquals(mockConfig.get("maxVisiblePaginatorLink"), testInstance.getMaxVisiblePaginatorLink());
-        assertEquals(mockConfig.get("publishCacheTimeout"), testInstance.getPublishCacheTimeout());
         assertEquals(mockConfig.get("resultsPerPage"), testInstance.getResultsPerPage());
         assertEquals(mockConfig.get("searchResponseCacheTime"), testInstance.getSearchResponseCacheTime());
         assertNotNull(mockConfig.get("maxAgeSecret"));
         assertNotNull(mockConfig.get("reindexSecret"));
-        assertEquals(testInstance.isPostPublishMicroCacheEnabled(),false);
     }
     @Test
     public void testGetApiRouterURL() {

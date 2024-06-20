@@ -21,8 +21,9 @@ public class BabbageStringResponse extends BabbageResponse {
         this.data = data;
     }
 
-    public BabbageStringResponse(String data, String mimeType, Long maxAge) {
+    public BabbageStringResponse(String data, String mimeType, String charEncoding) {
         this(data, mimeType);
+        setCharEncoding(charEncoding);
     }
 
     @Override
