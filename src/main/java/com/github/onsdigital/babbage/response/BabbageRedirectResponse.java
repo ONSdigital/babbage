@@ -19,10 +19,6 @@ public class BabbageRedirectResponse extends BabbageResponse {
         this.redirectUri = redirectAddress;
     }
 
-    public BabbageRedirectResponse(String redirectAddress, Long maxAge) {
-        this(redirectAddress);
-    }
-
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String forwardedHost = request.getHeader(HttpHeader.X_FORWARDED_HOST.asString());

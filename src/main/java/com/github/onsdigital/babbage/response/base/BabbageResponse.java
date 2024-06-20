@@ -20,7 +20,6 @@ public abstract class BabbageResponse {
     private String mimeType = APPLICATION_JSON; //Default mimetype
     private String charEncoding = StandardCharsets.UTF_8.name();//Default encoding
     private int status = HttpServletResponse.SC_OK;//Default status
-    private Long maxAge;
     private Map<String, String> headers;
     protected List<String> errors;
 
@@ -32,14 +31,6 @@ public abstract class BabbageResponse {
     public BabbageResponse(String mimeType, int status) {
         this(mimeType);
         this.status = status;
-    }
-
-    public BabbageResponse(String mimeType, Long maxAge) {
-        this(mimeType);
-    }
-
-    public BabbageResponse(String mimeType, int status, Long maxAge) {
-        this(mimeType, status);
     }
 
     public BabbageResponse() {
