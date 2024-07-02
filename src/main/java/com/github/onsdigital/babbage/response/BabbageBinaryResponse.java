@@ -17,11 +17,6 @@ public class BabbageBinaryResponse extends BabbageResponse {
         this.data = IOUtils.toByteArray(data);
     }
 
-    public BabbageBinaryResponse(InputStream data, String mimeType, Long maxAge) throws IOException {
-        super(mimeType,maxAge);
-        this.data = IOUtils.toByteArray(data);
-    }
-
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
         super.apply(request, response);

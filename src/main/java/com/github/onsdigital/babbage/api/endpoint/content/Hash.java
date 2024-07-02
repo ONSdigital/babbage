@@ -5,7 +5,6 @@ import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.error.BabbageException;
-import com.github.onsdigital.babbage.response.util.CacheControlHelper;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +30,6 @@ public class Hash {
 
             String uri = request.getParameter("uri");
             ContentResponse contentResponse = ContentClient.getInstance().getResource(uri);
-            CacheControlHelper.setCacheHeaders(request, response, contentResponse.getHash(), contentResponse.getMaxAge());
             IOUtils.write(contentResponse.getHash(), response.getOutputStream());
         } catch (ContentReadException e) {
             handleError(response, e.getStatusCode(), e);

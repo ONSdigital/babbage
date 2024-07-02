@@ -19,11 +19,6 @@ public class BabbageResourceMovedResponse extends BabbageResponse {
         this.redirectUri = redirectAddress;
     }
 
-    public BabbageResourceMovedResponse(String redirectAddress, Long maxAge) {
-        this(redirectAddress);
-        setMaxAge(maxAge);
-    }
-
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
         setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);

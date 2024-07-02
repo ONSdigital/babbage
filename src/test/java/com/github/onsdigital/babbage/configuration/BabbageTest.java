@@ -20,30 +20,21 @@ public class BabbageTest extends junit.framework.TestCase {
     @Test
     public void testGetInstance_testdefaults() {
         Babbage testInstance = Babbage.getInstance();
-        assertEquals(testInstance.getDefaultCacheTime(), 900);
-        assertEquals(testInstance.getDefaultContentCacheTime(), 900);
         assertEquals(testInstance.getExportSeverUrl(), "http://localhost:9999/");
         assertEquals(testInstance.getMathjaxExportServer(), null);
         assertEquals(testInstance.getMaxHighchartsServerConnections(), 50);
         assertEquals(testInstance.getMaxResultsPerPage(), 250);
         assertEquals(testInstance.getMaxVisiblePaginatorLink(), 5);
-        assertEquals(testInstance.getPublishCacheTimeout(), 3600);
         assertEquals(testInstance.getRedirectSecret(), "secret");
         assertEquals(testInstance.getResultsPerPage(), 10);
         assertEquals(testInstance.getSearchResponseCacheTime(), 5);
         assertNotNull(testInstance.getReindexServiceKey());
-        assertNotNull(testInstance.getMaxAgeSecret());
-        assertEquals(testInstance.isCacheEnabled(), false);
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
         assertEquals(testInstance.isPublishing(), false);
-        assertEquals(testInstance.getPostPublishCacheMaxAge(), 10);
-        assertEquals(testInstance.getPostPublishCacheExpiryOffset(), 180);
 
         Map<String, Object> mockConfig;
         mockConfig = Babbage.getInstance().getConfig();
-        assertEquals(mockConfig.get("cacheEnabled"), testInstance.isCacheEnabled());
-        assertEquals(mockConfig.get("defaultCacheTime"), testInstance.getDefaultContentCacheTime());
         assertEquals(mockConfig.get("exportSeverUrl"), testInstance.getExportSeverUrl());
         assertEquals(mockConfig.get("isDevEnv"), testInstance.isDevEnv());
         assertEquals(mockConfig.get("isPublishing"), testInstance.isPublishing());
@@ -51,14 +42,9 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("maxHighchartsServerConnections"), testInstance.getMaxHighchartsServerConnections());
         assertEquals(mockConfig.get("maxResultsPerPage"), testInstance.getMaxResultsPerPage());
         assertEquals(mockConfig.get("maxVisiblePaginatorLink"), testInstance.getMaxVisiblePaginatorLink());
-        assertEquals(mockConfig.get("publishCacheTimeout"), testInstance.getPublishCacheTimeout());
         assertEquals(mockConfig.get("resultsPerPage"), testInstance.getResultsPerPage());
         assertEquals(mockConfig.get("searchResponseCacheTime"), testInstance.getSearchResponseCacheTime());
-        assertNotNull(mockConfig.get("maxAgeSecret"));
         assertNotNull(mockConfig.get("reindexSecret"));
-        assertEquals(mockConfig.get("postPublishCacheMaxAge"), testInstance.getPostPublishCacheMaxAge());
-        assertEquals(mockConfig.get("postPublishCacheExpiryOffset"), testInstance.getPostPublishCacheExpiryOffset());
-        assertEquals(testInstance.isPostPublishMicroCacheEnabled(),false);
     }
     @Test
     public void testGetApiRouterURL() {
