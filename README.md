@@ -50,29 +50,32 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | OTEL_EXPORTER_OTLP_ENDPOINT      | http://localhost:4317  | URL for OpenTelemetry endpoint                                                                                    |
 | OTEL_SERVICE_NAME                |                        | Service name to report to telemetry tools                                                                         |
 
-
 ### Debugging
 
 When Babbage is run using one of its scripts (either run.sh or run-publishing.sh) it incorporates a Java Debug Wire Protocol (JDWP).
 
 To create the configuration in Intellij, for calling the JDWP debugger, do as follows:
 
-- Choose Run --> Edit Configurations...
-- Click the + to create a new configuration
-- For the type of configuration select either 'Remote' or 'Remote JVM' (whichever option it gives you)
-- Give the new configuration a name e.g. Babbage Remote
-- For 'Debugger mode' choose 'Attach to remote JVM'
-- For 'Host' enter: localhost
-- For 'Port' enter the port number given in the relevant script (e.g. for run-publishing.sh it's 8000)
-- Intellij should automatically complete the command line arguments (note that these are similar to the jdwp arguments in the relevant script):
+* Choose Run --> Edit Configurations...
+* Click the + to create a new configuration
+* For the type of configuration select either 'Remote' or 'Remote JVM' (whichever option it gives you)
+* Give the new configuration a name e.g. Babbage Remote
+* For 'Debugger mode' choose 'Attach to remote JVM'
+* For 'Host' enter: localhost
+* For 'Port' enter the port number given in the relevant script (e.g. for run-publishing.sh it's 8000)
+* Intellij should automatically complete the command line arguments (note that these are similar to the jdwp arguments in the relevant script):
 
   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
 
 Then, to run and debug Babbage just do the following:
 
-- At the command line, run the relevant script E.g.,
+* At the command line, run the relevant script E.g.,
 cd babbage
 ./run-publishing.sh
+
+* Then in Intellij:
+* Open babbage and add any breakpoints required
+* Choose Run --> Debug 'Babbage Remote'
 
 ### Testing
 
@@ -85,3 +88,9 @@ There is also a [guide for regression testing](REGRESSION.md). This is not compl
 ### Contributing
 
 See [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+### License
+
+Copyright © 2024, [Office for National Statistics](https://www.ons.gov.uk)
+
+Released under MIT license, see [LICENSE](LICENSE.md) for details.
