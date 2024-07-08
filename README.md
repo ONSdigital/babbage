@@ -74,9 +74,13 @@ Then, to run and debug Babbage just do the following:
 cd babbage
 ./run-publishing.sh
 
-- Then in Intellij:
-- Open babbage and add any breakpoints required
-- Choose Run --> Debug 'Babbage Remote'
+### Testing
+
+To run unit tests:
+
+`make test`
+
+There is also a [guide for regression testing](REGRESSION.md). This is not complete and should not be seen as definitive.
 
 ### Contributing
 
