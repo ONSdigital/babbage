@@ -22,7 +22,7 @@ public class BabbageContentBasedStringResponse extends BabbageStringResponse {
     }
 
     @Override
-    protected void setCacheHeaders(HttpServletRequest request, HttpServletResponse response) {
+    protected void setContentHash(HttpServletRequest request, HttpServletResponse response) {
         CacheControlHelper.resolveHash(request, response, CacheControlHelper.hashData(getData()));
     }
 }

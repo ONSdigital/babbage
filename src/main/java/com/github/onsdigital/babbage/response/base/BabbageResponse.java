@@ -48,11 +48,11 @@ public abstract class BabbageResponse {
                 response.setHeader(next.getKey(), next.getValue());
             }
         }
-        setCacheHeaders(request, response);
+        setContentHash(request, response);
     }
 
-    protected void setCacheHeaders(HttpServletRequest request, HttpServletResponse response) {
-        //This method needs to be kept only because it is overridden in the BabbageContentBasedBinaryResponse and BabbageContentBasedStringResponse classes
+    protected void setContentHash(HttpServletRequest request, HttpServletResponse response) {
+        //This method needs to exist only because it is overridden in the BabbageContentBasedBinaryResponse and BabbageContentBasedStringResponse classes
     }
 
     public String getMimeType() {
