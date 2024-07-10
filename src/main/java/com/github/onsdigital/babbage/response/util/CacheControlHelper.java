@@ -12,16 +12,6 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
  */
 public class CacheControlHelper {
 
-    /**
-     * Resolves and sets response status based on request cache control headers and data to be sent to the user
-     *
-     * @param request
-     * @return
-     */
-    public static void setCacheHeaders(HttpServletRequest request, HttpServletResponse response, String hash) {
-        resolveHash(request, response, hash);
-    }
-
     public static String hashData(String data) {
         return DigestUtils.sha1Hex(data);
     }
@@ -30,7 +20,7 @@ public class CacheControlHelper {
         return DigestUtils.sha1Hex(data);
     }
 
-    private static void resolveHash(HttpServletRequest request, HttpServletResponse response, String newHash) {
+    public static void resolveHash(HttpServletRequest request, HttpServletResponse response, String newHash) {
         if (StringUtils.isEmpty(newHash)) {
             return;
         }

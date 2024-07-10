@@ -20,6 +20,6 @@ public class BabbageContentBasedBinaryResponse extends BabbageBinaryResponse {
 
     @Override
     protected void setCacheHeaders(HttpServletRequest request, HttpServletResponse response) {
-        CacheControlHelper.setCacheHeaders(request, response, CacheControlHelper.hashData(getData()));
+        CacheControlHelper.resolveHash(request, response, CacheControlHelper.hashData(getData()));
     }
 }

@@ -31,7 +31,7 @@ public class Hash {
 
             String uri = request.getParameter("uri");
             ContentResponse contentResponse = ContentClient.getInstance().getResource(uri);
-            CacheControlHelper.setCacheHeaders(request, response, contentResponse.getHash());
+            CacheControlHelper.resolveHash(request, response, contentResponse.getHash());
             IOUtils.write(contentResponse.getHash(), response.getOutputStream());
         } catch (ContentReadException e) {
             handleError(response, e.getStatusCode(), e);
