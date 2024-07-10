@@ -1,5 +1,6 @@
 package com.github.onsdigital.babbage.response.base;
 
+import com.github.onsdigital.babbage.response.util.CacheControlHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -47,6 +48,11 @@ public abstract class BabbageResponse {
                 response.setHeader(next.getKey(), next.getValue());
             }
         }
+        setCacheHeaders(request, response);
+    }
+
+    protected void setCacheHeaders(HttpServletRequest request, HttpServletResponse response) {
+        //This method needs to be kept only because it is overridden in the BabbageContentBasedBinaryResponse and BabbageContentBasedStringResponse classes
     }
 
     public String getMimeType() {

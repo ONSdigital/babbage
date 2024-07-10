@@ -7,12 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
-import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
 
 /**
  */
 public class CacheControlHelper {
-    private static final boolean legacyCacheAPIEnabled = appConfig().babbage().isLegacyCacheAPIEnabled();
 
     /**
      * Resolves and sets response status based on request cache control headers and data to be sent to the user
@@ -20,22 +18,8 @@ public class CacheControlHelper {
      * @param request
      * @return
      */
-    public static void setCacheHeaders(HttpServletRequest request, HttpServletResponse response, String hash, long maxAge) {
+    public static void setCacheHeaders(HttpServletRequest request, HttpServletResponse response, String hash) {
         resolveHash(request, response, hash);
-
-        if (!legacyCacheAPIEnabled) {
-            setMaxAge(response, maxAge);
-        }
-    }
-
-    public static void setCacheHeaders(HttpServletResponse response, long maxAge) {
-        if (!legacyCacheAPIEnabled) {
-            setMaxAge(response, maxAge);
-        }
-    }
-
-    private static void setMaxAge(HttpServletResponse response, long maxAge) {
-        response.addHeader("cache-control", "public, max-age=" + maxAge);
     }
 
     public static String hashData(String data) {
