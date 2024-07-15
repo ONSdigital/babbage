@@ -10,7 +10,7 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 
 /**
  */
-public class CacheControlHelper {
+public class ContentHashHelper {
 
     public static String hashData(String data) {
         return DigestUtils.sha1Hex(data);

@@ -1,7 +1,7 @@
 package com.github.onsdigital.babbage.response;
 
 import com.github.onsdigital.babbage.content.client.ContentResponse;
-import com.github.onsdigital.babbage.response.util.CacheControlHelper;
+import com.github.onsdigital.babbage.response.util.ContentHashHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +20,6 @@ public class BabbageContentBasedBinaryResponse extends BabbageBinaryResponse {
 
     @Override
     protected void setContentHash(HttpServletRequest request, HttpServletResponse response) {
-        CacheControlHelper.resolveHash(request, response, CacheControlHelper.hashData(getData()));
+        ContentHashHelper.resolveHash(request, response, ContentHashHelper.hashData(getData()));
     }
 }

@@ -1,13 +1,11 @@
 package com.github.onsdigital.babbage.response.base;
 
-import com.github.onsdigital.babbage.response.util.CacheControlHelper;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 /**
