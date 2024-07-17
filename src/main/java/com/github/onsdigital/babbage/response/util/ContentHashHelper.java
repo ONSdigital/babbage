@@ -7,36 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
-import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
 
 /**
  */
-public class CacheControlHelper {
-    private static final boolean legacyCacheAPIEnabled = appConfig().babbage().isLegacyCacheAPIEnabled();
-
-    /**
-     * Resolves and sets response status based on request cache control headers and data to be sent to the user
-     *
-     * @param request
-     * @return
-     */
-    public static void setCacheHeaders(HttpServletRequest request, HttpServletResponse response, String hash, long maxAge) {
-        resolveHash(request, response, hash);
-
-        if (!legacyCacheAPIEnabled) {
-            setMaxAge(response, maxAge);
-        }
-    }
-
-    public static void setCacheHeaders(HttpServletResponse response, long maxAge) {
-        if (!legacyCacheAPIEnabled) {
-            setMaxAge(response, maxAge);
-        }
-    }
-
-    private static void setMaxAge(HttpServletResponse response, long maxAge) {
-        response.addHeader("cache-control", "public, max-age=" + maxAge);
-    }
+public class ContentHashHelper {
 
     public static String hashData(String data) {
         return DigestUtils.sha1Hex(data);
@@ -46,7 +20,7 @@ public class CacheControlHelper {
         return DigestUtils.sha1Hex(data);
     }
 
-    private static void resolveHash(HttpServletRequest request, HttpServletResponse response, String newHash) {
+    public static void resolveHash(HttpServletRequest request, HttpServletResponse response, String newHash) {
         if (StringUtils.isEmpty(newHash)) {
             return;
         }

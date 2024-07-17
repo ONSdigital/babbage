@@ -1,12 +1,12 @@
 package com.github.onsdigital.babbage.response;
 
 import com.github.onsdigital.babbage.content.client.ContentResponse;
-import com.github.onsdigital.babbage.response.util.CacheControlHelper;
+
+import java.io.IOException;
+import com.github.onsdigital.babbage.response.util.ContentHashHelper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 public class BabbageContentBasedStringResponse extends BabbageStringResponse {
 
     private ContentResponse contentResponse;
@@ -22,7 +22,7 @@ public class BabbageContentBasedStringResponse extends BabbageStringResponse {
     }
 
     @Override
-    protected void setCacheHeaders(HttpServletRequest request, HttpServletResponse response) {
-        CacheControlHelper.setCacheHeaders(request, response, CacheControlHelper.hashData(getData()), contentResponse.getMaxAge());
+    protected void setContentHash(HttpServletRequest request, HttpServletResponse response) {
+        ContentHashHelper.resolveHash(request, response, ContentHashHelper.hashData(getData()));
     }
 }

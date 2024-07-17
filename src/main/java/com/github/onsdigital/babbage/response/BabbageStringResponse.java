@@ -26,11 +26,6 @@ public class BabbageStringResponse extends BabbageResponse {
         setCharEncoding(charEncoding);
     }
 
-    public BabbageStringResponse(String data, String mimeType, Long maxAge) {
-        this(data, mimeType);
-        setMaxAge(maxAge);
-    }
-
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // https://acunetix.com/vulnerabilities/web/clickjacking--x-frame-options-header-missing

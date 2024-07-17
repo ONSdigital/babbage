@@ -46,8 +46,7 @@ public class SearchRendering {
     LinkedHashMap<String, Object> data = buildResults(listType, results);
     return new BabbageStringResponse(
         JsonUtil.toJson(data),
-        MediaType.APPLICATION_JSON,
-        appConfig().babbage().getSearchResponseCacheTime());
+        MediaType.APPLICATION_JSON);
   }
 
   public static BabbageResponse buildPageResponse(
@@ -55,8 +54,7 @@ public class SearchRendering {
     LinkedHashMap<String, Object> data = buildResults(listType, results);
     return new BabbageStringResponse(
         TemplateService.getInstance().renderContent(data),
-        MediaType.TEXT_HTML,
-        appConfig().babbage().getSearchResponseCacheTime());
+        MediaType.TEXT_HTML);
   }
 
   public static BabbageResponse buildPageResponseWithValidationErrors(
@@ -68,8 +66,7 @@ public class SearchRendering {
     }
     return new BabbageStringResponse(
         TemplateService.getInstance().renderContent(data),
-        MediaType.TEXT_HTML,
-        appConfig().babbage().getSearchResponseCacheTime());
+        MediaType.TEXT_HTML);
   }
 
   public static LinkedHashMap<String, Object> buildResults(

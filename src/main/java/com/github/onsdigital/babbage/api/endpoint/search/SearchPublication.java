@@ -40,8 +40,7 @@ public class SearchPublication {
         if (timeSeriesRedirect != null) {
             babbageResponse =
                     new BabbageRedirectResponse(
-                            timeSeriesRedirect,
-                            appConfig().babbage().getSearchResponseCacheTime());
+                            timeSeriesRedirect);
         } else {
             Map<String, SearchResult> results =
                     SearchUtils.search(

@@ -26,7 +26,6 @@ public class ContentResponse implements Serializable {
     private byte[] data;
     private long size;
     private String name;
-    private int maxAge;//seconds
 
     private String hash;
 
@@ -85,14 +84,6 @@ public class ContentResponse implements Serializable {
 
     public String getHash() {
         return StringUtils.remove(hash, "--gzip");//TODO:Checkout why zip extension is passed back
-    }
-
-    public int getMaxAge() {
-        return maxAge;
-    }
-
-    public void setMaxAge(int maxAge) {
-        this.maxAge = maxAge;
     }
 
     public String getName() {
