@@ -58,7 +58,7 @@ public class Babbage implements AppConfig {
 
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
-        atozDecommissionDate = getValueOrDefault(ATOZ_DECOMMISSION_DATE_KEY, "2021-01-01");
+        atozDecommissionDate = getValueOrDefault(ATOZ_DECOMMISSION_DATE_KEY, "");
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
