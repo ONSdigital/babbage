@@ -44,7 +44,7 @@ public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandl
         // To enable further extensions just add the value to the extensions variable.
         int extensions = Extensions.TABLES;
         PegDownProcessor processor = new PegDownProcessor(extensions);
-        markdown = processor.markdownToHtml(markdown);
+        markdown = processor.markdownToHtml(markdown, new CustomLinkRenderer());
 
         markdown = SubscriptHelper.doSubscript(markdown);
         markdown = SuperscriptHelper.doSuperscript(markdown);

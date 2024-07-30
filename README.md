@@ -35,6 +35,7 @@ Babbage runs independently. However, in order to run it locally in its publishin
 
 | Environment variable             | Default                | Description                                                                                                       |
 |----------------------------------|------------------------|-------------------------------------------------------------------------------------------------------------------|
+| ATOZ_DECOMMISSION_DATE           | ""                     | The date when the A to Z page will be decommissioned                                                              |
 | CONTENT_SERVICE_MAX_CONNECTION   | 50                     | The maximum number of connections Babbage can make to the content service                                         |
 | CONTENT_SERVICE_URL              | http://localhost:8082  | The URL to the content service (zebedee)                                                                          |
 | ELASTIC_SEARCH_SERVER            | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                            |

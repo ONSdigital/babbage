@@ -129,5 +129,8 @@
 		</div>
 	{{/block}}
 	{{> partials/census-banner}}
+	{{#if (eq listType "atoz")}}
+		{{> partials/decommission-banner}}
+	{{/if}}
 	{{/if_all}}
 </header>

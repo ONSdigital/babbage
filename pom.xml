@@ -97,6 +97,7 @@
         </dependency>
 
         <!--Handlebars Java markdown uses a newer version of pegdown with a peculiar bug, overwriting dependency explicitly-->
+        <!-- Warning - we overwrite the rendering for MailLinkNodes to stop obfuscation and so upgrading this dependency should bear this in mind -->
         <dependency>
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>

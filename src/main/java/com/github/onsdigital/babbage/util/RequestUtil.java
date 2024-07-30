@@ -28,6 +28,7 @@ public class RequestUtil {
     public static final String LANG_KEY = "lang";
     public static final String IS_DEV_KEY = "is_dev";
     public static final String IS_PUBLISHING = "is_publishing";
+    public static final String ATOZ_DECOMMISSION_DATE = "atoz_decommission_date";
 
     /**
      * Saves Authentication token and collection id to thread context if available when a request is made to babbage,
@@ -46,6 +47,7 @@ public class RequestUtil {
         ThreadContext.addData(LOCATION_KEY, getLocation(request));
         ThreadContext.addData(IS_DEV_KEY, appConfig().babbage().isDevEnvironment());
         ThreadContext.addData(IS_PUBLISHING, appConfig().babbage().isPublishing());
+        ThreadContext.addData(ATOZ_DECOMMISSION_DATE, appConfig().babbage().getAtozDecommissionDate());
     }
 
     public static void clearContext() {

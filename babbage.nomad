@@ -14,13 +14,9 @@ job "babbage" {
   group "web" {
     count = "{{WEB_TASK_COUNT}}"
 
+    # this is needed when we have more than 1 instance of babbage in each web_mount
     spread {
       attribute = "${node.unique.id}"
-      weight    = 100
-      # with `target` omitted, Nomad will spread allocations evenly across all values of the attribute.
-    }
-    spread {
-      attribute = "${attr.platform.aws.placement.availability-zone}"
       weight    = 100
       # with `target` omitted, Nomad will spread allocations evenly across all values of the attribute.
     }
