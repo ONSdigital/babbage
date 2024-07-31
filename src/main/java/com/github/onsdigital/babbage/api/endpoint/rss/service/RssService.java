@@ -110,34 +110,6 @@ public class RssService {
     }
 
     /**
-     * @return a {@link SyndFeed} for the Release Calendar RSS feed defined by the requested parameters.
-     */
-    public SyndFeed getReleaseCalendarFeed(HttpServletRequest request, SearchQueries searchQueries) {
-        Optional<SearchResult> results = search(searchQueries);
-        StringBuilder title = new StringBuilder(calendarTitle(request));
-        String query;
-
-        if ((query = request.getParameter("query")) != null) {
-            title.append(" ").append(String.format(calendarTitleTwo, query));
-        }
-
-        return new SyndFeedBuilder()
-                .type(rssType)
-                .link(request.getRequestURL().toString())
-                .category(title.toString())
-                .entries(searchResultsToSyndEntries(results))
-                .title(title.toString())
-                .build();
-    }
-
-    /**
-     * @return a {@link BabbageRssResponse} for the Release Calendar RSS feed defined by the requested parameters.
-     */
-    public BabbageRssResponse getReleaseCalendarFeedResponse(HttpServletRequest request, SearchQueries searchQueries) {
-        return writeToResponse(getReleaseCalendarFeed(request, searchQueries));
-    }
-
-    /**
      * Write the {@Link SyndFeed} to a new {@link BabbageRssResponse} object.
      */
     public BabbageRssResponse writeToResponse(SyndFeed feed) {
