@@ -2,7 +2,6 @@
     {{!-- This code has to be minified or else the spacing breaks adding the contentTitle to the GTM data layer --}}
     {{#if_eq type "list"}}
         {{#if_eq listType "alladhocs"}}User requested data{{/if_eq}}
-        {{#if_eq listType "atoz"}}Browse our statistical bulletins by A to Z{{/if_eq}}
         {{#if_eq listType "staticlist"}}List of all {{> list/partials/list-location}}{{/if_eq}}
         {{#if_eq listType "publishedrequests"}}Freedom of Information (FOI) requests{{/if_eq}}
         {{#if_eq listType "previousreleases"}}{{result.results.0.description.title}} {{> type-label type_code=result.results.0.type plural=true}}{{/if_eq}}
