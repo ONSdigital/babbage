@@ -72,7 +72,6 @@ List of templates:
 - list (see [Search pages](#search-pages))
 - product_page
 - reference_tables
-- ~~release~~ **DEPRECATED**[^2]
 - static_adhoc
 - static_article
 - static_foi
@@ -86,7 +85,6 @@ List of templates:
 - timeseries_dataset
 
 [^1]: Given there is a now a dedicated service for census home page, it's likely this functionality should be removed.
-[^2]: Babbage still has the code to render release pages but this functionality is no longer in use and should be removed.
 
 #### Search pages
 
