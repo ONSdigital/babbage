@@ -15,18 +15,12 @@
 {{else if_eq type "timeseries_dataset"}} 			
     {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}
 {{else if_eq type "list"}}
-    {{#if_eq listType "publishedrequests"}}
-        {{> list/partials/list-page-breadcrumb label="Freedom of Information (FOI) requests"}}
-    {{else if_eq listType "publications"}}
+    {{#if_eq listType "publications"}}
         {{> list/partials/list-page-breadcrumb label="Publications" galleryBackground=true}}
     {{else if_eq listType "topicspecificmethodology"}}
         {{> list/partials/list-page-breadcrumb label="Methodology"}}
     {{else if_eq listType "datalist"}}
         {{> list/partials/list-page-breadcrumb label="Data" galleryBackground=true}}
-    {{else if_eq listType "allmethodologies"}}
-        {{> list/partials/list-page-breadcrumb label="Published methodologies"}}
-    {{else if_eq listType "alladhocs"}}
-        {{> list/partials/list-page-breadcrumb label="user requested data"}}
     {{else if_eq listType "staticlist"}}
         {{> list/partials/list-page-breadcrumb label="List"}}
     {{else if_eq listType "relateddata"}}

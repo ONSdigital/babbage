@@ -95,11 +95,8 @@ Babbage currently uses an instance of Elasticsearch to manage listing / search f
 
 At the root level:
 
-- ~~/alladhocs~~ **DEPRECATED**
-- ~~/allmethodologies~~ **DEPRECATED**
 - ~~/datalist~~ **DEPRECATED**
 - ~~/publications~~ **DEPRECATED**
-- ~~/publishedrequests~~ **DEPRECATED**
 - ~~/staticlist~~ **DEPRECATED**
 - ~~/timeseriestool~~ **DEPRECATED**
 - ~~/topicspecificmethodology~~ **DEPRECATED**
@@ -151,11 +148,8 @@ Each of the above search pages also provides an RSS feed to subscribe to further
 
 | Babbage URL extension       | Zebedee content types                                            |
 |-----------------------------|------------------------------------------------------------------|
-| ~~/alladhocs~~              | static_adhoc                                                     |
-| ~~/allmethodologies~~       | static_qmi, static_methodology, static_methodology_download      |
 | /datalist                   | static_adhoc, timeseries, dataset_landing_page, reference_tables |
 | /publications               | article, article_download, bulletin, compenium_landing_page      |
-| ~~/published_requests~~     | static_foi                                                       |
 | /staticlist                 | static_page                                                      |
 | ~~/timeseriestool~~         | timeseries                                                       |
 | /topicspecificmethodologies | static_qmi, static_methodology, static_methodology_download      |

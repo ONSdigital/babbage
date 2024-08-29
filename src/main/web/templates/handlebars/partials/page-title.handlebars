@@ -1,12 +1,9 @@
 {{#minify}}
     {{!-- This code has to be minified or else the spacing breaks adding the contentTitle to the GTM data layer --}}
     {{#if_eq type "list"}}
-        {{#if_eq listType "alladhocs"}}User requested data{{/if_eq}}
         {{#if_eq listType "staticlist"}}List of all {{> list/partials/list-location}}{{/if_eq}}
-        {{#if_eq listType "publishedrequests"}}Freedom of Information (FOI) requests{{/if_eq}}
         {{#if_eq listType "previousreleases"}}{{result.results.0.description.title}} {{> type-label type_code=result.results.0.type plural=true}}{{/if_eq}}
         {{#if_eq listType "topicspecificmethodology"}}Methodology related to {{> list/partials/list-location}}{{/if_eq}}
-        {{#if_eq listType "allmethodologies"}}All methodology{{/if_eq}}
         {{#if_eq listType "publications"}}All publications related to {{> list/partials/list-location}}{{/if_eq}}
         {{#if_eq listType "datalist"}}All data related to {{> list/partials/list-location}}{{title}}{{/if_eq}}
         {{#if_eq listType "search"}}{{parameters.q.0}} - Search{{/if_eq}}
