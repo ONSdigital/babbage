@@ -21,9 +21,6 @@
 	{{#if_all showTopic parameters.topic.0 (ne parameters.topic.0 "Home")}}
 		that are related to {{#resolve parameters.topic.0}}<span class="lowercase"><strong>{{description.title}}</strong></span>{{/resolve}}
 	{{/if_all}}
-	{{#if_all atoz parameters.az.0 (lookup couts.docCounts parameters.az.0)}}
-		that begin with the letter <strong>'{{parameters.az.0}}'</strong>
-	{{/if_all}}
 
     {{!-- DATE PARAMETERS --}}
 	{{#if_any parameters.fromDateDay.0 parameters.fromDateMonth.0 parameters.fromDateYear.0 parameters.toDateDay.0 parameters.toDateMonth.0 parameters.toDateYear.0}} published

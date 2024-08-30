@@ -14,7 +14,6 @@ public class Babbage implements AppConfig {
 
     // env var keys
     private static final String API_ROUTER_URL = "API_ROUTER_URL";
-    private static final String ATOZ_DECOMMISSION_DATE_KEY = "ATOZ_DECOMMISSION_DATE";
     private static final String DEV_ENVIRONMENT_KEY = "DEV_ENVIRONMENT";
     private static final String ENABLE_NAVIGATION_KEY = "ENABLE_NAVIGATION";
     private static final String HIGHCHARTS_EXPORT_SERVER_KEY = "HIGHCHARTS_EXPORT_SERVER";
@@ -39,7 +38,6 @@ public class Babbage implements AppConfig {
     }
 
     private final String apiRouterURL;
-    private final String atozDecommissionDate;
     private final String exportSeverUrl;
     private final String mathjaxExportServer;
     private final String reindexSecret;
@@ -58,7 +56,6 @@ public class Babbage implements AppConfig {
 
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
-        atozDecommissionDate = getValueOrDefault(ATOZ_DECOMMISSION_DATE_KEY, "");
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
@@ -78,10 +75,6 @@ public class Babbage implements AppConfig {
 
     public String getApiRouterURL() {
         return apiRouterURL;
-    }
-
-    public String getAtozDecommissionDate() {
-        return atozDecommissionDate;
     }
 
     public String getExportSeverUrl() {

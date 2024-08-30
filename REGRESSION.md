@@ -97,7 +97,6 @@ At the root level:
 
 - ~~/alladhocs~~ **DEPRECATED**
 - ~~/allmethodologies~~ **DEPRECATED**
-- /atoz
 - ~~/datalist~~ **DEPRECATED**
 - ~~/publications~~ **DEPRECATED**
 - ~~/publishedrequests~~ **DEPRECATED**
