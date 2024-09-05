@@ -123,7 +123,7 @@ Each extension provides a [pre-set different content type filter](#mapping-conte
 As an extension to the *bulletin* page type:
 
 - /relateddata
-- /previousReleases
+- /previousreleases
 
 Each search page type [pre-filters by content type](#mapping-content-types-to-search-pages) as well as providing different user tools for manipulating search results, for example:
 

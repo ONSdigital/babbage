@@ -2,7 +2,7 @@
 	{{!-- If not a previous version workout the latest link --}}
 	{{#if description.latestRelease}}
 		<p class="alert__title">{{labels.this-is-the-latest-release}}</p>
-        <a class="alert__link" href="{{parentPath uri}}/previousReleases">{{labels.view-previous-releases}}</a>
+        <a class="alert__link" href="{{parentPath uri}}/previousreleases">{{labels.view-previous-releases}}</a>
 	{{else}}
 		{{#resolve (concat (parentPath uri) "/latest") filter="title"}}
 			<p class="alert__title">{{labels.this-is-not-the-latest-release}}</p> <a class="btn btn--primary print--hide" href="{{uri}}">{{labels.view-latest-release}}</a>
