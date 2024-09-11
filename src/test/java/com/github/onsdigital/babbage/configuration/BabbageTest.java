@@ -2,6 +2,7 @@ package com.github.onsdigital.babbage.configuration;
 import org.junit.Test;
 import org.junit.Before;
 import java.util.Map;
+import java.util.List;
 
 
 import static org.mockito.Mockito.when;
@@ -80,6 +81,39 @@ public class BabbageTest extends junit.framework.TestCase {
         Babbage testInstance = Babbage.getInstance();
         assertNotNull(testInstance.getMaxCacheObjectSize());
         assertEquals(testInstance.getMaxCacheObjectSize(),50000);
+    }
+
+    @Test
+    public void testParseDeprecationConfig() {
+        Babbage testInstance = Babbage.getInstance();
+        String testConfig = "[{\"deprecationDate\":\"2024-12-25T10:00\", \"sunsetDate\":\"2024-12-03T11:00:00\", \"link\":\"testlink\", \"matchPattern\":\"^/timeseriestool$\"}]";
+        List<DeprecationItem> deprecationConfig = testInstance.parseDeprecationConfig(testConfig);
+        assertEquals(1, deprecationConfig.size());
+        assertEquals("2024-12-25T10:00", deprecationConfig.get(0).deprecationDate().toString());
+        assertEquals("2024-12-03T11:00", deprecationConfig.get(0).sunsetDate().toString());
+        assertEquals("testlink", deprecationConfig.get(0).link());
+        assertEquals("^/timeseriestool$", deprecationConfig.get(0).matchPattern().pattern());
+    }
+
+    @Test
+    public void testParseDeprecationConfig_testMultipleEntries() {
+        Babbage testInstance = Babbage.getInstance();
+        String testConfig = "[{\"deprecationDate\":\"2024-12-25T10:00\", \"sunsetDate\":\"2024-12-03T11:00:00\", \"link\":\"testlink\", \"matchPattern\":\"^/timeseriestool$\"}, {\"deprecationDate\":\"2024-11-25T10:00\", \"sunsetDate\":\"2024-11-03T11:00:00\", \"link\":\"testlink2\", \"matchPattern\":\"^/economy$\"}]";
+        List<DeprecationItem> deprecationConfig = testInstance.parseDeprecationConfig(testConfig);
+        assertEquals(2, deprecationConfig.size());
+        assertEquals("2024-11-25T10:00", deprecationConfig.get(1).deprecationDate().toString());
+        assertEquals("2024-11-03T11:00", deprecationConfig.get(1).sunsetDate().toString());
+        assertEquals("testlink2", deprecationConfig.get(1).link());
+        assertEquals("^/economy$", deprecationConfig.get(1).matchPattern().pattern());
+
+    }
+
+    @Test
+    public void testParseDeprecationConfig_invalidJSON() {
+        Babbage testInstance = Babbage.getInstance();
+        String testConfig = "[";
+        List<DeprecationItem> deprecationConfig = testInstance.parseDeprecationConfig(testConfig);
+        assertEquals(0, deprecationConfig.size());
     }
 
 }

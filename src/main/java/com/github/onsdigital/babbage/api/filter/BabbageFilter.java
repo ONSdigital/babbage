@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
+
 /**
  * A single implementation of the Restolino filter interface allowing the run order of filters to be controlled.
  * <p>
@@ -21,6 +23,7 @@ public class BabbageFilter implements com.github.davidcarboni.restolino.framewor
                     new CorsFilter(),
                     new UrlRedirectFilter(),
                     new ShortUrlFilter(),
+                    new DeprecationFilter(appConfig().babbage().getDeprecationConfig()),
                     new StaticFilesFilter())
             .build();
 

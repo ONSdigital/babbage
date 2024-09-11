@@ -1,7 +1,13 @@
 package com.github.onsdigital.babbage.configuration;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+
+import com.github.onsdigital.babbage.util.json.JsonUtil;
 
 
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.defaultIfBlank;
@@ -9,11 +15,13 @@ import static com.github.onsdigital.babbage.configuration.EnvVarUtils.getNumberV
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.getStringAsBool;
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.getValue;
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.getValueOrDefault;
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 
 public class Babbage implements AppConfig {
 
     // env var keys
     private static final String API_ROUTER_URL = "API_ROUTER_URL";
+    private static final String DEPRECATION_CONFIG_KEY = "DEPRECATION_CONFIG";
     private static final String DEV_ENVIRONMENT_KEY = "DEV_ENVIRONMENT";
     private static final String ENABLE_NAVIGATION_KEY = "ENABLE_NAVIGATION";
     private static final String HIGHCHARTS_EXPORT_SERVER_KEY = "HIGHCHARTS_EXPORT_SERVER";
@@ -53,10 +61,12 @@ public class Babbage implements AppConfig {
     private final int maxVisiblePaginatorLink;
     private final int resultsPerPage;
     private final long searchResponseCacheTime;
+    private final List<DeprecationItem> deprecationConfig;
 
     private Babbage() {
         apiRouterURL = getValueOrDefault(API_ROUTER_URL, "http://localhost:23200/v1");
         exportSeverUrl = getValueOrDefault(HIGHCHARTS_EXPORT_SERVER_KEY, "http://localhost:9999/");
+        deprecationConfig = parseDeprecationConfig(getValueOrDefault(DEPRECATION_CONFIG_KEY, "[]"));
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
         isPublishing = getStringAsBool(IS_PUBLISHING_KEY, "N");
@@ -140,6 +150,21 @@ public class Babbage implements AppConfig {
         return searchResponseCacheTime;
     }
 
+    public List<DeprecationItem> parseDeprecationConfig(String jsonConfig){
+        try {
+            DeprecationItem[] configArray = JsonUtil.fromJson(jsonConfig, DeprecationItem[].class);
+
+            return new ArrayList<>(Arrays.asList(configArray));
+        } catch (IOException e) {
+            error().data("config", jsonConfig).data("e", e).log("failed to parse deprecation config");
+            return new ArrayList<>();
+        }
+    }
+
+    public List<DeprecationItem> getDeprecationConfig() {
+        return deprecationConfig;
+    }
+
     @Override
     public Map<String, Object> getConfig() {
         Map<String, Object> config = new HashMap<>();
@@ -156,6 +181,7 @@ public class Babbage implements AppConfig {
         config.put("reindexSecret", reindexSecret);
         config.put("resultsPerPage", resultsPerPage);
         config.put("searchResponseCacheTime", searchResponseCacheTime);
+        config.put("deprecationConfig", deprecationConfig);
         return config;
     }
 }
