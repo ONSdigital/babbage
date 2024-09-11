@@ -2,12 +2,14 @@ package com.github.onsdigital.babbage.content.client;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.entity.ContentType;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HeaderElement;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.message.MessageSupport;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -70,8 +72,8 @@ public class ContentResponse implements Serializable {
         return IOUtils.toString(getDataStream(), getCharset());
     }
 
-    private ContentType getContentType(HttpResponse response) {
-        return ContentType.getLenient(response.getEntity());
+    private ContentType getContentType(ClassicHttpResponse response) {
+        return ContentType.parseLenient(response.getEntity().getContentType());
     }
 
     /**
@@ -93,7 +95,7 @@ public class ContentResponse implements Serializable {
     private String extractName(HttpResponse response) {
         Header[] contentDisposition = response.getHeaders("Content-Disposition");
         if (contentDisposition != null && contentDisposition.length > 0) {
-            HeaderElement[] elements = contentDisposition[0].getElements();
+            HeaderElement[] elements = MessageSupport.parse(contentDisposition[0]);
             if (elements != null && elements.length > 0) {
                 NameValuePair filename = elements[0].getParameterByName("filename");
                 return filename == null ? null : filename.getValue();

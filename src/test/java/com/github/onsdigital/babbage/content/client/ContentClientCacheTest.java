@@ -1,8 +1,10 @@
 package com.github.onsdigital.babbage.content.client;
 
+import org.apache.hc.client5.http.*;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.message.*;
 
-import org.apache.http.*;
-import org.apache.http.message.*;
+
 import org.junit.*;
 import org.mockito.*;
 

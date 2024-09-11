@@ -6,10 +6,10 @@ import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Image;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.slf4j.Logger;
 import org.w3c.dom.Element;
 import org.xhtmlrenderer.extend.ReplacedElement;
@@ -77,7 +77,7 @@ public class HtmlImageReplacedElementFactory implements ReplacedElementFactory {
 
                     // if the url is absolute, go get it using HTTP client.
                     HttpClient client = HttpClientBuilder.create().build();
-                    HttpResponse response = client.execute(new HttpGet(src));
+                    ClassicHttpResponse response = (ClassicHttpResponse) client.execute(new HttpGet(src));
 
                     try (InputStream input = response.getEntity().getContent()) {
                         ReplacedElement fsImage = getReplacedImage(cssWidth, cssHeight, input);

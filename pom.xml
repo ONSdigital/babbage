@@ -12,12 +12,13 @@
         <handlebars-java-version>4.2.1</handlebars-java-version>
         <handlebars-markdown-java-version>4.2.0</handlebars-markdown-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dp-logging.version>v2.0.0-beta.11</dp-logging.version>
+        <dp-logging.version>v2.0.0-beta.14</dp-logging.version>
         <fasterxml.jackson.version>2.16.1</fasterxml.jackson.version>
         <jetty.version>9.4.53.v20231009</jetty.version>
         <flying-saucer.version>9.4.1</flying-saucer.version>
         <mockito.version>3.12.4</mockito.version>
         <restolino.version>0.8.0</restolino.version>
+        <httpcomponents.version>5.3.1</httpcomponents.version>
     </properties>
 
     <dependencies>
@@ -186,15 +187,21 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.14</version>
+            <groupId>org.apache.httpcomponents.core5</groupId>
+            <artifactId>httpcore5</artifactId>
+            <version>5.2.5</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient-cache</artifactId>
-            <version>4.5.14</version>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>${httpcomponents.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5-cache</artifactId>
+            <version>${httpcomponents.version}</version>
         </dependency>
 
         <dependency>

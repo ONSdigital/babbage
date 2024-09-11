@@ -4,15 +4,14 @@ import com.github.onsdigital.babbage.publishing.PublishingManager;
 import com.github.onsdigital.babbage.publishing.model.PublishInfo;
 import com.github.onsdigital.babbage.util.TestsUtil;
 import com.github.onsdigital.babbage.util.http.PooledHttpClient;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -23,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
 public class ContentClientTest {
 
@@ -76,7 +74,7 @@ public class ContentClientTest {
         Header[] headers = {
                 new BasicHeader("Content-type", "application/json")
         };
-        when(httpEntityMock.getContentType()).thenReturn(headers[0]);
+        when(httpEntityMock.getContentType()).thenReturn(headers[0].toString());
         when(closeableHttpResponseMock.getEntity()).thenReturn(httpEntityMock);
 
         List<NameValuePair> parameters2 = new ArrayList<>();

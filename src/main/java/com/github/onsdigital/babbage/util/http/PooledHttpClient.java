@@ -1,23 +1,23 @@
 package com.github.onsdigital.babbage.util.http;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.client5.http.ClientProtocolException;
+import org.apache.hc.client5.http.HttpResponseException;
+import org.apache.hc.client5.http.entity.UrlEncodedFormEntity;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
@@ -96,13 +96,13 @@ public class PooledHttpClient extends BabbageHttpClient {
         HttpPost request = new HttpPost(uri);
         addHeaders(headers, request);
 
-        request.setEntity(new StringEntity(content, charset));
+        request.setEntity(new StringEntity(content,Charset.forName(charset)));
 
         CloseableHttpResponse response = executeRequest(request);
         return validateResponse(response);
     }
 
-    private CloseableHttpResponse executeRequest(HttpRequestBase request) throws IOException {
+    private CloseableHttpResponse executeRequest(HttpUriRequestBase request) throws IOException {
         info().beginHTTP(request).log("PooledHttpClient executing request");
 
         CloseableHttpResponse response = httpClient.execute(request);
@@ -111,7 +111,7 @@ public class PooledHttpClient extends BabbageHttpClient {
         return response;
     }
 
-    private void addHeaders(Map<String, String> headers, HttpRequestBase request) {
+    private void addHeaders(Map<String, String> headers, HttpUriRequestBase request) {
         if (headers != null) {
             Iterator<Map.Entry<String, String>> headerIterator = headers.entrySet().iterator();
             while (headerIterator.hasNext()) {
@@ -161,14 +161,15 @@ public class PooledHttpClient extends BabbageHttpClient {
      */
     private CloseableHttpResponse validateResponse(CloseableHttpResponse response)
             throws ClientProtocolException {
-        StatusLine statusLine = response.getStatusLine();
+        int statusCode = response.getCode();
+        String reasonPhrase = response.getReasonPhrase();
         HttpEntity entity = response.getEntity();
 
-        if (statusLine.getStatusCode() > 302) {
+        if (statusCode > 302) {
             String errorMessage = getErrorMessage(entity);
             throw new HttpResponseException(
-                    statusLine.getStatusCode(),
-                    errorMessage == null ? statusLine.getReasonPhrase() : errorMessage);
+                    statusCode,
+                    errorMessage == null ? reasonPhrase : errorMessage);
         }
 
         if (entity == null) {

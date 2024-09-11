@@ -1,12 +1,12 @@
 package com.github.onsdigital.babbage.util.http;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.HttpClientConnectionManager;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.core5.util.TimeValue;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -83,9 +83,9 @@ public class BabbageHttpClient implements AutoCloseable {
     private class IdleConnectionMonitorThread extends Thread {
 
         private boolean shutdown;
-        private HttpClientConnectionManager connMgr;
+        private PoolingHttpClientConnectionManager connMgr;
 
-        public IdleConnectionMonitorThread(HttpClientConnectionManager connMgr) {
+        public IdleConnectionMonitorThread(PoolingHttpClientConnectionManager connMgr) {
             super();
             this.connMgr = connMgr;
         }
@@ -98,10 +98,10 @@ public class BabbageHttpClient implements AutoCloseable {
                     synchronized (this) {
                         wait(appConfig().contentAPI().pooledConnectionsTimeout());
                         // Close expired connections every x seconds (now configurable)
-                        connMgr.closeExpiredConnections();
+                        connMgr.closeExpired();
                         // Close connections
                         // that have been idle longer than 30 sec
-                        connMgr.closeIdleConnections(appConfig().contentAPI().idleConnectionsTimeout(), TimeUnit.SECONDS);
+                        connMgr.closeIdle(TimeValue.of(appConfig().contentAPI().idleConnectionsTimeout(), TimeUnit.SECONDS));
                     }
                 }
             } catch (InterruptedException ex) {
