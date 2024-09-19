@@ -157,7 +157,8 @@ public class Babbage implements AppConfig {
             return new ArrayList<>(Arrays.asList(configArray));
         } catch (IOException e) {
             error().data("config", jsonConfig).data("e", e).log("failed to parse deprecation config");
-            return new ArrayList<>();
+            // If the deprecation config is invalid, application shouldn't start.
+            throw new RuntimeException(e);
         }
     }
 

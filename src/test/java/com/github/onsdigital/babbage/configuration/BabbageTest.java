@@ -4,7 +4,7 @@ import org.junit.Before;
 import java.util.Map;
 import java.util.List;
 
-
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.when;
 import org.mockito.Mock;
 
@@ -112,8 +112,9 @@ public class BabbageTest extends junit.framework.TestCase {
     public void testParseDeprecationConfig_invalidJSON() {
         Babbage testInstance = Babbage.getInstance();
         String testConfig = "[";
-        List<DeprecationItem> deprecationConfig = testInstance.parseDeprecationConfig(testConfig);
-        assertEquals(0, deprecationConfig.size());
+
+        assertThrows(RuntimeException.class,
+                () -> testInstance.parseDeprecationConfig(testConfig));
     }
 
 }
