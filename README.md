@@ -75,6 +75,7 @@ DEPRECATION_CONFIG:
       sunsetDate:
         type: string
         description: "The date of when this path pattern will cease to return data on its endpoints and instead return blanket 404 status codes. This should be in ISO_DATE_TIME format"
+        format: date-time
         example: "2011-12-25T23:59:59"
       matchPattern:
         type: string
