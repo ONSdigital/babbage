@@ -65,7 +65,8 @@ DEPRECATION_CONFIG:
     properties:
       deprecationDate: 
         type: string
-        description: "The date in which the decision was made to deprecate the path pattern"
+        description: "The date in which the decision was made to deprecate the path pattern. This should be in ISO_DATE_TIME format."
+        format: date-time
         example: "2011-11-30T23:59:59"
       deprecationLink:
         description: "A url to further information of the deprecation of the path pattern"
@@ -73,7 +74,7 @@ DEPRECATION_CONFIG:
         example: "https://developer.ons.gov.uk/retirement/"
       sunsetDate:
         type: string
-        description: "The date of when this path pattern will cease to return data on its endpoints and instead return blanket 404 status codes"
+        description: "The date of when this path pattern will cease to return data on its endpoints and instead return blanket 404 status codes. This should be in ISO_DATE_TIME format"
         example: "2011-12-25T23:59:59"
       matchPattern:
         type: string
@@ -91,7 +92,12 @@ For example:
     "matchPattern": "^/timeseriestool/data$"
   }
 ]
+```
 
+This would then be provided as an environment variable like so (ensuring quotes have been escaped):
+
+```sh
+export DEPRECATION_CONFIG="[{\"deprecationDate\":\"2011-11-30T23:59:59\", \"sunsetDate\":\"2011-12-25T23:59:59\", \"link\":\"https://developer.ons.gov.uk/retirement/\", \"matchPattern\":\"^/timeseriestool/data$\"}]"
 ```
 
 ### Debugging
