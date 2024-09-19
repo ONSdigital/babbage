@@ -117,4 +117,13 @@ public class BabbageTest extends junit.framework.TestCase {
                 () -> testInstance.parseDeprecationConfig(testConfig));
     }
 
+    @Test
+    public void testParseDeprecationConfig_emptyJSON() {
+        Babbage testInstance = Babbage.getInstance();
+        String testConfig = "[]";
+
+        List<DeprecationItem> deprecationConfig = testInstance.parseDeprecationConfig(testConfig);
+        assertEquals(0, deprecationConfig.size());
+    }
+
 }
