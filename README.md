@@ -98,8 +98,19 @@ For example:
 This would then be provided as an environment variable like so (ensuring quotes have been escaped):
 
 ```sh
-export DEPRECATION_CONFIG="[{\\\"deprecationDate\\\":\\\"2011-11-30T23:59:59\\\", \\\"sunsetDate\\\":\\\"2011-12-25T23:59:59\\\", \\\"link\\\":\\\"https://developer.ons.gov.uk/retirement/\\\", \\\"matchPattern\\\":\\\"^/timeseriestool/data$\\\"}]"
+export DEPRECATION_CONFIG='[{"deprecationDate":"2011-11-30T23:59:59", "sunsetDate":"2011-12-25T23:59:59", "link":"https://developer.ons.gov.uk/retirement/", "matchPattern":"^/timeseriestool/data$"}]'
 ```
+
+For the purposes of our configuration this would need to be double escaped like so:
+
+```json
+{
+  //...json,
+  "DEPRECATION_CONFIG":"[{\\\"deprecationDate\\\":\\\"2011-11-30T23:59:59\\\", \\\"sunsetDate\\\":\\\"2011-12-25T23:59:59\\\", \\\"link\\\":\\\"https://developer.ons.gov.uk/retirement/\\\", \\\"matchPattern\\\":\\\"^/timeseriestool/data$\\\"}]"
+  //...more json,
+}
+
+
 
 ### Debugging
 
