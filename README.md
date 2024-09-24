@@ -33,22 +33,73 @@ Babbage runs independently. However, in order to run it locally in its publishin
 
 ### Configuration
 
-| Environment variable             | Default                | Description                                                                                                       |
-|----------------------------------|------------------------|-------------------------------------------------------------------------------------------------------------------|
-| CONTENT_SERVICE_MAX_CONNECTION   | 50                     | The maximum number of connections Babbage can make to the content service                                         |
-| CONTENT_SERVICE_URL              | http://localhost:8082  | The URL to the content service (zebedee)                                                                          |
-| ELASTIC_SEARCH_SERVER            | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                            |
-| ELASTIC_SEARCH_CLUSTER           |                        | The elastic search cluster                                                                                        |
-| ENABLE_COVID19_FEATURE           |                        | Switch to use (or not) the covid feature                                                                          |
-| HIGHCHARTS_EXPORT_SERVER         | http://localhost:9999/ | The URL to the highcharts export server                                                                           |
-| IS_PUBLISHING                    | N                      | Switch to use (or not) the publishing functionality                                                               |
-| MAP_RENDERER_HOST                | http://localhost:23500 | The URL to the map renderer                                                                                       |
-| REDIRECT_SECRET                  | secret                 | The code for the redirect                                                                                         |
-| TABLE_RENDERER_HOST              | http://localhost:23300 | The URL to the table renderer                                                                                     |
-| POOLED_CONNECTION_TIMEOUT        | 5000                   | The number of milliseconds to wait before closing expired connections                                             |
-| IDLE_CONNECTION_TIMEOUT          | 60                     | The number of seconds to wait before closing idle connections                                                     |
-| OTEL_EXPORTER_OTLP_ENDPOINT      | http://localhost:4317  | URL for OpenTelemetry endpoint                                                                                    |
-| OTEL_SERVICE_NAME                |                        | Service name to report to telemetry tools                                                                         |
+| Environment variable                   | Default                | Description                                                                                                                                                   |
+|----------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CONTENT_SERVICE_MAX_CONNECTION         | 50                     | The maximum number of connections Babbage can make to the content service                                                                                     |
+| CONTENT_SERVICE_URL                    | http://localhost:8082  | The URL to the content service (zebedee)                                                                                                                      |
+| ELASTIC_SEARCH_SERVER                  | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                                                                        |
+| ELASTIC_SEARCH_CLUSTER                 |                        | The elastic search cluster                                                                                                                                    |
+| ENABLE_COVID19_FEATURE                 |                        | Switch to use (or not) the covid feature                                                                                                                      |
+| HIGHCHARTS_EXPORT_SERVER               | http://localhost:9999/ | The URL to the highcharts export server                                                                                                                       |
+| IS_PUBLISHING                          | N                      | Switch to use (or not) the publishing functionality                                                                                                           |
+| MAP_RENDERER_HOST                      | http://localhost:23500 | The URL to the map renderer                                                                                                                                   |
+| REDIRECT_SECRET                        | secret                 | The code for the redirect                                                                                                                                     |
+| TABLE_RENDERER_HOST                    | http://localhost:23300 | The URL to the table renderer                                                                                                                                 |
+| POOLED_CONNECTION_TIMEOUT              | 5000                   | The number of milliseconds to wait before closing expired connections                                                                                         |
+| IDLE_CONNECTION_TIMEOUT                | 60                     | The number of seconds to wait before closing idle connections                                                                                                 |
+| OTEL_EXPORTER_OTLP_ENDPOINT            | http://localhost:4317  | URL for OpenTelemetry endpoint                                                                                                                                |
+| OTEL_SERVICE_NAME                      |                        | Service name to report to telemetry tools                                                                                                                     |
+| DEPRECATION_CONFIG                     | []                       | See below                                                                                                                                                     |
+
+#### DEPRECATION_CONFIG
+
+The variable DEPRECATION_CONFIG consists of a json argument to the following schema:
+
+```yaml
+DEPRECATION_CONFIG:
+  type: array
+  description: "An array of path patterns to be deprecated"
+  items:
+    type: object
+    description: "An individual path pattern to be deprecated"
+    properties:
+      deprecationDate: 
+        type: string
+        description: "The date in which the decision was made to deprecate the path pattern. This should be in ISO_DATE_TIME format."
+        format: date-time
+        example: "2011-11-30T23:59:59"
+      deprecationLink:
+        description: "A url to further information of the deprecation of the path pattern"
+        type: string
+        example: "https://developer.ons.gov.uk/retirement/"
+      sunsetDate:
+        type: string
+        description: "The date of when this path pattern will cease to return data on its endpoints and instead return blanket 404 status codes. This should be in ISO_DATE_TIME format"
+        format: date-time
+        example: "2011-12-25T23:59:59"
+      matchPattern:
+        type: string
+        description: "A regex string pattern to match against requests"
+```
+
+For example:
+
+```json
+[
+  {
+    "deprecationDate": "2011-11-30T23:59:59",
+    "deprecationLink": "https://developer.ons.gov.uk/retirement/",
+    "sunsetDate": "2011-12-25T23:59:59",
+    "matchPattern": "^/timeseriestool/data$"
+  }
+]
+```
+
+This would then be provided as an environment variable like so (ensuring quotes have been escaped):
+
+```sh
+export DEPRECATION_CONFIG="[{\"deprecationDate\":\"2011-11-30T23:59:59\", \"sunsetDate\":\"2011-12-25T23:59:59\", \"link\":\"https://developer.ons.gov.uk/retirement/\", \"matchPattern\":\"^/timeseriestool/data$\"}]"
+```
 
 ### Debugging
 
