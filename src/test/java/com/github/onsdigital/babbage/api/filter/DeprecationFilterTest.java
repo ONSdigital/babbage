@@ -75,10 +75,12 @@ public class DeprecationFilterTest {
 
 		info().data("responseHeaders", response.getHeaderNames()).log("response");
 
+		String expectedLink = String.format("<%s>; rel=\"sunset\"", testLink);
+
 		assertEquals(true, result);
 		verify(response, times(1)).addHeader(HttpHeaders.SUNSET, testSunsetDate);
 		verify(response, times(1)).addHeader(HttpHeaders.DEPRECATION, testDeprecationDate);
-		verify(response, times(1)).addHeader(HttpHeaders.LINK, testLink);
+		verify(response, times(1)).addHeader(HttpHeaders.LINK, expectedLink);
 	}
 
 	@Test
@@ -101,10 +103,12 @@ public class DeprecationFilterTest {
 
 		info().data("responseHeaders", response.getHeaderNames()).log("response");
 
+		String expectedLink = String.format("<%s>; rel=\"sunset\"", testLink);
+
 		assertEquals(false, result);
 		verify(response, times(1)).addHeader(HttpHeaders.SUNSET, testSunsetDate);
 		verify(response, times(1)).addHeader(HttpHeaders.DEPRECATION, testDeprecationDate);
-		verify(response, times(1)).addHeader(HttpHeaders.LINK, testLink);
+		verify(response, times(1)).addHeader(HttpHeaders.LINK, expectedLink);
 		verify(response, times(1)).setStatus(404);
 	}
 }
