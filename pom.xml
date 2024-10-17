@@ -218,25 +218,6 @@
             <version>3.19.4</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-client -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-client</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-http</artifactId>
-            <version>${jetty.version}</version>
-        </dependency>
-
         <!-- Fasterxml Jackson dependencies - overrides vulnerable transitive dependencies
         and declared explicitly to resolve conflicts in handlebars and elasticsearch -->
         <dependency>
