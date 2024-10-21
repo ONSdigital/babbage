@@ -46,11 +46,7 @@ public class DeprecationFilter implements Filter {
 
     private void addSunsetHeaders(HttpServletResponse response, DeprecationItem config) {
         response.addHeader(HttpHeaders.DEPRECATION, config.deprecationDate().toString()); 
-        response.addHeader(HttpHeaders.LINK, formatSunsetLink(config.link())); 
+        response.addHeader(HttpHeaders.LINK, config.link()); 
         response.addHeader(HttpHeaders.SUNSET, config.sunsetDate().toString()); 
-    }
-
-    private String formatSunsetLink(String link){
-        return String.format("<%s>; rel=\"sunset\"", link);
     }
 }
