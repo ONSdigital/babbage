@@ -91,7 +91,7 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(1, deprecationConfig.size());
         assertEquals("2024-12-25T10:00", deprecationConfig.get(0).deprecationDate().toString());
         assertEquals("2024-12-03T11:00", deprecationConfig.get(0).sunsetDate().toString());
-        assertEquals("testlink", deprecationConfig.get(0).link());
+        assertEquals("<testlink>; rel=\"sunset\"", deprecationConfig.get(0).link());
         assertEquals("^/timeseriestool$", deprecationConfig.get(0).matchPattern().pattern());
     }
 
@@ -103,7 +103,7 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(2, deprecationConfig.size());
         assertEquals("2024-11-25T10:00", deprecationConfig.get(1).deprecationDate().toString());
         assertEquals("2024-11-03T11:00", deprecationConfig.get(1).sunsetDate().toString());
-        assertEquals("testlink2", deprecationConfig.get(1).link());
+        assertEquals("<testlink2>; rel=\"sunset\"", deprecationConfig.get(1).link());
         assertEquals("^/economy$", deprecationConfig.get(1).matchPattern().pattern());
 
     }

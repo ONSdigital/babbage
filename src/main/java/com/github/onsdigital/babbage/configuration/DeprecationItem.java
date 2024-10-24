@@ -19,7 +19,7 @@ public class DeprecationItem {
 
         this.deprecationDate = LocalDateTime.parse(deprecationDate, formatter);
         this.sunsetDate = LocalDateTime.parse(sunsetDate, formatter);
-        this.link = link;
+        this.link = formatSunsetLink(link);
         this.matchPattern = Pattern.compile(matchPatternString);
     }
 
@@ -47,5 +47,9 @@ public class DeprecationItem {
     public boolean isSunsetPassed() {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(sunsetDate);
+    }
+
+    private String formatSunsetLink(String link){
+        return String.format("<%s>; rel=\"sunset\"", link);
     }
 }
