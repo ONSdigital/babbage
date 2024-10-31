@@ -347,25 +347,25 @@
                     <fail>true</fail>
                     <cvssScoreThreshold>7.0</cvssScoreThreshold>
                     <excludeCoordinates>
-                        <exlude>
+                        <exclude>
                             <!-- Trello card for this exclude: https://trello.com/c/ahkwEM74/1720-babbage-elasticsearch-library-multiple-vulnerabilities-s2 -->
                             <groupId>org.elasticsearch</groupId>
                             <artifactId>elasticsearch</artifactId>
                             <version>2.4.6</version>
-                        </exlude>
+                        </exclude>
                         <exclude>
                             <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>org.apache.lucene</groupId>
                             <artifactId>lucene-queryparser</artifactId>
                             <version>5.5.4</version>
                         </exclude>
-                        <exlude>
+                        <exclude>
                             <!-- Trello card for this exclude: https://trello.com/c/MCpbYlIT/1721-babbage-netty-multiple-vulnerabilities-s1 -->
                             <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>io.netty</groupId>
                             <artifactId>netty</artifactId>
                             <version>3.10.6.Final</version>
-                        </exlude>
+                        </exclude>
                         <exclude>
                             <!-- https://trello.com/c/wotCeMmc -->
                             <groupId>org.yaml</groupId>
