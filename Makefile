@@ -1,3 +1,10 @@
+NVM_SOURCE_PATH ?= $(HOME)/.nvm/nvm.sh
+
+ifneq ("$(wildcard $(NVM_SOURCE_PATH))","")
+	NVM_EXEC = source $(NVM_SOURCE_PATH) && nvm exec --
+endif
+NPM = $(NVM_EXEC) npm
+
 .PHONY: all
 all: audit test build
 
@@ -10,11 +17,11 @@ audit-java:
 
 .PHONY: audit-js
 audit-js:
-	npm audit --prefix src/main/web --audit-level=high
+	$(NPM) audit --prefix src/main/web --audit-level=high
 
 .PHONY: build
 build:
-	npm install --prefix src/main/web --unsafe-perm
+	$(NPM) install --prefix src/main/web --unsafe-perm
 	mvn -Dmaven.test.skip -Dossindex.skip=true clean package dependency:copy-dependencies
 
 .PHONY: debug-web

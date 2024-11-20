@@ -11,19 +11,41 @@ Babbage contains two main areas of functionality, as follows:
 
 ## Getting started
 
-In the babbage repo do one of the following:
+Make sure the following dependencies are installed:
+
+1. Java 8 (temurin builds are recommended):
+
+   ```shell
+   brew install temurin@8
+   ```
+
+1. [nvm](https://github.com/nvm-sh/nvm) installed:
+
+   ```shell
+   brew install nvm
+   ```
+
+   :warning: Make sure to follow the instructions provided at the end of the install to configure up your shell profile.
+
+1. The node version specified in [`.nvmrc`](./.nvmrc) installed through nvm:
+
+   ```shell
+   nvm install
+   ```
+
+In order to run babbage locally:
 
 * To run Babbage for the website functionality use this command
 
-```shell script
-./run.sh
-```
+  ```shell
+  make debug-web
+  ```
 
 * To run Babbage for the publishing functionality use this command
 
-```shell script
-./run-publishing.sh
-```
+  ```shell
+  make debug-publishing
+  ```
 
 ### Dependencies
 
@@ -63,7 +85,7 @@ DEPRECATION_CONFIG:
     type: object
     description: "An individual path pattern to be deprecated"
     properties:
-      deprecationDate: 
+      deprecationDate:
         type: string
         description: "The date in which the decision was made to deprecate the path pattern. This should be in ISO_DATE_TIME format."
         format: date-time
