@@ -47,9 +47,17 @@ In order to run babbage locally:
   make debug-publishing
   ```
 
+* Babbage runs on port :8080
+
 ### Dependencies
 
-Babbage runs independently. However, in order to run it locally in its publishing mode, with the other required services for that, there is a stack that can be used in dp-compose:
+Babbage runs independently with these services
+
+* `sixteens`
+* `ElasticSearch`
+* `zebedee`
+
+In order to run it locally in its publishing mode, with the other required services for that, there is a stack that can be used in dp-compose:
 
 [Homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks#homepage-publishing)
 
@@ -58,18 +66,18 @@ Babbage runs independently. However, in order to run it locally in its publishin
 | Environment variable                   | Default                | Description                                                                                                                                                   |
 |----------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | CONTENT_SERVICE_MAX_CONNECTION         | 50                     | The maximum number of connections Babbage can make to the content service                                                                                     |
-| CONTENT_SERVICE_URL                    | http://localhost:8082  | The URL to the content service (zebedee)                                                                                                                      |
+| CONTENT_SERVICE_URL                    | <http://localhost:8082> | The URL to the content service (zebedee)                                                                                                                      |
 | ELASTIC_SEARCH_SERVER                  | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                                                                        |
 | ELASTIC_SEARCH_CLUSTER                 |                        | The elastic search cluster                                                                                                                                    |
 | ENABLE_COVID19_FEATURE                 |                        | Switch to use (or not) the covid feature                                                                                                                      |
-| HIGHCHARTS_EXPORT_SERVER               | http://localhost:9999/ | The URL to the highcharts export server                                                                                                                       |
+| HIGHCHARTS_EXPORT_SERVER               | <http://localhost:9999/> | The URL to the highcharts export server                                                                                                                       |
 | IS_PUBLISHING                          | N                      | Switch to use (or not) the publishing functionality                                                                                                           |
-| MAP_RENDERER_HOST                      | http://localhost:23500 | The URL to the map renderer                                                                                                                                   |
+| MAP_RENDERER_HOST                      | <http://localhost:23500> | The URL to the map renderer                                                                                                                                   |
 | REDIRECT_SECRET                        | secret                 | The code for the redirect                                                                                                                                     |
-| TABLE_RENDERER_HOST                    | http://localhost:23300 | The URL to the table renderer                                                                                                                                 |
+| TABLE_RENDERER_HOST                    | <http://localhost:23300> | The URL to the table renderer                                                                                                                                 |
 | POOLED_CONNECTION_TIMEOUT              | 5000                   | The number of milliseconds to wait before closing expired connections                                                                                         |
 | IDLE_CONNECTION_TIMEOUT                | 60                     | The number of seconds to wait before closing idle connections                                                                                                 |
-| OTEL_EXPORTER_OTLP_ENDPOINT            | http://localhost:4317  | URL for OpenTelemetry endpoint                                                                                                                                |
+| OTEL_EXPORTER_OTLP_ENDPOINT            | <http://localhost:4317>  | URL for OpenTelemetry endpoint                                                                                                                                |
 | OTEL_SERVICE_NAME                      |                        | Service name to report to telemetry tools                                                                                                                     |
 | DEPRECATION_CONFIG                     | []                       | See below                                                                                                                                                     |
 
@@ -131,8 +139,7 @@ For the purposes of our configuration this would need to be double escaped like 
   "DEPRECATION_CONFIG":"[{\\\"deprecationDate\\\":\\\"2011-11-30T23:59:59\\\", \\\"sunsetDate\\\":\\\"2011-12-25T23:59:59\\\", \\\"link\\\":\\\"https://developer.ons.gov.uk/retirement/\\\", \\\"matchPattern\\\":\\\"^/timeseriestool/data$\\\"}]"
   //...more json,
 }
-
-
+```
 
 ### Debugging
 
@@ -175,6 +182,6 @@ See [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ### License
 
-Copyright © 2024, [Office for National Statistics](https://www.ons.gov.uk)
+Copyright © 2025, [Office for National Statistics](https://www.ons.gov.uk)
 
 Released under MIT license, see [LICENSE](LICENSE.md) for details.
