@@ -28,8 +28,8 @@
         "url": "https://github.com/ONSdigital/babbage/issues"
     },
     "engines": {
-        "node": "6.9.1",
-        "npm": "latest"
+        "node": "22.13.1",
+        "npm": ">=11"
     },
     "dependencies": {
         "uglify-js": "latest"
