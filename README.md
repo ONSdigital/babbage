@@ -51,15 +51,11 @@ In order to run babbage locally:
 
 ### Dependencies
 
-Babbage runs independently with these services
+Babbage runs independently. However, it requires other services to run in web and publishing mode. There are stacks that can be used in `dp-compose`
 
-* `sixteens`
-* `ElasticSearch`
-* `zebedee`
-
-In order to run it locally in its publishing mode, with the other required services for that, there is a stack that can be used in dp-compose:
-
-[Homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks#homepage-publishing)
+* In order to run it locally, with the other required services;
+  * For web mode use: [homepage-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-web)
+  * For publishing mode use: [homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-publishing)
 
 ### Configuration
 
