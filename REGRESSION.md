@@ -98,7 +98,6 @@ At the root level:
 - ~~/datalist~~ **DEPRECATED**
 - ~~/publications~~ **DEPRECATED**
 - ~~/staticlist~~ **DEPRECATED**
-- ~~/timeseriestool~~ **DEPRECATED**
 - ~~/topicspecificmethodology~~ **DEPRECATED**
 
 The deprecated paths above remain in the codebase, but are no longer used in live environments. They will be removed in future work.
@@ -151,7 +150,6 @@ Each of the above search pages also provides an RSS feed to subscribe to further
 | /datalist                   | static_adhoc, timeseries, dataset_landing_page, reference_tables |
 | /publications               | article, article_download, bulletin, compenium_landing_page      |
 | /staticlist                 | static_page                                                      |
-| ~~/timeseriestool~~         | timeseries                                                       |
 | /topicspecificmethodologies | static_qmi, static_methodology, static_methodology_download      |
 
 #### Error pages

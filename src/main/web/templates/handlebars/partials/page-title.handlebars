@@ -10,7 +10,6 @@
         {{#if_eq listType "searchdata"}}{{parameters.q.0}} - Search data{{/if_eq}}
         {{#if_eq listType "searchpublication"}}{{parameters.q.0}} - Search publications{{/if_eq}}
         {{#if_eq listType "relateddata"}}All data related to {{> list/partials/list-location upper=true}}{{/if_eq}}
-        {{#if_eq listType "timeseriestool"}}Time series explorer{{/if_eq}}
     {{else if_any (eq type "timeseries_dataset") (eq type "dataset")}} {{#resolve (parentPath uri)}}{{description.title}}{{/resolve}}
     {{else if description.title}} {{description.title}}
     {{else if title}}{{{sub (sup title clear=true) clear=true}}}

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html {{> partials/subdomain-lang }}>
-	<head>
+    <head>
         <title>{{> partials/page-title }} - Office for National Statistics</title>
         <meta charset="utf-8" />
         <meta content="width=device-width,initial-scale=1.0,user-scalable=1" name="viewport">
@@ -118,7 +118,6 @@
 				{{else if_eq listType "search"}} 					{{> list/t10}}
 				{{else if_eq listType "searchdata"}} 				{{> list/t10-2}}
 				{{else if_eq listType "searchpublication"}} 		{{> list/t10-3}}
-				{{else if_eq listType "timeseriestool"}} 			{{> list/t13}}
 			{{/if_eq}}
 
 		{{!-- Error pages --}}
