@@ -1,15 +1,30 @@
 <script>
 
-    // getUsuageCookieValue reads the cookies_policy cookie and returns the value a user has set for usage, 
+    // getUsageCookieValue reads the cookies_policy cookie and returns the value a user has set for usage, 
     // or defaults to true to opt_out of usage cookie if no cookie is set, or theres an error getting the value
     function getUsageCookieValue() {
-        var cookiesPolicyCookie = document.cookie.match('(^|;) ?cookies_policy=([^;]*)(;|$)');
-        if (cookiesPolicyCookie) {
-            var decodedCookie = decodeURIComponent(cookiesPolicyCookie[2])
-            var cookieValue = JSON.parse(decodedCookie)
+        // TODO: this is the legacy cookie (cookies_policy) handling and will be removed in due course
+        var legacyCookiePolicy = document.cookie.match('(^|;) ?cookies_policy=([^;]*)(;|$)');
+        if (legacyCookiePolicy) {
+            console.debug('legacy cookies_policy found');
+            var decodedCookie = decodeURIComponent(legacyCookiePolicy[2]);
+            var cookieValue = JSON.parse(decodedCookie);
+            console.debug('usage is', cookieValue.usage);
             return !cookieValue.usage
         }
+
+        // ons_cookie_policy handler
+        var policyCookie = document.cookie.match(/^(.*)?\s*'usage':true\s*[^;]+(.*)?$/);
+        if (policyCookie) {
+            console.debug('ons_cookie_policy found - opting in');
+            // this needs to be the inverse - if usage is true the returned value is false and vice versa
+            // user is stating whether they are opting out of usage cookie
+            return false
+        }
+
+        console.debug('no cookie found - opting out');
         return true
+
     }
 
     // unescape html entities
