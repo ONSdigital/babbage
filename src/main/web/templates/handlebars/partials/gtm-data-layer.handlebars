@@ -1,7 +1,7 @@
 <script>
 
-    // getUsageCookieValue reads the cookies_policy cookie and returns the value a user has set for usage, 
-    // or defaults to true to opt_out of usage cookie if no cookie is set, or theres an error getting the value
+    // getUsageCookieValue reads the legacy cookies_policy and ons_cookies_policy to determine the user's usage preference. 
+    // The legacy policy takes precedence over the new policy. When no policy is found, the user is opted out by default.
     function getUsageCookieValue() {
         // TODO: this is the legacy cookie (cookies_policy) handling and will be removed in due course
         var legacyCookiePolicy = document.cookie.match('(^|;) ?cookies_policy=([^;]*)(;|$)');
