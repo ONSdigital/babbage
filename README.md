@@ -54,8 +54,8 @@ In order to run babbage locally:
 Babbage runs independently. However, it requires other services to run in web and publishing mode. There are stacks that can be used in `dp-compose`
 
 * In order to run it locally, with the other required services;
-  * For web mode use: [homepage-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-web)
-  * For publishing mode use: [homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-publishing)
+  * For web mode, use [legacy-core-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/legacy-core-web)
+  * For publishing mode run Babbage with [homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-publishing)
 
 ### Configuration
 
