@@ -7,9 +7,6 @@
 1. [Functionality](#functionality)
     1. [Rendering HTML](#rendering-html)
         1. [Standard content pages](#standard-content-pages)
-        1. [Search pages](#search-pages) - SUNSET
-            1. [RSS feeds](#rss-feeds)
-            1. [Mapping content types to search pages](#mapping-content-types-to-search-pages)
         1. [Error pages](#error-pages)
         1. [Navigation](#navigation)
             1. [Topic API driven navigation](#topic-api-driven-navigation)
