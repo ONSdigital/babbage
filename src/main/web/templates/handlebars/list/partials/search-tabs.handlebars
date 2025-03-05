@@ -1,3 +1,0 @@
-{{> list/partials/tab-item name=labels.all-results active=(eq location.pathname "/search") href="/search" count=total}}
-{{> list/partials/tab-item name=labels.data active=(eq location.pathname "/searchdata") href="/searchdata" count=(add docCounts.timeseries docCounts.dataset_landing_page docCounts.reference_tables docCounts.static_adhoc)}}
-{{> list/partials/tab-item name=labels.publications active=(eq location.pathname "/searchpublication") href="/searchpublication" count=(add docCounts.bulletin docCounts.article docCounts.article_download docCounts.compendium_landing_page)}}

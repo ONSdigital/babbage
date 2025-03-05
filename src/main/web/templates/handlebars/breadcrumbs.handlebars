@@ -14,20 +14,6 @@
     {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}					
 {{else if_eq type "timeseries_dataset"}} 			
     {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}
-{{else if_eq type "list"}}
-    {{#if_eq listType "publications"}}
-        {{> list/partials/list-page-breadcrumb label="Publications" galleryBackground=true}}
-    {{else if_eq listType "topicspecificmethodology"}}
-        {{> list/partials/list-page-breadcrumb label="Methodology"}}
-    {{else if_eq listType "datalist"}}
-        {{> list/partials/list-page-breadcrumb label="Data" galleryBackground=true}}
-    {{else if_eq listType "staticlist"}}
-        {{> list/partials/list-page-breadcrumb label="List"}}
-    {{else if_eq listType "relateddata"}}
-        {{> list/partials/list-page-breadcrumb label="Related data"}}
-    {{else if_eq listType "previousreleases"}}
-        {{> list/partials/list-page-breadcrumb label=labels.previous}}
-    {{/if_eq}}
 {{else}}
     {{#if_ne type "error"}}
         {{> partials/breadcrumb}}
