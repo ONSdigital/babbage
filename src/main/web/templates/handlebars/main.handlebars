@@ -107,19 +107,6 @@
 		{{else if_eq type "table"}} 						{{> table}}
 		{{else if_eq type "equation"}} 						{{> partials/equation}}
 
-		{{!-- List Pages --}}
-		{{else if_eq type "list"}}
-			{{#if_eq listType "previousreleases"}} 						{{> list/t9-6}}
-				{{else if_eq listType "topicspecificmethodology"}} 	{{> list/t9-7}}
-				{{else if_eq listType "publications"}} 				{{> list/t9-8}}
-				{{else if_eq listType "datalist"}} 					{{> list/t9-9}}
-				{{else if_eq listType "staticlist"}} 				{{> list/t9-13}}
-				{{else if_eq listType "relateddata"}} 				{{> list/t9-16}}
-				{{else if_eq listType "search"}} 					{{> list/t10}}
-				{{else if_eq listType "searchdata"}} 				{{> list/t10-2}}
-				{{else if_eq listType "searchpublication"}} 		{{> list/t10-3}}
-			{{/if_eq}}
-
 		{{!-- Error pages --}}
 		{{else if_eq type "error"}}
 			{{#if_eq code 404}}{{> error/404}}
