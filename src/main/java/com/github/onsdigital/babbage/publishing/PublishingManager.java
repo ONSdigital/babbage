@@ -50,7 +50,7 @@ public class PublishingManager {
     private static PublishingManager instance = new PublishingManager();
     private static ElasticSearchUtils searchUtils;
     private static final String PUBLISH_DATES_INDEX = "publish";
-    private final TimeValue scrollKeepAlive = new TimeValue(60, TimeUnit.SECONDS);
+    private final TimeValue scrollKeepAlive = new TimeValue(120, TimeUnit.SECONDS);
 
     private PublishingManager() {
         searchUtils = new ElasticSearchUtils(getElasticsearchClient());
