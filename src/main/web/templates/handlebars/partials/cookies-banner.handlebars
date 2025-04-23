@@ -5,17 +5,22 @@
         <div>
             <div class="cookies-banner__message adjust-font-size--18">
                 <h3 class="cookies-banner__heading">{{labels.cookies-banner-title}}</h3>
-                <p class="cookies-banner__body">{{{labels.cookies-banner-info}}}</p>
-                <p class="cookies-banner__body">{{labels.cookies-banner-why-we-use}}</p>
+                <p class="cookies-banner__body">{{labels.cookies-banner-info}}</p>
+                <p class="cookies-banner__body">{{{labels.cookies-banner-why-we-use}}}</p>
             </div>
             <div class="cookies-banner__buttons">
                 <div class="nojs--hide cookies-banner__button cookies-banner__button--accept">
-                    <button class="btn btn--full-width btn--primary btn--focus margin-right--2 font-weight-700 font-size--17 text-wrap js-accept-cookies"
-                    data-gtm-accept-cookies="true" type="submit">{{labels.cookies-banner-accept-action}}</button>
+                    <button class="btn btn--full-width btn--primary btn--focus margin-right--2 font-weight-700 font-size--17 text-wrap js-accept-cookies" data-gtm-accept-cookies="true" type="submit" data-action="accept">
+                        {{labels.cookies-banner-accept-action}}
+                    </button>
+                </div>
+                <div class="nojs--hide cookies-banner__button cookies-banner__button--reject">
+                    <button class="btn btn--full-width btn--primary btn--focus margin-right--2 font-weight-700 font-size--17 text-wrap js-reject-cookies" data-gtm-accept-cookies="false" type="submit" data-action="reject">
+                        {{labels.cookies-banner-reject-action}}
+                    </button>
                 </div>
                 <div class="cookies-banner__button">
-                    <a role="button" href="/cookies"
-                       class="btn btn--full-width btn--primary btn--focus margin-right--2 font-weight-700 font-size--17 text-wrap">{{labels.cookies-banner-set-preferences-action}}</a>
+                    <a href="/cookies">{{labels.cookies-banner-set-preferences-action}}</a>
                 </div>
             </div>
         </div>
@@ -25,9 +30,10 @@
             <div class="col">
                 <div class="cookies-banner__message adjust-font-size--18">
                     <p class="cookies-banner__confirmation-message">
-                        {{{labels.cookies-banner-success}}}
-                        <button type="button"
-                                class="cookies-banner__button--hide js-hide-cookies-banner">{{labels.cookies-banner-hide-action}}</button>
+                        <span class="hidden ons-js-accepted-text">{{labels.cookies-banner-accept}}</span>
+                        <span class="hidden ons-js-rejected-text">{{labels.cookies-banner-reject}}</span>
+                        <span>{{{labels.cookies-banner-change}}}</span>
+                        <button type="button" class="cookies-banner__button--hide js-hide-cookies-banner">{{labels.cookies-banner-hide-action}}</button>
                     </p>
                 </div>
             </div>
