@@ -6,14 +6,14 @@
     {{> partials/breadcrumb-article}}
 {{else if_eq type "timeseries"}}
     {{#if previous}}
-        {{> list/partials/list-page-breadcrumb label="Previous versions" galleryBackground=true}} 
+        {{> partials/breadcrumb label="Previous versions" }} 
     {{else}}		
         {{> partials/breadcrumb}}
     {{/if}}
 {{else if_eq type "dataset"}} 	
-    {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}					
+    {{> partials/breadcrumb label=description.edition }}					
 {{else if_eq type "timeseries_dataset"}} 			
-    {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}
+    {{> partials/breadcrumb label=description.edition }}
 {{else}}
     {{#if_ne type "error"}}
         {{> partials/breadcrumb}}
