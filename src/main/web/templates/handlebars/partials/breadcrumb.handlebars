@@ -15,7 +15,11 @@
               {{/each}}
 
               <li class="breadcrumb__item">
-                {{description.title}}
+                {{#if label}}
+                  {{ label }}
+                {{else}}
+                  {{description.title}}
+                {{/if}}
               </li>
             </ol>
           </div>
