@@ -9,7 +9,6 @@ import java.util.Map;
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.defaultIfBlank;
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.getNumberValue;
 import static com.github.onsdigital.babbage.configuration.EnvVarUtils.getValueOrDefault;
-import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 
 public class ContentAPI implements AppConfig {
 
@@ -17,15 +16,12 @@ public class ContentAPI implements AppConfig {
 
     private SimpleDateFormat defaultSimpleDataFormat;
     private final String contentAPIHost;
-    private final String topicsAPIHost;
     private final int maxConnections;
     private final int pooledConnectionsTimeout;
     private final int idleConnectionsTimeout;
     private static ContentAPI INSTANCE;
     private static final String DEFAULT_CONTENT_API_HOST = "http://localhost:8082";
     private static final String CONTENT_API_HOST_KEY = "CONTENT_SERVICE_URL";
-    private static final String DEFAULT_TOPICS_API_HOST = "http://localhost:25300";
-    private static final String TOPICS_API_HOST_KEY = "TOPICS_SERVICE_URL";
     private static final String MAX_CONNECTIONS_KEY = "CONTENT_SERVICE_MAX_CONNECTION";
     private static final String POOLED_CONNECTION_TIMEOUT = "POOLED_CONNECTION_TIMEOUT";
     private static final String IDLE_CONNECTION_TIMEOUT = "IDLE_CONNECTION_TIMEOUT";
@@ -46,7 +42,6 @@ public class ContentAPI implements AppConfig {
 
     private ContentAPI() {
         contentAPIHost = StringUtils.removeEnd(getValueOrDefault(CONTENT_API_HOST_KEY, DEFAULT_CONTENT_API_HOST), "/");
-        topicsAPIHost = StringUtils.removeEnd(getValueOrDefault(TOPICS_API_HOST_KEY, DEFAULT_TOPICS_API_HOST), "/");
         maxConnections = defaultIfBlank(getNumberValue(MAX_CONNECTIONS_KEY), 50);
         pooledConnectionsTimeout = defaultIfBlank(getNumberValue(POOLED_CONNECTION_TIMEOUT), 5000);
         idleConnectionsTimeout = defaultIfBlank(getNumberValue(IDLE_CONNECTION_TIMEOUT), 60);
@@ -55,9 +50,6 @@ public class ContentAPI implements AppConfig {
 
     public String serverURL() {
         return contentAPIHost;
-    }
-    public String topicsURL() {
-        return topicsAPIHost;
     }
     public int maxConnections() {
 
@@ -82,7 +74,6 @@ public class ContentAPI implements AppConfig {
     public Map<String, Object> getConfig() {
         Map<String, Object> config = new HashMap<>();
         config.put(CONTENT_API_HOST_KEY, contentAPIHost);
-        config.put(TOPICS_API_HOST_KEY, topicsAPIHost);
         config.put(MAX_CONNECTIONS_KEY, maxConnections);
         config.put(POOLED_CONNECTION_TIMEOUT, pooledConnectionsTimeout);
         config.put(IDLE_CONNECTION_TIMEOUT, idleConnectionsTimeout);
