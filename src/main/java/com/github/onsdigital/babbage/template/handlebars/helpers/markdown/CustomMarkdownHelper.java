@@ -13,8 +13,6 @@ import org.pegdown.PegDownProcessor;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
-import static com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.MapTagReplacer.MapType.SVG;
-
 /**
  * Created by bren on 28/07/15.
  * <p/>
@@ -59,7 +57,6 @@ public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandl
         markdown = new ChartTagReplacer(path, "partials/highcharts/chart").replaceCustomTags(markdown);
         markdown = new TableTagReplacer(path, "partials/table").replaceCustomTags(markdown);
         markdown = new TableTagV2Replacer(path, "partials/table-v2").replaceCustomTags(markdown);
-        markdown = new MapTagReplacer(path, "partials/map", SVG).replaceCustomTags(markdown);
         markdown = new ImageTagReplacer(path, "partials/image").replaceCustomTags(markdown);
         markdown = new MathjaxTagReplacer(path, "partials/equation").replaceCustomTags(markdown);
         markdown = new InteractiveTagReplacer(path, "partials/interactive").replaceCustomTags(markdown);

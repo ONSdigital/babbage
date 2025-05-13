@@ -18,7 +18,6 @@ public class ApplicationConfiguration {
     private final Babbage babbage;
     private final Handlebars handlebars;
     private final TableRenderer tableRenderer;
-    private final MapRenderer mapRenderer;
 
     /**
      * Load the application configuration
@@ -48,14 +47,12 @@ public class ApplicationConfiguration {
         babbage = Babbage.getInstance();
         handlebars = Handlebars.getInstance();
         tableRenderer = TableRenderer.getInstance();
-        mapRenderer = MapRenderer.getInstance();
 
         info().data("elastic_search_config", elasticSearch.getConfig())
                 .data("content_api_config", contentAPI.getConfig())
                 .data("babbge_config", babbage.getConfig())
                 .data("handlebars_config", handlebars.getConfig())
                 .data("table_renderer_config", tableRenderer.getConfig())
-                .data("map_renderer_config", mapRenderer.getConfig())
                 .log("successfully loaded application configuration");
     }
 
@@ -77,10 +74,6 @@ public class ApplicationConfiguration {
 
     public TableRenderer tableRenderer() {
         return tableRenderer;
-    }
-
-    public MapRenderer mapRenderer() {
-        return mapRenderer;
     }
 
 }

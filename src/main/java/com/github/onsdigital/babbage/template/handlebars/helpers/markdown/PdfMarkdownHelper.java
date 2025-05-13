@@ -6,8 +6,6 @@ import com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.*
 
 import java.io.IOException;
 
-import static com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.MapTagReplacer.MapType.PNG;
-
 /**
  * Created by bren on 28/07/15.
  * <p/>
@@ -28,7 +26,6 @@ public class PdfMarkdownHelper extends CustomMarkdownHelper implements BabbageHa
         markdown = new MathjaxTagReplacer(path, "pdf/partials/equation").replaceCustomTags(markdown);
         markdown = new TableTagReplacer(path, "pdf/partials/table").replaceCustomTags(markdown);
         markdown = new TableTagV2Replacer(path, "pdf/partials/table-v2").replaceCustomTags(markdown);
-        markdown = new MapTagReplacer(path, "pdf/partials/map", PNG).replaceCustomTags(markdown);
         markdown = new ImageTagReplacer(path, "pdf/partials/image").replaceCustomTags(markdown);
         markdown = new InteractiveTagReplacer(path, "pdf/partials/interactive").replaceCustomTags(markdown);
         markdown = new PulloutBoxTagReplacer(path, "pdf/partials/pullout-box").replaceCustomTags(markdown);
