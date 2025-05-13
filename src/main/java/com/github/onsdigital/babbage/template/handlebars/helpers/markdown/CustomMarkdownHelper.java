@@ -49,7 +49,6 @@ public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandl
 
         markdown = processCustomMarkdownTags(path, markdown);
 
-        //markdown = MathjaxRenderer.render(markdown);
         return new Handlebars.SafeString(markdown) ;
     }
 

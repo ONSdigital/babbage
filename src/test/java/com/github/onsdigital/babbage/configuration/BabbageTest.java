@@ -22,7 +22,6 @@ public class BabbageTest extends junit.framework.TestCase {
     public void testGetInstance_testdefaults() {
         Babbage testInstance = Babbage.getInstance();
         assertEquals(testInstance.getExportSeverUrl(), "http://localhost:9999/");
-        assertEquals(testInstance.getMathjaxExportServer(), null);
         assertEquals(testInstance.getMaxHighchartsServerConnections(), 50);
         assertEquals(testInstance.getMaxResultsPerPage(), 250);
         assertEquals(testInstance.getMaxVisiblePaginatorLink(), 5);
@@ -39,7 +38,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("exportSeverUrl"), testInstance.getExportSeverUrl());
         assertEquals(mockConfig.get("isDevEnv"), testInstance.isDevEnv());
         assertEquals(mockConfig.get("isPublishing"), testInstance.isPublishing());
-        assertEquals(mockConfig.get("mathjaxExportServer"), testInstance.getMathjaxExportServer());
         assertEquals(mockConfig.get("maxHighchartsServerConnections"), testInstance.getMaxHighchartsServerConnections());
         assertEquals(mockConfig.get("maxResultsPerPage"), testInstance.getMaxResultsPerPage());
         assertEquals(mockConfig.get("maxVisiblePaginatorLink"), testInstance.getMaxVisiblePaginatorLink());
