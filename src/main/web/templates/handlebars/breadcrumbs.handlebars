@@ -6,28 +6,14 @@
     {{> partials/breadcrumb-article}}
 {{else if_eq type "timeseries"}}
     {{#if previous}}
-        {{> list/partials/list-page-breadcrumb label="Previous versions" galleryBackground=true}} 
+        {{> partials/breadcrumb label="Previous versions" }} 
     {{else}}		
         {{> partials/breadcrumb}}
     {{/if}}
 {{else if_eq type "dataset"}} 	
-    {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}					
+    {{> partials/breadcrumb label=description.edition }}					
 {{else if_eq type "timeseries_dataset"}} 			
-    {{> list/partials/list-page-breadcrumb label=description.edition galleryBackground=true}}
-{{else if_eq type "list"}}
-    {{#if_eq listType "publications"}}
-        {{> list/partials/list-page-breadcrumb label="Publications" galleryBackground=true}}
-    {{else if_eq listType "topicspecificmethodology"}}
-        {{> list/partials/list-page-breadcrumb label="Methodology"}}
-    {{else if_eq listType "datalist"}}
-        {{> list/partials/list-page-breadcrumb label="Data" galleryBackground=true}}
-    {{else if_eq listType "staticlist"}}
-        {{> list/partials/list-page-breadcrumb label="List"}}
-    {{else if_eq listType "relateddata"}}
-        {{> list/partials/list-page-breadcrumb label="Related data"}}
-    {{else if_eq listType "previousreleases"}}
-        {{> list/partials/list-page-breadcrumb label=labels.previous}}
-    {{/if_eq}}
+    {{> partials/breadcrumb label=description.edition }}
 {{else}}
     {{#if_ne type "error"}}
         {{> partials/breadcrumb}}
