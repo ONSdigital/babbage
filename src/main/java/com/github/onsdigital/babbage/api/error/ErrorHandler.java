@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 
 /**
  * Created by bren on 28/05/15.
@@ -35,13 +36,19 @@ public class ErrorHandler implements ServerError {
         response.setContentType(MediaType.TEXT_HTML);
         if (ContentReadException.class.isAssignableFrom(t.getClass())) {
             ContentReadException exception = (ContentReadException) t;
-            renderErrorPage(exception.getStatusCode(), response);//renderTemplate template with status code name e.g. 404
-            error().exception(t).log("error handler");
-            return;
+            if (exception.getStatusCode() >= 500) {
+                error().exception(t).log("error reading content from zebedee");
+                renderErrorPage(500, response);
+            } else if (exception.getStatusCode() == 401) {
+                info().log("unauthorised request: " + exception.getMessage());
+                renderErrorPage(401, response);
+            } else {
+                info().log("invalid request: " + exception.getMessage());
+                renderErrorPage(404, response);
+            }
         } else if (t instanceof ResourceNotFoundException) {
-            error().exception(t).log("ResourceNotFoundException error");
+            info().log("invalid request: resource not found");
             renderErrorPage(404, response);
-            return;
         } else if (t instanceof LegacyPDFException) {
             error().exception(t).log("LegacyPDFException error");
             renderErrorPage(501, response);
@@ -49,7 +56,7 @@ public class ErrorHandler implements ServerError {
             Exception e = (Exception) t;
             // When user is not logged in and we request authenticated resources from Zebedee, the expected response is 401. Zebedee currently gives 200, with the following error message:
             if (e.getMessage() != null && (e.getMessage().contains("Access Token required but none provided.") || e.getMessage().contains("JWT verification failed as token is expired."))){
-                error().exception(t).log("authorization error");
+                info().log("unauthorised request: " + e.getMessage());
                 renderErrorPage(401, response);
             } else {
                 error().exception(t).log("unknown error");
