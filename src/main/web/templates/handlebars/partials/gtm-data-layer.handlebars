@@ -1,30 +1,32 @@
 <script>
-
-    // getUsageCookieValue reads the legacy cookies_policy and ons_cookies_policy to determine the user's usage preference. 
-    // The legacy policy takes precedence over the new policy. When no policy is found, the user is opted out by default.
-    function getUsageCookieValue() {
-        // TODO: this is the legacy cookie (cookies_policy) handling and will be removed in due course
-        var legacyCookiePolicy = document.cookie.match('(^|;) ?cookies_policy=([^;]*)(;|$)');
-        if (legacyCookiePolicy) {
-            console.debug('legacy cookies_policy found');
-            var decodedCookie = decodeURIComponent(legacyCookiePolicy[2]);
-            var cookieValue = JSON.parse(decodedCookie);
-            console.debug('usage is', cookieValue.usage);
-            return !cookieValue.usage
+    // extractValue extracts the value from an undecodeable json cookie string
+    function extractValue(key, extractionString) {
+        const extractionRegex = new RegExp(`'${key}':(.*?)[,}]`)
+        const match = extractionString.match(extractionRegex)
+        if (match) {
+            return match[1]
         }
+        
+        return null
+    }
 
+    // getUsageCookieValue reads the ons_cookie_policy to determine the user's usage preference. 
+    // When no policy is found, the user is opted out by default.
+    function getUsageCookieValue() {
         // ons_cookie_policy handler
-        var policyCookie = document.cookie.match(/^(.*)?\s*'usage':true\s*[^;]+(.*)?$/);
+        var policyCookie = document.cookie.match('(?:^|; )ons_cookie_policy=({.*?})');
         if (policyCookie) {
-            console.debug('ons_cookie_policy found - opting in');
+            console.debug('ons_cookie_policy found');
+
+            var usageValue = extractValue("usage", policyCookie[1]);
+            console.debug('usage is', usageValue);
+
             // this needs to be the inverse - if usage is true the returned value is false and vice versa
             // user is stating whether they are opting out of usage cookie
-            return false
+            return (usageValue == "true") ? false : true
         }
-
         console.debug('no cookie found - opting out');
         return true
-
     }
 
     // unescape html entities
