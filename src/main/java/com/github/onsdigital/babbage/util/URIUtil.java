@@ -47,7 +47,6 @@ public class URIUtil {
      */
     public static String resolveRequestType(String uriString) {
         uriString = cleanUri(uriString);
-//        validate(uriString);
         if ("/".equals(uriString)) {
             return uriString;
         }
@@ -61,6 +60,11 @@ public class URIUtil {
         return "data".equals(resolveRequestType(uriString));
     }
 
+
+    public static boolean isLatestRequest(String uriString) {
+        return "latest".equals(resolveRequestType(uriString));
+    }
+
     /**
      * Extracts resource uri from request type suffixed uris.
      * <p>
@@ -71,7 +75,6 @@ public class URIUtil {
      */
     public static String removeLastSegment(String uriString) {
         uriString = cleanUri(uriString);
-//        validate(uriString);
 
         int lastSlashIndex = StringUtils.lastIndexOf(uriString, "/");
         return StringUtils.substring(uriString, 0, lastSlashIndex);
@@ -88,7 +91,7 @@ public class URIUtil {
         }
     }
 
-    //Remove trailing slash if any and make lowercase
+    // Remove trailing slash if any and make lowercase
     public static String cleanUri(String uriString) {
         uriString = StringUtils.trim(StringUtils.defaultIfBlank(uriString, "/"));
         if ("/".equals(uriString)) {
