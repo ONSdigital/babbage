@@ -5,7 +5,10 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.github.onsdigital.babbage.util.URIUtil.isLatestRequest;
 import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertFalse;
 
 /**
  * @author sullid (David Sullivan) on 10/04/2018
@@ -96,6 +99,15 @@ public class TestURIUtil {
             String cleanUri = URIUtil.cleanUri(uri);
             assertEquals(cleanUri, expected.get(uri));
         }
+    }
+
+
+    @Test
+    public void testIsLatestRequest() {
+        assertTrue(isLatestRequest("/bulletin/latest"));
+        assertFalse(isLatestRequest("/bulletin"));
+        assertFalse(isLatestRequest("/bulletin/late"));
+
     }
 
 }

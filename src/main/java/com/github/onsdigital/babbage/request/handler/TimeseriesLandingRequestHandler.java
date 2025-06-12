@@ -55,7 +55,7 @@ public class TimeseriesLandingRequestHandler extends BaseRequestHandler {
             ContentResponse contentResponse = ContentClient.getInstance().getContent(latestTimeseriesUri, getQueryParameters(request));
             return new BabbageContentBasedStringResponse(contentResponse, contentResponse.getAsString());
         } else {
-            return PageRequestHandler.getPage(latestTimeseriesUri, request);
+            return new PageRequestHandler().getPage(latestTimeseriesUri, request);
         }
     }
 

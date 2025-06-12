@@ -2,10 +2,11 @@ package com.github.onsdigital.babbage.response;
 
 import com.github.onsdigital.babbage.response.base.BabbageResponse;
 import org.eclipse.jetty.http.HttpHeader;
-import org.eclipse.jetty.http.HttpScheme;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
+
 import java.io.IOException;
 
 /**
@@ -24,11 +25,13 @@ public class BabbageRedirectResponse extends BabbageResponse {
         String forwardedHost = request.getHeader(HttpHeader.X_FORWARDED_HOST.asString());
         String forwardedProto = request.getHeader(HttpHeader.X_FORWARDED_PROTO.asString());
 
+        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+
         if ((null != forwardedHost && !forwardedHost.isEmpty()) && (null != forwardedProto && !forwardedProto.isEmpty())) {
             String url = buildHttpsRedirectUrl(forwardedProto, forwardedHost, redirectUri);
-            response.sendRedirect(url);
+            response.setHeader(HttpHeaders.LOCATION, url);
         } else {
-            response.sendRedirect(redirectUri);
+            response.setHeader(HttpHeaders.LOCATION, redirectUri);
         }
     }
 
@@ -41,8 +44,10 @@ public class BabbageRedirectResponse extends BabbageResponse {
      */
     private static String buildHttpsRedirectUrl(String scheme, String host, String redirectUri) {
         redirectUri = !redirectUri.startsWith("/") ? String.format("/%s", redirectUri) : redirectUri;
-        String url = scheme + "://" + host + redirectUri;
+        return scheme + "://" + host + redirectUri;
+    }
 
-        return url;
+    public String getRedirectUri() {
+        return redirectUri;
     }
 }
