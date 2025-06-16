@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,8 +50,9 @@ public class PageRequestHandler extends BaseRequestHandler {
         JsonObject jsonResponse = JsonParser.parseString(contentResponse.getAsString()).getAsJsonObject();
 
         JsonElement migrationLink = jsonResponse.getAsJsonObject("description").get("migrationLink");
+        JsonElement contentType = jsonResponse.get("type");
 
-        if (migrationLink != null && shouldRedirect(uri, jsonResponse)) {
+        if (migrationLink != null && contentType != null && shouldRedirect(uri, contentType.getAsString(), migrationLink.getAsString())) {
             return new BabbageRedirectResponse(migrationLink.getAsString());
         }
 
@@ -73,17 +75,11 @@ public class PageRequestHandler extends BaseRequestHandler {
      * @param contentType - content type from zebedee
      * @param migrationLink - place to redirect to
      */
-    public Boolean shouldRedirect(String uri, JsonObject jsonResponse) {
-        
-        JsonElement jsonContentType = jsonResponse.get("type");
-        JsonElement jsonMigrationLink = jsonResponse.getAsJsonObject("description").get("migrationLink");
+    public boolean shouldRedirect(String uri, String contentType, String migrationLink) {
 
-        if (jsonContentType != null && jsonMigrationLink != null){
-            Boolean matchedContentType = serialisedContentTypes.contains(jsonContentType.getAsString());
+        Boolean matchedContentType = serialisedContentTypes.contains(contentType);
 
-            return !jsonMigrationLink.getAsString().isEmpty() && URIUtil.isLatestRequest(uri) && matchedContentType;
-        }
-        return false;
+        return !StringUtils.isBlank(migrationLink) && URIUtil.isLatestRequest(uri) && matchedContentType;
     }
 
     @Override

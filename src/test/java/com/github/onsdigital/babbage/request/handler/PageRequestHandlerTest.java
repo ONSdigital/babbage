@@ -70,12 +70,13 @@ public class PageRequestHandlerTest {
 
     @Test
     public void testShouldRedirect() {
-       assertFalse(handler.shouldRedirect("/mybulletin", generateObject("bulletin", "/redirect1", "bulletin title")));
-       assertFalse(handler.shouldRedirect("/mybulletin", generateObject("bulletin", "", "bulletin title")));
-       assertFalse(handler.shouldRedirect("/mybulletin/latest", generateObject("bulletin", "", "bulletin title")));
-       assertFalse(handler.shouldRedirect("/mystatic/latest", generateObject("static_adhoc", "/redirect1", "bulletin title")));
-       assertTrue(handler.shouldRedirect("/mybulletin/latest", generateObject("bulletin", "/redirect1", "bulletin title")));
-       assertFalse(handler.shouldRedirect("/mybulletin/latest", generateObject("", "", "bulletin title")));
+       assertFalse(handler.shouldRedirect("/mybulletin", "bulletin", "/redirect1"));
+       assertFalse(handler.shouldRedirect("/mybulletin", "bulletin", ""));
+       assertFalse(handler.shouldRedirect("/mybulletin/latest", "bulletin", ""));
+       assertFalse(handler.shouldRedirect("/mystatic/latest", "static_adhoc", "/redirect1"));
+       assertTrue(handler.shouldRedirect("/mybulletin/latest", "bulletin", "/redirect1"));
+       assertFalse(handler.shouldRedirect("/mybulletin/latest", "", ""));
+       assertFalse(handler.shouldRedirect("/mybulletin/latest", "", " "));
     }
 
     @Test
