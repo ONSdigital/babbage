@@ -73,10 +73,12 @@ public class PageRequestHandlerTest {
        assertFalse(handler.shouldRedirect("/mybulletin", "bulletin", "/redirect1"));
        assertFalse(handler.shouldRedirect("/mybulletin", "bulletin", ""));
        assertFalse(handler.shouldRedirect("/mybulletin/latest", "bulletin", ""));
-       assertFalse(handler.shouldRedirect("/mystatic/latest", "static_adhoc", "/redirect1"));
        assertTrue(handler.shouldRedirect("/mybulletin/latest", "bulletin", "/redirect1"));
        assertFalse(handler.shouldRedirect("/mybulletin/latest", "", ""));
        assertFalse(handler.shouldRedirect("/mybulletin/latest", "", " "));
+       assertFalse(handler.shouldRedirect("/mytaxonomypage", "taxonomy_landing_page", " "));
+       assertFalse(handler.shouldRedirect("/mytaxonomypage", "taxonomy_landing_page", ""));
+       assertTrue(handler.shouldRedirect("/mytaxonomypage", "taxonomy_landing_page", "/redirect2"));
     }
 
     @Test
@@ -168,18 +170,35 @@ public class PageRequestHandlerTest {
 
     @Test
     public void getPageOfNonEditorialContentWithRedirect() throws Exception {
-        // Given Zebedee returns a dataset with a migrationLink
-        byte[] pageData = generateData("dataset_landing_page", "/redirect1", "Dataset title");
+        String redirect = "/redirect1";
 
-        // And the page requested is the 'latest' endpoint
-        String uri = URI + "/latest";
+        // Given Zebedee returns a taxonomy_landing_page with a migrationLink
+        byte[] pageData = generateData("taxonomy_landing_page", redirect, "Topic title");
+
+        when(contentResponse.getAsString()).thenReturn(new String(pageData));
+        doReturn(contentResponse).when(handler).getContent(URI);
+
+        // When the page is requested from Babbage
+        BabbageResponse babbageResponse = handler.get(URI, request);
+
+        // And a BabbageRedirectResponse is returned with the correct redirectUri
+        assertTrue(babbageResponse instanceof BabbageRedirectResponse);
+        assertTrue(babbageResponse.getErrors().isEmpty());
+        BabbageRedirectResponse babbageRedirectResponse = (BabbageRedirectResponse) babbageResponse;
+        assertEquals(redirect, babbageRedirectResponse.getRedirectUri());
+    }
+
+    @Test
+    public void getPageOfNonEditorialContentWithoutRedirect() throws Exception {
+        // Given Zebedee returns a taxonomy_landing_page without a migrationLink
+        byte[] pageData = generateData("taxonomy_landing_page", "", "Topic title");
 
         when(contentResponse.getAsString()).thenReturn(new String(pageData));
         doReturn(mockTemplateService).when(handler).getTemplateService();
-        doReturn(contentResponse).when(handler).getContent(uri);
+        doReturn(contentResponse).when(handler).getContent(URI);
 
         // When the page is requested from Babbage
-        BabbageResponse babbageResponse = handler.get(uri, request);
+        BabbageResponse babbageResponse = handler.get(URI, request);
 
         // Then a page is served
         assertFalse(babbageResponse instanceof BabbageRedirectResponse);
