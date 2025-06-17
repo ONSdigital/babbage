@@ -78,7 +78,7 @@ public class PageRequestHandler extends BaseRequestHandler {
     public boolean shouldRedirect(String uri, String contentType, String migrationLink) {
 
         boolean matchedSerialisedContentType = serialisedContentTypes.contains(contentType);
-        boolean migrationLinkSet = !StringUtils.isBlank(migrationLink);
+        boolean migrationLinkSet = StringUtils.isNotBlank(migrationLink);
         boolean isLatestRequest = URIUtil.isLatestRequest(uri);
 
         // These are two separate if statements as otherwise the logic gets a bit impenetrable.
