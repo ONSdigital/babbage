@@ -6,6 +6,8 @@ import com.github.onsdigital.babbage.url.shortcut.ShortcutUrlService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +30,8 @@ public class ShortUrlFilter implements Filter {
             Optional<ShortcutUrl> temp = get(uri);
 
             if (temp.isPresent()) {
-                res.sendRedirect(temp.get().getRedirect());
                 res.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                res.setHeader(HttpHeaders.LOCATION, temp.get().getRedirect());
                 return false;
             }
         } catch (IOException | RedirectException ex) {
