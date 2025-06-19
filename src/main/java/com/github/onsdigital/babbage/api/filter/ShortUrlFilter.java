@@ -1,21 +1,26 @@
 package com.github.onsdigital.babbage.api.filter;
 
+import com.github.onsdigital.babbage.api.error.ErrorHandler;
 import com.github.onsdigital.babbage.url.redirect.RedirectException;
 import com.github.onsdigital.babbage.url.shortcut.ShortcutUrl;
 import com.github.onsdigital.babbage.url.shortcut.ShortcutUrlService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 
 /**
  * URL Shortcut filter: allows shortened url to be redirected to their actual location.
  */
 public class ShortUrlFilter implements Filter {
 
-    private static final String ERROR_MSG = "Unexpected error while attempting to find a shortcut url redirect for '%s'.";
+    private static final String ERROR_MSG = "unexpected error while attempting to find a shortcut url redirect.";
 
     private static Optional<List<ShortcutUrl>> shortcuts = Optional.empty();
 
@@ -28,13 +33,12 @@ public class ShortUrlFilter implements Filter {
             Optional<ShortcutUrl> temp = get(uri);
 
             if (temp.isPresent()) {
-                res.sendRedirect(temp.get().getRedirect());
                 res.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                res.setHeader(HttpHeaders.LOCATION, temp.get().getRedirect());
                 return false;
             }
         } catch (IOException | RedirectException ex) {
-            String msg = String.format(ERROR_MSG, req.getRequestURI());
-            throw new RuntimeException(msg, ex);
+            handleError(req, res, ex);
         }
         return true;
     }
@@ -49,4 +53,13 @@ public class ShortUrlFilter implements Filter {
                 .filter(shortcutUrl -> shortcutUrl.getShortcut().equalsIgnoreCase(uri))
                 .findFirst();
     }
+
+    private void handleError(HttpServletRequest req, HttpServletResponse res, Exception ex) {
+        try {
+            ErrorHandler.handle(req, res, ex);
+        } catch (IOException e) {
+            error().exception(e).data("requestURI", req.getRequestURI()).log(ERROR_MSG);
+        }
+    }
+
 }
