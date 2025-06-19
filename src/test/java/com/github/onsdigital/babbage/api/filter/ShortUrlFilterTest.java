@@ -127,7 +127,6 @@ public class ShortUrlFilterTest {
 		verifyNoInteractions(shortcutUrlService);
 		verify(response, times(1)).setHeader(HttpHeaders.LOCATION, SHORT_URL_REDIRECT);
 		verify(response, times(1)).setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
-		verifyNoInteractions(shortcutUrlService, response);
 	}
 
 	@Test
