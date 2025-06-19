@@ -18,7 +18,6 @@ import java.util.Optional;
 import static com.github.onsdigital.babbage.url.redirect.RedirectCategory.DATA_EXPLORER_REDIRECT;
 import static com.github.onsdigital.babbage.url.redirect.RedirectCategory.GENERAL_REDIRECT;
 import static com.github.onsdigital.babbage.url.redirect.RedirectCategory.TAXONOMY_REDIRECT;
-import static com.github.onsdigital.babbage.url.redirect.RedirectException.ErrorType.REDIRECT_URL_EXCEPTION;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 
 
