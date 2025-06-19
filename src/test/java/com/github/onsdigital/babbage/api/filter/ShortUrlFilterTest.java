@@ -1,29 +1,36 @@
 package com.github.onsdigital.babbage.api.filter;
 
+import com.github.onsdigital.babbage.api.error.ErrorHandler;
 import com.github.onsdigital.babbage.url.shortcut.ShortcutUrl;
 import com.github.onsdigital.babbage.url.shortcut.ShortcutUrlService;
 import com.github.onsdigital.babbage.util.TestsUtil;
 import com.google.common.collect.ImmutableList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.MockitoAnnotations;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
+
 
 /**
  * Test the shortcut filter works as expected in each scenario.
@@ -73,7 +80,7 @@ public class ShortUrlFilterTest {
 
 		assertThat("Expected filter to return true but was false. Test failed.", result, equalTo(true));
 		verify(shortcutUrlService, times(1)).shortcuts();
-		verifyZeroInteractions(response);
+		verifyNoInteractions(response);
 	}
 
 	@Test
@@ -86,7 +93,7 @@ public class ShortUrlFilterTest {
 		boolean result = filter.filter(request, response);
 
 		assertThat("Expected filter to return true but was false. Test failed.", result, equalTo(true));
-		verifyZeroInteractions(shortcutUrlService, response);
+		verifyNoInteractions(shortcutUrlService, response);
 	}
 
 	@Test
@@ -102,8 +109,9 @@ public class ShortUrlFilterTest {
 
 		assertThat("Expected filter to return false but was true. Test failed.", result, equalTo(false));
 		verify(shortcutUrlService, times(1)).shortcuts();
-		verify(response, times(1)).sendRedirect(SHORT_URL_REDIRECT);
+		verify(response, times(1)).setHeader(HttpHeaders.LOCATION, SHORT_URL_REDIRECT);
 		verify(response, times(1)).setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+
 	}
 
 	@Test
@@ -116,26 +124,27 @@ public class ShortUrlFilterTest {
 		boolean result = filter.filter(request, response);
 
 		assertThat("Expected filter to return false but was true. Test failed.", result, equalTo(false));
-		verifyZeroInteractions(shortcutUrlService);
-		verify(response, times(1)).sendRedirect(SHORT_URL_REDIRECT);
+		verifyNoInteractions(shortcutUrlService);
+		verify(response, times(1)).setHeader(HttpHeaders.LOCATION, SHORT_URL_REDIRECT);
 		verify(response, times(1)).setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+		verifyNoInteractions(shortcutUrlService, response);
 	}
 
-	@Test(expected = IOException.class)
-	public void shouldThrowIOExceptionWhenSettingRedirect() throws Exception {
+	@Test
+	public void shouldHandleErrorIfExceptionThrown() throws Exception {
 		when(request.getRequestURI())
 				.thenReturn(SHORT_URL);
 
 		doThrow(new IOException())
-				.when(response).sendRedirect(anyString());
+				.when(shortcutUrlService).shortcuts();
 
-		TestsUtil.setPrivateStaticField(filter, "shortcuts", mapOptional);
+		try (MockedStatic<ErrorHandler> errorHandlerMock = mockStatic(ErrorHandler.class)) {
+			boolean result = filter.filter(request, response);
 
-		try {
-			filter.filter(request, response);
-		} catch (Exception ex) {
-			assertTrue("Expected IOException.", ex.getCause() instanceof IOException);
-			throw new IOException(ex.getCause());
+			assertEquals(true, result);
+
+			verifyNoInteractions(response);
+			errorHandlerMock.verify(() -> ErrorHandler.handle(any(HttpServletRequest.class), any(HttpServletResponse.class), any(IOException.class)));
 		}
 	}
 }
