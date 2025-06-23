@@ -6,6 +6,7 @@ import com.github.onsdigital.babbage.url.shortcut.ShortcutUrlService;
 import com.github.onsdigital.babbage.util.TestsUtil;
 import com.google.common.collect.ImmutableList;
 
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -110,7 +111,7 @@ public class ShortUrlFilterTest {
 		assertThat("Expected filter to return false but was true. Test failed.", result, equalTo(false));
 		verify(shortcutUrlService, times(1)).shortcuts();
 		verify(response, times(1)).setHeader(HttpHeaders.LOCATION, SHORT_URL_REDIRECT);
-		verify(response, times(1)).setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+		verify(response, times(1)).setStatus(HttpStatus.SC_PERMANENT_REDIRECT);
 
 	}
 
@@ -126,7 +127,7 @@ public class ShortUrlFilterTest {
 		assertThat("Expected filter to return false but was true. Test failed.", result, equalTo(false));
 		verifyNoInteractions(shortcutUrlService);
 		verify(response, times(1)).setHeader(HttpHeaders.LOCATION, SHORT_URL_REDIRECT);
-		verify(response, times(1)).setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+		verify(response, times(1)).setStatus(HttpStatus.SC_PERMANENT_REDIRECT);
 	}
 
 	@Test

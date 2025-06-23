@@ -4,6 +4,9 @@ import com.github.onsdigital.babbage.response.base.BabbageResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.hc.core5.http.HttpStatus;
+
 import java.io.IOException;
 
 /**
@@ -21,7 +24,7 @@ public class BabbageResourceMovedResponse extends BabbageResponse {
 
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+        setStatus(HttpStatus.SC_PERMANENT_REDIRECT);
         addHeader("Location", redirectUri);
         super.apply(request, response);
     }

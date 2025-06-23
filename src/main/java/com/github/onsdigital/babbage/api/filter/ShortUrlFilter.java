@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 
+import org.apache.hc.core5.http.HttpStatus;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +35,7 @@ public class ShortUrlFilter implements Filter {
             Optional<ShortcutUrl> temp = get(uri);
 
             if (temp.isPresent()) {
-                res.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+                res.setStatus(HttpStatus.SC_PERMANENT_REDIRECT);
                 res.setHeader(HttpHeaders.LOCATION, temp.get().getRedirect());
                 return false;
             }

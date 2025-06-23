@@ -1,6 +1,8 @@
 package com.github.onsdigital.babbage.response;
 
 import com.github.onsdigital.babbage.response.base.BabbageResponse;
+import org.apache.hc.core5.http.HttpStatus;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +23,7 @@ public class BabbageRedirectResponse extends BabbageResponse {
 
     @Override
     public void apply(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+        response.setStatus(HttpStatus.SC_PERMANENT_REDIRECT);
         response.setHeader(HttpHeaders.LOCATION, redirectUri);
     }
 
