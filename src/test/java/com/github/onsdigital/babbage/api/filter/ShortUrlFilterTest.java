@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -141,7 +141,7 @@ public class ShortUrlFilterTest {
 		try (MockedStatic<ErrorHandler> errorHandlerMock = mockStatic(ErrorHandler.class)) {
 			boolean result = filter.filter(request, response);
 
-			assertEquals(true, result);
+			assertTrue(result);
 
 			verifyNoInteractions(response);
 			errorHandlerMock.verify(() -> ErrorHandler.handle(any(HttpServletRequest.class), any(HttpServletResponse.class), any(IOException.class)));
