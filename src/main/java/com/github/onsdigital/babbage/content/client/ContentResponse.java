@@ -31,6 +31,8 @@ public class ContentResponse implements Serializable {
 
     private String hash;
 
+    private String pageType;
+
     ContentResponse(CloseableHttpResponse response) throws IOException {
         try {
             ContentType contentType = getContentType(response);
@@ -49,6 +51,7 @@ public class ContentResponse implements Serializable {
             }
             size = response.getEntity().getContentLength();
             name = extractName(response);
+            pageType = extractPageType(response);
             Header etag = response.getFirstHeader("Etag");
             hash = etag == null ? null : etag.getValue();
         }finally {
@@ -101,6 +104,18 @@ public class ContentResponse implements Serializable {
                 return filename == null ? null : filename.getValue();
 
             }
+        }
+        return null;
+    }
+
+    public String getPageType() {
+        return pageType;
+    }
+
+    private String extractPageType(HttpResponse response) {
+        Header pageTypeHeader = response.getFirstHeader("ONS-Page-Type");
+        if (pageTypeHeader != null) {
+            return pageTypeHeader.getValue();
         }
         return null;
     }

@@ -64,7 +64,7 @@ public class DeprecationFilterTest {
 		String testLink = "link";
 		String testMatchPattern = "^/timeseriestool/data$";
 
-		config.add(new DeprecationItem(testDeprecationDate, testSunsetDate, testLink, testMatchPattern));
+		config.add(new DeprecationItem(testDeprecationDate, testSunsetDate, testLink, testMatchPattern, ""));
 
 		filter = new DeprecationFilter(config);
 
@@ -92,7 +92,7 @@ public class DeprecationFilterTest {
 		String testLink = "link";
 		String testMatchPattern = "^/timeseriestool/data$";
 
-		config.add(new DeprecationItem(testDeprecationDate, testSunsetDate, testLink, testMatchPattern));
+		config.add(new DeprecationItem(testDeprecationDate, testSunsetDate, testLink, testMatchPattern, ""));
 
 		filter = new DeprecationFilter(config);
 

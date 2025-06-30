@@ -1,5 +1,7 @@
 package com.github.onsdigital.babbage.request.handler.content;
 
+import com.github.onsdigital.babbage.api.error.ErrorHandler;
+import com.github.onsdigital.babbage.configuration.DeprecationItem;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.request.handler.base.BaseRequestHandler;
@@ -11,6 +13,7 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +24,9 @@ import static com.github.onsdigital.babbage.util.RequestUtil.getQueryParameters;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 
+import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
+
+
 /**
  * Handle data requests. Proxies data requests to content service
  */
@@ -29,6 +35,19 @@ public class DataRequestHandler extends BaseRequestHandler {
     public static final String REQUEST_TYPE = "data";
     private static Map<String, ListRequestHandler> listPageHandlers = new HashMap<>();
 
+    private Map<String, DeprecationItem> deprecationItemMap;
+
+    public DataRequestHandler() {
+        Map<String, DeprecationItem> dm = new HashMap<>();
+        appConfig().babbage().getDeprecationConfig().stream()
+                .filter(deprecationItem -> deprecationItem.deprecationType() == DeprecationItem.DeprecationType.DATA)
+                .forEach(d -> {
+                    d.pageTypes().forEach(t -> {
+                        dm.put(t, d);
+                    });
+                });
+        this.deprecationItemMap = dm;
+    }
 
     @Override
     public BabbageResponse get(String requestedUri, HttpServletRequest request) throws Exception {
@@ -49,6 +68,20 @@ public class DataRequestHandler extends BaseRequestHandler {
         }
 
         ContentResponse contentResponse = ContentClient.getInstance().getContent(uri, getQueryParameters(request));
+        String pageType = contentResponse.getPageType();
+        if (deprecationItemMap.containsKey(pageType)) {
+            responseaddSunsetHeaders(response, deprecationItem);
+            if (deprecationItem.isSunsetPassed()) {
+                try {
+                    ErrorHandler.renderErrorPage(404, response);
+                    return false;
+                } catch (IOException e) {
+                    error().data("uri", uri).log("error rendering error page for uri");
+                    return false;
+                }
+
+            }
+        }
         return new BabbageContentBasedStringResponse(contentResponse, contentResponse.getAsString());
     }
 

@@ -7,9 +7,12 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.error;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.github.onsdigital.babbage.api.error.ErrorHandler;
 import com.github.onsdigital.babbage.configuration.DeprecationItem;
+import com.github.onsdigital.babbage.configuration.DeprecationItem.DeprecationType;
+
 import com.github.onsdigital.babbage.response.util.HttpHeaders;
 
 public class DeprecationFilter implements Filter {
@@ -17,7 +20,9 @@ public class DeprecationFilter implements Filter {
     private final List<DeprecationItem> config;
 
     public DeprecationFilter(List<DeprecationItem> config) {
-        this.config = config;
+        this.config = config.stream()
+                .filter(deprecationItem -> deprecationItem.deprecationType() == DeprecationType.FILTER)
+                .collect(Collectors.toList());
     }
 
 

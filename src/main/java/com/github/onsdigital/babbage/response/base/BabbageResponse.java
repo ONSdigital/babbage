@@ -1,5 +1,8 @@
 package com.github.onsdigital.babbage.response.base;
 
+import com.github.onsdigital.babbage.configuration.DeprecationItem;
+import com.github.onsdigital.babbage.response.util.HttpHeaders;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -96,5 +99,11 @@ public abstract class BabbageResponse {
 
     public List<String> getErrors() {
         return errors;
+    }
+
+    public void addSunsetHeaders(DeprecationItem config) {
+        addHeader(HttpHeaders.DEPRECATION, config.deprecationDate().toString());
+        addHeader(HttpHeaders.LINK, config.link());
+        addHeader(HttpHeaders.SUNSET, config.sunsetDate().toString());
     }
 }
