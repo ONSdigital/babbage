@@ -1,22 +1,30 @@
 {{!-- Latest info --}}
-{{#unless (endsWith (parentPath uri) "previous")}} 
+{{#unless (endsWith (parentPath uri) "previous")}}
     {{!-- If not a previous version workout the latest link --}}
     {{#if description.latestRelease}}
         <div class="col alert-release-banner alert-release-banner__latest">
             <p class="alert-release-banner__title">{{labels.this-is-the-latest-release}}
-            <a href="{{parentPath uri}}/previousreleases">{{labels.view-previous-releases}}</a></p>
+                <a href="{{parentPath uri}}/previousreleases">{{labels.view-previous-releases}}</a>
+            </p>
         </div>
     {{else}}
-        {{#resolve (concat (parentPath uri) "/latest") filter="title"}}
+        {{#resolve (concat (parentPath uri) "/latest") filter="title" filter="description"}}
             <div class="col alert-release-banner alert-release-banner__not-latest">
                 <p class="alert-release-banner__title">{{labels.this-is-not-the-latest-release}}
-                <a class="alert-release-banner__link" href="{{uri}}">{{labels.view-latest-release}}</a></p>
+                    <a
+                        class="alert-release-banner__link"
+                        href="{{#if description.migrationLink}}{{description.migrationLink}}{{else}}{{uri}}{{/if}}"
+                    >{{labels.view-latest-release}}</a>
+                </p>
             </div>
         {{/resolve}}
     {{/if}}
 {{else}}
     {{!-- If an older version of any release link to latest version of that release --}}
     <div class="col alert-release-banner alert-release-banner__not-latest">
-        <p class="alert-release-banner__title">{{labels.this-has-been-superseded}} <a class="alert-release-banner__link" href="{{parentPath (parentPath uri)}}">{{labels.view-corrected-version}}</a></p>
+        <p class="alert-release-banner__title">{{labels.this-has-been-superseded}} <a
+                class="alert-release-banner__link"
+                href="{{parentPath (parentPath uri)}}"
+            >{{labels.view-corrected-version}}</a></p>
     </div>
 {{/unless}}

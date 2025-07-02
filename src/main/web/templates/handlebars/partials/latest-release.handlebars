@@ -1,17 +1,27 @@
-{{#unless (endsWith (parentPath uri) "previous")}} 
+{{#unless (endsWith (parentPath uri) "previous")}}
 	{{!-- If not a previous version workout the latest link --}}
 	{{#if description.latestRelease}}
 		<p class="alert__title">{{labels.this-is-the-latest-release}}</p>
-        <a class="alert__link" href="{{parentPath uri}}/previousreleases">{{labels.view-previous-releases}}</a>
+		<a
+			class="alert__link"
+			href="{{parentPath uri}}/previousreleases"
+		>{{labels.view-previous-releases}}</a>
 	{{else}}
-		{{#resolve (concat (parentPath uri) "/latest") filter="title"}}
-			<p class="alert__title">{{labels.this-is-not-the-latest-release}}</p> <a class="btn btn--primary print--hide" href="{{uri}}">{{labels.view-latest-release}}</a>
+		{{#resolve (concat (parentPath uri) "/latest") filter="title" filter="description"}}
+			<p class="alert__title">{{labels.this-is-not-the-latest-release}}</p>
+			<a
+				class="btn btn--primary print--hide"
+				href="{{#if description.migrationLink}}{{description.migrationLink}}{{else}}{{uri}}{{/if}}"
+			>{{labels.view-latest-release}}</a>
 		{{/resolve}}
 	{{/if}}
 {{else}}
 	{{!-- If an older version of any release link to latest version of that release --}}
 	<div class="alert--warning">
 		<div class="alert--warning__icon"></div>
-		<h2 class="alert--warning__title">{{labels.this-has-been-superseded}}</h2> <a class="btn btn--primary print--hide alert--warning__content" href="{{parentPath (parentPath uri)}}">{{labels.view-corrected-version}}</a>
+		<h2 class="alert--warning__title">{{labels.this-has-been-superseded}}</h2> <a
+			class="btn btn--primary print--hide alert--warning__content"
+			href="{{parentPath (parentPath uri)}}"
+		>{{labels.view-corrected-version}}</a>
 	</div>
 {{/unless}}
