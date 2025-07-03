@@ -1,7 +1,13 @@
 package com.github.onsdigital.babbage.response.base;
 
+import com.github.onsdigital.babbage.configuration.deprecation.DeprecationItem;
+import com.github.onsdigital.babbage.response.util.HttpHeaders;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -16,9 +22,9 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
  */
 public abstract class BabbageResponse {
 
-    private String mimeType = APPLICATION_JSON; //Default mimetype
-    private String charEncoding = StandardCharsets.UTF_8.name();//Default encoding
-    private int status = HttpServletResponse.SC_OK;//Default status
+    private String mimeType = APPLICATION_JSON; // Default mimetype
+    private String charEncoding = StandardCharsets.UTF_8.name();// Default encoding
+    private int status = HttpServletResponse.SC_OK;// Default status
     private Map<String, String> headers;
     protected List<String> errors;
 
@@ -50,7 +56,9 @@ public abstract class BabbageResponse {
     }
 
     protected void setContentHash(HttpServletRequest request, HttpServletResponse response) {
-        //This method needs to exist only because it is overridden in the BabbageContentBasedBinaryResponse and BabbageContentBasedStringResponse classes
+        // This method needs to exist only because it is overridden in the
+        // BabbageContentBasedBinaryResponse and BabbageContentBasedStringResponse
+        // classes
     }
 
     public String getMimeType() {
@@ -96,5 +104,19 @@ public abstract class BabbageResponse {
 
     public List<String> getErrors() {
         return errors;
+    }
+
+    public void addSunsetHeaders(DeprecationItem deprecationItem) {
+        if (StringUtils.isNotBlank(deprecationItem.getDeprecationDateTimeStampString())) {
+            addHeader(HttpHeaders.DEPRECATION, deprecationItem.getDeprecationDateTimeStampString());
+        }
+
+        if (StringUtils.isNotBlank(deprecationItem.getLink())) {
+            addHeader(HttpHeaders.LINK, deprecationItem.getLink());
+        }
+
+        if (StringUtils.isNotBlank(deprecationItem.getSunsetDate().toString())) {
+            addHeader(HttpHeaders.SUNSET, deprecationItem.getSunsetDate().toString());
+        }
     }
 }
