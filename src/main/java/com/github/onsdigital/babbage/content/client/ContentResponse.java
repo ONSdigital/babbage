@@ -31,27 +31,30 @@ public class ContentResponse implements Serializable {
 
     private String hash;
 
+    private String pageType;
+
     ContentResponse(CloseableHttpResponse response) throws IOException {
         try {
             ContentType contentType = getContentType(response);
             mimeType = contentType.getMimeType();
             charset = contentType.getCharset();
             // IOUtils.toByteArray has been updated to return a null pointer exception
-            // in commons-io 2.9.0.  This resulted in some failed tests so unsure how it
+            // in commons-io 2.9.0. This resulted in some failed tests so unsure how it
             // will affect the behaviour of the system, therefore this if statement has been
-            // added to return an empty byte array as previously returned by IOUtils.toByteArray
+            // added to return an empty byte array as previously returned by
+            // IOUtils.toByteArray
             // and not transform any content.
             if (response.getEntity().getContent() == null) {
                 data = new byte[0];
-            }
-            else {
+            } else {
                 data = IOUtils.toByteArray(response.getEntity().getContent());
             }
             size = response.getEntity().getContentLength();
             name = extractName(response);
+            pageType = extractPageType(response);
             Header etag = response.getFirstHeader("Etag");
             hash = etag == null ? null : etag.getValue();
-        }finally {
+        } finally {
             IOUtils.close(response);
         }
     }
@@ -85,7 +88,7 @@ public class ContentResponse implements Serializable {
     }
 
     public String getHash() {
-        return StringUtils.remove(hash, "--gzip");//TODO:Checkout why zip extension is passed back
+        return StringUtils.remove(hash, "--gzip");// TODO:Checkout why zip extension is passed back
     }
 
     public String getName() {
@@ -101,6 +104,18 @@ public class ContentResponse implements Serializable {
                 return filename == null ? null : filename.getValue();
 
             }
+        }
+        return null;
+    }
+
+    public String getPageType() {
+        return pageType;
+    }
+
+    private String extractPageType(HttpResponse response) {
+        Header pageTypeHeader = response.getFirstHeader("ONS-Page-Type");
+        if (pageTypeHeader != null) {
+            return pageTypeHeader.getValue();
         }
         return null;
     }
