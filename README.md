@@ -107,10 +107,10 @@ DEPRECATION_CONFIG:
         description: "A regex string pattern to match against requests. If you use ".*/data$" this is for use with the 'pageTypes' below to deprecate data endpoints"
       message:
         type: string
-        description: "A message to return in the case of data endpoints"
+        description: "A message to return in the case of data endpoints. This is only used with the data endponts deprecation functionality."
       pageTypes:
         type: string
-        description: "Comma separated list of page types, in the singular"
+        description: "Comma separated list of page types, in the singular. This is only used with the data endponts deprecation functionality."
         example: "bulletin,article"
 ```
 
