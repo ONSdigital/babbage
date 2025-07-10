@@ -23,7 +23,7 @@ public class DeprecationItem {
 
     public enum DeprecationType {
         FILTER,
-        DATA;
+        DATA
     }
 
     public DeprecationItem(@JsonProperty("deprecationDate") String deprecationDate,
