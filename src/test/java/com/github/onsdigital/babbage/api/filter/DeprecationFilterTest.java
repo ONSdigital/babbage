@@ -18,6 +18,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.any;
 
@@ -54,7 +56,7 @@ public class DeprecationFilterTest {
 
 		boolean result = filter.filter(request, response);
 
-		assertEquals(true, result);
+		assertTrue(result);
 		assertEquals(response.getHeader("Sunset"), null);
 	}
 
@@ -81,7 +83,7 @@ public class DeprecationFilterTest {
 		boolean result = filter.filter(request, response);
 
 		// Then the filter should let processing continue
-		assertEquals(true, result);
+		assertTrue(result);
 
 		// And the expected headers should be applied
 		String expectedLink = String.format("<%s>; rel=\"sunset\"", testLink);
@@ -113,7 +115,7 @@ public class DeprecationFilterTest {
 		boolean result = filter.filter(request, response);
 
 		// Then the processing is stopped
-		assertEquals(false, result);
+		assertFalse(result);
 
 		// And the sunset headers are applied
 		String expectedLink = String.format("<%s>; rel=\"sunset\"", testLink);

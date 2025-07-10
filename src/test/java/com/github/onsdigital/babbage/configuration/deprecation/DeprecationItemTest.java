@@ -5,18 +5,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertNull;
 
 public class DeprecationItemTest {
 
     @Test
     public void testDeprecationItemBlank() {
         DeprecationItem itemBlank = new DeprecationItem("", "", "", "", "", "");
-        assertEquals(null, itemBlank.getDeprecationDate());
-        assertEquals(null, itemBlank.getDeprecationDateTimeStampString());
-        assertEquals(null, itemBlank.getLink());
-        assertEquals(null, itemBlank.getMatchPattern());
-        assertEquals(null, itemBlank.getMessage());
-        assertEquals(null, itemBlank.getPageTypes());
+        assertNull(itemBlank.getDeprecationDate());
+        assertNull(itemBlank.getDeprecationDateTimeStampString());
+        assertNull(itemBlank.getLink());
+        assertNull(itemBlank.getMatchPattern());
+        assertNull(itemBlank.getMessage());
+        assertNull(itemBlank.getPageTypes());
     }
 
     @Test
@@ -38,20 +41,20 @@ public class DeprecationItemTest {
     public void testRequestMatch() {
         DeprecationItem item = new DeprecationItem("2011-11-30T23:59:59", "2011-11-30T23:59:59", "", "/timeseriestool",
                 "", "");
-        assertEquals(true, item.requestMatch("/timeseriestool"));
-        assertEquals(true, item.requestMatch("/economy/timeseriestool"));
-        assertEquals(true, item.requestMatch("/economy/timeseriestool/data"));
-        assertEquals(false, item.requestMatch("/economy/timeserietool/data"));
-        assertEquals(false, item.requestMatch("timeseriestool/data"));
+        assertTrue(item.requestMatch("/timeseriestool"));
+        assertTrue(item.requestMatch("/economy/timeseriestool"));
+        assertTrue(item.requestMatch("/economy/timeseriestool/data"));
+        assertFalse(item.requestMatch("/economy/timeserietool/data"));
+        assertFalse(item.requestMatch("timeseriestool/data"));
     }
 
     @Test
     public void testRequestMatch_complicated() {
         DeprecationItem item = new DeprecationItem("2011-11-30T23:59:59", "2011-11-30T23:59:59", "",
                 "/(alladhocs|allmethodologies|publishedrequests)/data$", "", "");
-        assertEquals(false, item.requestMatch("/alladhocs"));
-        assertEquals(true, item.requestMatch("/alladhocs/data"));
-        assertEquals(true, item.requestMatch("/economy/publishedrequests/data"));
+        assertFalse(item.requestMatch("/alladhocs"));
+        assertTrue(item.requestMatch("/alladhocs/data"));
+        assertTrue(item.requestMatch("/economy/publishedrequests/data"));
     }
 
 }

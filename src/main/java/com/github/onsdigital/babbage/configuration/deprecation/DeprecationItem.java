@@ -46,7 +46,7 @@ public class DeprecationItem {
             this.link = formatSunsetLink(link);
         }
 
-        if (matchPatternString != null && ".*/data$".equals(matchPatternString)) {
+        if (".*/data$".equals(matchPatternString)) {
             this.deprecationType = DeprecationType.DATA;
         } else {
             this.deprecationType = DeprecationType.FILTER;
@@ -76,7 +76,7 @@ public class DeprecationItem {
 
     public String getDeprecationDateTimeStampString() {
         if (deprecationDate != null) {
-            return String.format("%s%s", "@", Long.toString(getDeprecationDateTimeStamp()));
+            return String.format("%s%s", "@", getDeprecationDateTimeStamp());
         }
         return null;
     }
