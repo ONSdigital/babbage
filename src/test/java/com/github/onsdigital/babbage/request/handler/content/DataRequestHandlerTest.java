@@ -24,20 +24,15 @@ import org.mockito.Mockito;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import javax.servlet.http.HttpServletResponse;
 
 import com.github.onsdigital.babbage.response.util.HttpHeaders;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
-import com.github.onsdigital.babbage.error.ResourceNotFoundException;
-import com.github.onsdigital.babbage.request.handler.PageRequestHandler;
 import com.github.onsdigital.babbage.response.BabbageStringResponse;
 import com.github.onsdigital.babbage.response.base.BabbageResponse;
-import com.github.onsdigital.babbage.configuration.Babbage;
 import com.github.onsdigital.babbage.configuration.deprecation.DeprecationItem;
 import com.github.onsdigital.babbage.util.ThreadContext;
 import com.google.gson.JsonObject;
-import com.github.onsdigital.babbage.template.TemplateService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DataRequestHandlerTest {
@@ -46,25 +41,13 @@ public class DataRequestHandlerTest {
     private static final String MIME_TYPE = "application/json";
 
     @Mock
-    private Babbage babbage;
-
-    @Mock
     private HttpServletRequest request;
-
-    @Mock
-    private HttpServletResponse response;
 
     @Mock
     private ContentResponse contentResponse;
 
-    @Mock
-    private TemplateService mockTemplateService;
-
     @Spy
     private DataRequestHandler handler;
-
-    @Spy
-    private PageRequestHandler pageHandler;
 
     @After
     public void cleanup() {
@@ -105,7 +88,7 @@ public class DataRequestHandlerTest {
     }
 
     @Test
-    public void getDataOfNonExistingContent() throws ResourceNotFoundException, Exception {
+    public void getDataOfNonExistingContent() throws Exception {
         // Given Zebedee responds with a 404
         doThrow(new ContentReadException(404, "no content found")).when(handler).getContent(anyString(), anyMap());
         // Then the handler should throw an exception
@@ -113,7 +96,7 @@ public class DataRequestHandlerTest {
     }
 
     @Test
-    public void getDeprecatedDataEndpointPassed() throws ResourceNotFoundException, Exception {
+    public void getDeprecatedDataEndpointPassed() throws Exception {
         // Given Babbage is configured with a deprecation config for the bulletin page
         // type that has passed sunset
         String testSunsetDate = "2000-01-01T05:00";
@@ -157,7 +140,7 @@ public class DataRequestHandlerTest {
     }
 
     @Test
-    public void getDeprecatedDataEndpointFuture() throws ResourceNotFoundException, Exception {
+    public void getDeprecatedDataEndpointFuture() throws Exception {
         // Given Babbage is configured with a deprecation config for the bulletin page
         // type that has not passed sunset
         String testSunsetDate = "2100-01-01T05:00";
