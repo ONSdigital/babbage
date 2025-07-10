@@ -41,7 +41,11 @@ public class DeprecationConfiguration {
         try {
             DeprecationItem[] configArray = JsonUtil.fromJson(jsonConfig, DeprecationItem[].class);
 
-            return new ArrayList<>(Arrays.asList(configArray));
+            if (configArray != null){
+                return new ArrayList<>(Arrays.asList(configArray));
+            } else {
+                return new ArrayList<>();
+            }
         } catch (IOException e) {
             error().data("config", jsonConfig).data("e", e).log("failed to parse deprecation config");
             // If the deprecation config is invalid, application shouldn't start.

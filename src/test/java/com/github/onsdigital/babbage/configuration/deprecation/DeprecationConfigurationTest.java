@@ -52,4 +52,13 @@ public class DeprecationConfigurationTest {
         assertEquals(0, deprecationConfig.size());
     }
 
+    @Test
+    public void testParseDeprecationConfig_blankJSON() {
+        DeprecationConfiguration config = new DeprecationConfiguration();
+        String testConfig = "";
+
+        List<DeprecationItem> deprecationConfig = config.parseDeprecationConfig(testConfig);
+        assertEquals(0, deprecationConfig.size());
+    }
+
 }
