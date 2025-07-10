@@ -114,18 +114,23 @@ DEPRECATION_CONFIG:
         example: "bulletin,article"
 ```
 
-For example:
+For example, matches by pattern:
 
 ```json
 [
-  // Matches by the match pattern
   {
     "deprecationDate": "2011-11-30T23:59:59",
     "deprecationLink": "https://developer.ons.gov.uk/retirement/",
     "sunsetDate": "2011-12-25T23:59:59",
     "matchPattern": "^/timeseriestool/data$"
-  },
-  /// Matches on the data endpoint
+  }
+]
+```
+
+Or matches on the data endpoint:
+
+```json
+[
   {
     "deprecationDate": "2011-11-30T23:59:59",
     "deprecationLink": "https://developer.ons.gov.uk/retirement/",
