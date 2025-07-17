@@ -9,26 +9,27 @@ import java.io.IOException;
 import java.util.List;
 
 import com.github.onsdigital.babbage.api.error.ErrorHandler;
-import com.github.onsdigital.babbage.configuration.DeprecationItem;
+import com.github.onsdigital.babbage.configuration.deprecation.DeprecationConfiguration;
+import com.github.onsdigital.babbage.configuration.deprecation.DeprecationItem;
+import com.github.onsdigital.babbage.configuration.deprecation.DeprecationItem.DeprecationType;
 import com.github.onsdigital.babbage.response.util.HttpHeaders;
 
 public class DeprecationFilter implements Filter {
 
     private final List<DeprecationItem> config;
 
-    public DeprecationFilter(List<DeprecationItem> config) {
-        this.config = config;
+    public DeprecationFilter(DeprecationConfiguration deprecationConfig) {
+        this.config = deprecationConfig.getDeprecationItems(DeprecationType.FILTER);
     }
-
 
     @Override
     public boolean filter(HttpServletRequest request, HttpServletResponse response) {
         for (DeprecationItem deprecationItem : config) {
             String uri = request.getRequestURI();
 
-            if (deprecationItem.requestMatch(uri)){
+            if (deprecationItem.requestMatch(uri)) {
                 addSunsetHeaders(response, deprecationItem);
-                if(deprecationItem.isSunsetPassed()){
+                if (deprecationItem.isSunsetPassed()) {
                     try {
                         ErrorHandler.renderErrorPage(404, response);
                         return false;
@@ -36,7 +37,6 @@ public class DeprecationFilter implements Filter {
                         error().data("uri", uri).log("error rendering error page for uri");
                         return false;
                     }
-                    
                 }
             }
         }
@@ -45,8 +45,8 @@ public class DeprecationFilter implements Filter {
     }
 
     private void addSunsetHeaders(HttpServletResponse response, DeprecationItem config) {
-        response.addHeader(HttpHeaders.DEPRECATION, config.deprecationDate().toString()); 
-        response.addHeader(HttpHeaders.LINK, config.link()); 
-        response.addHeader(HttpHeaders.SUNSET, config.sunsetDate().toString()); 
+        response.addHeader(HttpHeaders.DEPRECATION, config.getDeprecationDate().toString());
+        response.addHeader(HttpHeaders.LINK, config.getLink());
+        response.addHeader(HttpHeaders.SUNSET, config.getSunsetDate().toString());
     }
 }

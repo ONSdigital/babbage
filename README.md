@@ -90,7 +90,7 @@ DEPRECATION_CONFIG:
     properties:
       deprecationDate:
         type: string
-        description: "The date in which the decision was made to deprecate the path pattern. This should be in ISO_DATE_TIME format."
+        description: "The date in which the decision was made to deprecate the path pattern. This should be in ISO_DATE_TIME format and set for local time."
         format: date-time
         example: "2011-11-30T23:59:59"
       deprecationLink:
@@ -99,15 +99,22 @@ DEPRECATION_CONFIG:
         example: "https://developer.ons.gov.uk/retirement/"
       sunsetDate:
         type: string
-        description: "The date of when this path pattern will cease to return data on its endpoints and instead return blanket 404 status codes. This should be in ISO_DATE_TIME format"
+        description: "The date of when this path pattern will cease to return data on its endpoints and instead return blanket 404 status codes. This should be in ISO_DATE_TIME format and set for local time."
         format: date-time
         example: "2011-12-25T23:59:59"
       matchPattern:
         type: string
-        description: "A regex string pattern to match against requests"
+        description: "A regex string pattern to match against requests. If you use ".*/data$" this is for use with the 'pageTypes' below to deprecate data endpoints"
+      message:
+        type: string
+        description: "A message to return in the case of data endpoints. This is only used with the data endponts deprecation functionality."
+      pageTypes:
+        type: string
+        description: "Comma separated list of page types, in the singular. This is only used with the data endponts deprecation functionality."
+        example: "bulletin,article"
 ```
 
-For example:
+For example, matches by pattern:
 
 ```json
 [
@@ -116,6 +123,21 @@ For example:
     "deprecationLink": "https://developer.ons.gov.uk/retirement/",
     "sunsetDate": "2011-12-25T23:59:59",
     "matchPattern": "^/timeseriestool/data$"
+  }
+]
+```
+
+Or matches on the data endpoint:
+
+```json
+[
+  {
+    "deprecationDate": "2011-11-30T23:59:59",
+    "deprecationLink": "https://developer.ons.gov.uk/retirement/",
+    "sunsetDate": "2011-12-25T23:59:59",
+    "matchPattern": ".*/data$",
+    "pageTypes": "bulletin,article",
+    "message": "no content served here"
   }
 ]
 ```
