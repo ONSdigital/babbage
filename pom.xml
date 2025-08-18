@@ -382,6 +382,8 @@
                             <artifactId>guava</artifactId>
                             <version>23.0</version>
                         </exclude>
+                        
+                        <!-- End exclusion for DIS-3662 -->
                     </excludeCoordinates>
                 </configuration>
             </plugin>
