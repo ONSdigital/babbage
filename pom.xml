@@ -347,8 +347,9 @@
                     <fail>true</fail>
                     <cvssScoreThreshold>7.0</cvssScoreThreshold>
                     <excludeCoordinates>
+
+                        <!-- Jira epic to remove the following four exclusions: DIS-1050 -->
                         <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/ahkwEM74/1720-babbage-elasticsearch-library-multiple-vulnerabilities-s2 -->
                             <groupId>org.elasticsearch</groupId>
                             <artifactId>elasticsearch</artifactId>
                             <version>2.4.6</version>
@@ -360,20 +361,23 @@
                             <version>5.5.4</version>
                         </exclude>
                         <exclude>
-                            <!-- Trello card for this exclude: https://trello.com/c/MCpbYlIT/1721-babbage-netty-multiple-vulnerabilities-s1 -->
                             <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
                             <groupId>io.netty</groupId>
                             <artifactId>netty</artifactId>
                             <version>3.10.6.Final</version>
                         </exclude>
                         <exclude>
-                            <!-- https://trello.com/c/wotCeMmc -->
                             <groupId>org.yaml</groupId>
                             <artifactId>snakeyaml</artifactId>
                             <version>1.15</version>
                         </exclude>
+                        <!-- End exclusions for DIS-1050 -->
+
+                        <!-- 
+                            Jira Ticket to resolve: DIS-3662
+                            This is to exclude vulnerability CVE-2023-2976
+                        -->
                         <exclude>
-                            <!-- This is to exclude vulnerability CVE-2023-2976 -->
                             <groupId>com.google.guava</groupId>
                             <artifactId>guava</artifactId>
                             <version>23.0</version>
