@@ -2,12 +2,14 @@
 
 Repository for ONS Website Babbage
 
-Babbage is a bespoke service for translating JSON into HTML. The Zebedee-Reader reads .json files off the server for passing to Babbage. Babbage then translates them into the .html files that are used in the website.
+Babbage is a bespoke service for translating JSON into HTML. The Zebedee-Reader reads .json files off the server for
+passing to Babbage. Babbage then translates them into the .html files that are used in the website.
 
 Babbage contains two main areas of functionality, as follows:
 
 1. It creates the HTML files for the pages on the website.
-2. It creates the HTML files for the website publications in the publishing system [Florence](https://github.com/ONSdigital/florence)
+2. It creates the HTML files for the website publications in the publishing
+   system [Florence](https://github.com/ONSdigital/florence)
 
 ## Getting started
 
@@ -51,30 +53,32 @@ In order to run babbage locally:
 
 ### Dependencies
 
-Babbage runs independently. However, it requires other services to run in web and publishing mode. There are stacks that can be used in `dp-compose`
+Babbage runs independently. However, it requires other services to run in web and publishing mode. There are stacks that
+can be used in `dp-compose`
 
 * In order to run it locally, with the other required services;
-  * For web mode, use [legacy-core-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/legacy-core-web)
-  * For publishing mode run Babbage with [homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-publishing)
+    * For web mode, use [legacy-core-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/legacy-core-web)
+    * For publishing mode run Babbage
+      with [homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-publishing)
 
 ### Configuration
 
-| Environment variable                   | Default                | Description                                                                                                                                                   |
-|----------------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CONTENT_SERVICE_MAX_CONNECTION         | 50                     | The maximum number of connections Babbage can make to the content service                                                                                     |
-| CONTENT_SERVICE_URL                    | <http://localhost:8082> | The URL to the content service (zebedee)                                                                                                                      |
-| ELASTIC_SEARCH_SERVER                  | localhost              | The elastic search host and port (The http:// scheme prefix is added programmatically)                                                                        |
-| ELASTIC_SEARCH_CLUSTER                 |                        | The elastic search cluster                                                                                                                                    |
-| ENABLE_COVID19_FEATURE                 |                        | Switch to use (or not) the covid feature                                                                                                                      |
-| HIGHCHARTS_EXPORT_SERVER               | <http://localhost:9999/> | The URL to the highcharts export server                                                                                                                       |
-| IS_PUBLISHING                          | N                      | Switch to use (or not) the publishing functionality                                                                                                           |
-| REDIRECT_SECRET                        | secret                 | The code for the redirect                                                                                                                                     |
-| TABLE_RENDERER_HOST                    | <http://localhost:23300> | The URL to the table renderer                                                                                                                                 |
-| POOLED_CONNECTION_TIMEOUT              | 5000                   | The number of milliseconds to wait before closing expired connections                                                                                         |
-| IDLE_CONNECTION_TIMEOUT                | 60                     | The number of seconds to wait before closing idle connections                                                                                                 |
-| OTEL_EXPORTER_OTLP_ENDPOINT            | <http://localhost:4317>  | URL for OpenTelemetry endpoint                                                                                                                                |
-| OTEL_SERVICE_NAME                      |                        | Service name to report to telemetry tools                                                                                                                     |
-| DEPRECATION_CONFIG                     | []                       | See below                                                                                                                                                     |
+| Environment variable           | Default                  | Description                                                                            |
+|--------------------------------|--------------------------|----------------------------------------------------------------------------------------|
+| CONTENT_SERVICE_MAX_CONNECTION | 50                       | The maximum number of connections Babbage can make to the content service              |
+| CONTENT_SERVICE_URL            | <http://localhost:8082>  | The URL to the content service (zebedee)                                               |
+| ELASTIC_SEARCH_SERVER          | localhost                | The elastic search host and port (The http:// scheme prefix is added programmatically) |
+| ELASTIC_SEARCH_CLUSTER         |                          | The elastic search cluster                                                             |
+| ENABLE_COVID19_FEATURE         |                          | Switch to use (or not) the covid feature                                               |
+| HIGHCHARTS_EXPORT_SERVER       | <http://localhost:9999/> | The URL to the highcharts export server                                                |
+| IS_PUBLISHING                  | N                        | Switch to use (or not) the publishing functionality                                    |
+| REDIRECT_SECRET                | secret                   | The code for the redirect                                                              |
+| TABLE_RENDERER_HOST            | <http://localhost:23300> | The URL to the table renderer                                                          |
+| POOLED_CONNECTION_TIMEOUT      | 5000                     | The number of milliseconds to wait before closing expired connections                  |
+| IDLE_CONNECTION_TIMEOUT        | 60                       | The number of seconds to wait before closing idle connections                          |
+| OTEL_EXPORTER_OTLP_ENDPOINT    | <http://localhost:4317>  | URL for OpenTelemetry endpoint                                                         |
+| OTEL_SERVICE_NAME              |                          | Service name to report to telemetry tools                                              |
+| DEPRECATION_CONFIG             | []                       | See below                                                                              |
 
 #### DEPRECATION_CONFIG
 
@@ -153,14 +157,15 @@ For the purposes of our configuration this would need to be double escaped like 
 ```json
 {
   //...json,
-  "DEPRECATION_CONFIG":"[{\\\"deprecationDate\\\":\\\"2011-11-30T23:59:59\\\", \\\"sunsetDate\\\":\\\"2011-12-25T23:59:59\\\", \\\"link\\\":\\\"https://developer.ons.gov.uk/retirement/\\\", \\\"matchPattern\\\":\\\"^/timeseriestool/data$\\\"}]"
+  "DEPRECATION_CONFIG": "[{\\\"deprecationDate\\\":\\\"2011-11-30T23:59:59\\\", \\\"sunsetDate\\\":\\\"2011-12-25T23:59:59\\\", \\\"link\\\":\\\"https://developer.ons.gov.uk/retirement/\\\", \\\"matchPattern\\\":\\\"^/timeseriestool/data$\\\"}]"
   //...more json,
 }
 ```
 
 ### Debugging
 
-When Babbage is run using one of its scripts (either run.sh or run-publishing.sh) it incorporates a Java Debug Wire Protocol (JDWP).
+When Babbage is run using one of its scripts (either run.sh or run-publishing.sh) it incorporates a Java Debug Wire
+Protocol (JDWP).
 
 To create the configuration in Intellij, for calling the JDWP debugger, do as follows:
 
@@ -171,27 +176,40 @@ To create the configuration in Intellij, for calling the JDWP debugger, do as fo
 * For 'Debugger mode' choose 'Attach to remote JVM'
 * For 'Host' enter: localhost
 * For 'Port' enter the port number given in the relevant script (e.g. for run-publishing.sh it's 8000)
-* Intellij should automatically complete the command line arguments (note that these are similar to the jdwp arguments in the relevant script):
+* Intellij should automatically complete the command line arguments (note that these are similar to the jdwp arguments
+  in the relevant script):
 
   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
 
 Then, to run and debug Babbage just do the following:
 
 * At the command line, run the relevant script E.g.,
-cd babbage
-./run-publishing.sh
+  cd babbage
+  ./run-publishing.sh
 
 * Then in Intellij:
 * Open babbage and add any breakpoints required
 * Choose Run --> Debug 'Babbage Remote'
 
-### Testing
+### Tools
 
-To run unit tests:
+To run some of our tests you will need additional tooling:
+
+#### Audit
+
+For Java auditing we use mvn `ossindex:audit` which requires you
+to [setup an OSS Index account](https://github.com/ONSdigital/dp/blob/main/guides/MAC_SETUP.md#oss-index-account-and-configuration)
+and make some updates
+to [Maven: Local Setup for ossindex:audit](https://github.com/ONSdigital/dp/blob/main/guides/MAC_SETUP.md#maven-local-setup-for-ossindexaudit)
+
+#### Testing
+
+To run the unit tests:
 
 `make test`
 
-There is also a [guide for regression testing](REGRESSION.md). This is not complete and should not be seen as definitive.
+There is also a [guide for regression testing](REGRESSION.md). This is not complete and should not be seen as
+definitive.
 
 ### Contributing
 
