@@ -127,11 +127,6 @@
                                 <h2 class="alert__title inline-block margin-bottom--0 margin-right-md--1">
                                     Source dataset: {{#if description.datasetUri}}{{#resolve description.datasetUri}}<a href="{{uri}}">{{description.title}} ({{description.datasetId}})</a>{{/resolve}}{{else}}{{description.datasetId}}{{/if}}
                                 </h2>
-                                {{#resolveTimeSeriesList (parentPath uri) }}
-                                    {{#if_ne result.results.size 1}}
-                                        <a class="alert__link js-scroll" href="#othertimeseries">View other variations of this time series</a>
-                                    {{/if_ne}}
-                                {{/resolveTimeSeriesList}}
                                 {{#if alerts}}
                                     <div class="show-hide show-hide--dark info-box margin-top-sm--3 margin-top-md--3 js-show-hide">
                                         <div class="js-show-hide__title">

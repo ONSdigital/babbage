@@ -97,38 +97,6 @@ public enum DataHelpers implements BabbageHandlebarsHelper<Object> {
         }
     },
 
-    /**
-     * usage: {{#resolve "uri" [filter=] [assign=variableName]}}
-     * <p>
-     * If variableName is not empty data is assigned to given variable name
-     */
-    resolveTimeSeriesList {
-        @Override
-
-        public CharSequence apply(Object uri, Options options) throws IOException {
-            try {
-
-                validateUri(uri);
-                String uriString = (String) uri;
-
-                Map<String, SearchResult> results = SearchUtils.searchTimeseriesForUri(uriString);
-                LinkedHashMap<String, Object> data = SearchRendering.buildResults("list", results);
-
-                assign(options, data);
-                return options.fn(data);
-            } catch (Exception e) {
-                logResolveError(uri, e);
-                return options.inverse();
-            }
-        }
-
-        @Override
-        public void register(Handlebars handlebars) {
-            handlebars.registerHelper(this.name(), this);
-        }
-
-    },
-
     //Resolve latest article or bulletin with given uri
     resolveLatest {
         @Override

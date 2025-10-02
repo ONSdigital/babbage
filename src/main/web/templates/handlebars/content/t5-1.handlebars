@@ -149,28 +149,6 @@
                 </div>
             </div>
         </div>
-
-                {{#resolveTimeSeriesList (parentPath uri) }}
-
-
-                        {{#if_ne result.results.size 1}}
-
-                        <div class="col col--lg-59 padding-top--0 padding-right--1 padding-bottom--0 padding-left--1 margin-left-md--0 margin-bottom--2 background--gallery" id="othertimeseries">
-                                <h2 class="margin-top--3">Variations of this time series in other datasets</h2>
-                                <ul class="list--neutral">
-                                        {{#each result.results}}
-
-                                                <li class="flush"><p class="flush">
-                                                <a href="{{uri}}" data-gtm-type="variations-of-data" data-gtm-title="{{ description.cdid }}: {{#resolve description.datasetUri}}{{description.title}}{{/resolve}}">{{ description.cdid }}: {{#resolve description.datasetUri}}{{description.title}}{{/resolve}}</a> ({{description.datasetId}}), released on {{df description.releaseDate}}
-                                                </p></li>
-                                        {{/each}}
-                                </ul>
-
-                        </div>
-
-                        {{/if_ne}}
-
-                {{/resolveTimeSeriesList}}
     </div>
 
     <div class="wrapper">
