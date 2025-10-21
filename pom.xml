@@ -388,13 +388,6 @@
                         <goals>
                             <goal>audit</goal>
                         </goals>
-                        <!-- configuration for mvn validate -->
-                        <configuration>
-                            <authId>ossindex</authId>
-                            <!-- if CVSS >= 7.0 (critical) then ERROR else WARN -->
-                            <fail>true</fail>
-                            <cvssScoreThreshold>7.0</cvssScoreThreshold>
-                        </configuration>
                     </execution>
                 </executions>
 
