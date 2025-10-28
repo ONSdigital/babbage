@@ -2,14 +2,11 @@ package com.github.onsdigital.babbage.template.handlebars.helpers.resolve;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Options;
-import com.github.onsdigital.babbage.api.util.SearchRendering;
-import com.github.onsdigital.babbage.api.util.SearchUtils;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentClientCache;
 import com.github.onsdigital.babbage.content.client.ContentFilter;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
 import com.github.onsdigital.babbage.request.handler.TimeseriesLandingRequestHandler;
-import com.github.onsdigital.babbage.search.model.SearchResult;
 import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHandlebarsHelper;
 import com.github.onsdigital.babbage.util.TaxonomyRenderer;
 import com.github.onsdigital.babbage.util.URIUtil;
