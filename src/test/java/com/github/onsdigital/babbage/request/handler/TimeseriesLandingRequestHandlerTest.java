@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 public class TimeseriesLandingRequestHandlerTest {
 
@@ -79,4 +80,30 @@ public class TimeseriesLandingRequestHandlerTest {
         assertFalse(handler.isTimeseriesLandingDataUri("/economy/inflationandpriceindices/timeseries/a9et/mm23/data"));
     }
 
+    @Test
+    public void getLatestTimeseriesUriShouldReturnLatestTimeseriesUri() {
+        String latestUri = handler.getLatestTimeseriesUri("/economy/grossdomesticproductgdp/timeseries/ihyq");
+        assertEquals("/economy/grossdomesticproductgdp/timeseries/ihyq/latest", latestUri);
+    }
+
+    @Test
+    public void getLatestTimeseriesUriShouldReturnLatestTimeseriesUriWithTrailingSlash() {
+        String latestUri = handler.getLatestTimeseriesUri("/economy/grossdomesticproductgdp/timeseries/ihyq/");
+        assertEquals("/economy/grossdomesticproductgdp/timeseries/ihyq/latest", latestUri);
+    }
+
+    @Test
+    public void canHandleRequestShouldReturnFalseForTimeseriesLandingWithLatest(){
+        assertFalse(handler.canHandleRequest("/economy/inflationandpriceindices/timeseries/a9et/latest", ""));
+    }
+
+    @Test
+    public void canHandleRequestShouldReturnFalseForTimeseriesLandingWithLatestData(){
+        assertFalse(handler.canHandleRequest("/economy/inflationandpriceindices/timeseries/a9et/latest/data", ""));
+    }
+
+    @Test
+    public void canHandleRequestShouldReturnFalseForDatasetWithLatest(){
+        assertFalse(handler.canHandleRequest("/economy/inflationandpriceindices/timeseries/a9et/mm23/latest", ""));
+    }
 }
