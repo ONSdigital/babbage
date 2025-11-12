@@ -66,7 +66,7 @@
 					</a>
 				</li>
 				<li class="nav--controls__item {{#if_any (eq listType "search") (eq listType "searchpublication") (eq listType "searchdata")}}search-is-expanded{{/if_any}}">
-					<a href="#nav-search" id="search-toggle" aria-controls="nav-search" aria-expanded="false" class="nav--controls__search">
+					<a href="#nav-search" id="search-toggle" aria-controls="nav-search" aria-expanded="false" class="nav--controls__search" aria-label="Search">
 						<span class="nav--controls__text">{{labels.search}}</span>
 					</a>
 				</li>
@@ -115,14 +115,14 @@
 	</div>
 	{{!-- SEARCH BAR --}}
 	{{#block "block-search-bar"}}
-		<div class="search nav-search--hidden print--hide" id="searchBar">
-			<div class="wrapper" role="search">
+		<div class="search nav-search--hidden print--hide" id="searchBar" role="search">
+			<div class="wrapper">
 				<form class="col-wrap search__form" {{#if_any (eq listType "searchdata") (eq listType "searchpublication")}}action="{{location.pathname}}"{{else}}action="/search"{{/if_any}}>
 					<label class="search__label col col--md-23 col--lg-24" for="nav-search">{{labels.search-for-a-keyword-or-time-series-id}}</label>
 					<input type="search" autocomplete="off" class="search__input col col--md-21 col--lg-32" id="nav-search" name="q" value="{{parameters.q.0}}">
-					<button type="submit" class="search__button col--md-3 col--lg-3" id="nav-search-submit">
-					<span class="visuallyhidden">{{labels.search}}</span>
-					<span class="icon icon-search--light"></span>
+					<button type="submit" class="search__button col--md-3 col--lg-3" id="nav-search-submit" aria-label="Search">
+						<span class="visuallyhidden">{{labels.search}}</span>
+						<span class="icon icon-search--light"></span>
 					</button>
 				</form>
 			</div>
