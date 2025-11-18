@@ -3,6 +3,7 @@ package com.github.onsdigital.babbage.request.handler.content;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
+import com.github.onsdigital.babbage.error.ResourceNotFoundException;
 import com.github.onsdigital.babbage.request.handler.base.BaseRequestHandler;
 import com.github.onsdigital.babbage.response.BabbageContentBasedStringResponse;
 import com.github.onsdigital.babbage.response.BabbageStringResponse;
@@ -13,6 +14,8 @@ import org.apache.hc.core5.http.HttpStatus;
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.github.onsdigital.babbage.util.RequestUtil.getQueryParameters;
 import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
@@ -25,6 +28,8 @@ public class DataRequestHandler extends BaseRequestHandler {
     public static final String REQUEST_TYPE = "data";
     private Map<String, DeprecationItem> deprecationItemMap;
 
+    private final static Pattern latestTimeseriesRequest = Pattern.compile(".*/timeseries/[^/]+/latest(/data)?/?");
+
     public DataRequestHandler() {
         this(getDeprecationConfig());
     }
@@ -36,6 +41,11 @@ public class DataRequestHandler extends BaseRequestHandler {
 
     @Override
     public BabbageResponse get(String requestedUri, HttpServletRequest request) throws Exception {
+        Matcher rejectRequest = latestTimeseriesRequest.matcher(requestedUri);
+        if (rejectRequest.matches()) {
+            // Return page not found for timeseries/cdid/latest/data
+            throw new ResourceNotFoundException();
+        }
         return getData(requestedUri, request);
     }
 
