@@ -3,6 +3,7 @@ package com.github.onsdigital.babbage.request.handler;
 import com.github.onsdigital.babbage.content.client.ContentClient;
 import com.github.onsdigital.babbage.content.client.ContentReadException;
 import com.github.onsdigital.babbage.content.client.ContentResponse;
+import com.github.onsdigital.babbage.error.ResourceNotFoundException;
 import com.github.onsdigital.babbage.request.handler.base.BaseRequestHandler;
 import com.github.onsdigital.babbage.response.BabbageContentBasedStringResponse;
 import com.github.onsdigital.babbage.response.BabbageRedirectResponse;
@@ -20,9 +21,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Arrays;
 
 import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
+import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 
 /**
@@ -39,8 +43,15 @@ public class PageRequestHandler extends BaseRequestHandler {
 
     private static final List<String> serialisedContentTypes = Arrays.asList("bulletin", "article", "compendium_landing_page");
 
+    private final static Pattern latestTimeseriesRequest = Pattern.compile(".*/timeseries/[^/]+/latest?/?");
+
     @Override
     public BabbageResponse get(String uri, HttpServletRequest request) throws IOException, ContentReadException {
+        Matcher rejectRequest = latestTimeseriesRequest.matcher(uri);
+        if (rejectRequest.matches()) {
+            // Return page not found for timeseries/cdid/latest
+            throw new ResourceNotFoundException();
+        }
         return getPage(uri, request);
     }
 

@@ -69,6 +69,16 @@ public class PageRequestHandlerTest {
     }
 
     @Test
+    public void canHandleRequestShouldReturnFalseForTimeseriesLandingWithLatest(){
+        assertFalse(handler.canHandleRequest("/economy/inflationandpriceindices/timeseries/a9et/latest", ""));
+    }
+
+    @Test
+    public void canHandleRequestShouldReturnFalseForDatasetWithLatest(){
+        assertFalse(handler.canHandleRequest("/economy/inflationandpriceindices/timeseries/a9et/mm23/latest", ""));
+    }
+
+    @Test
     public void testShouldRedirect() {
        assertFalse(handler.shouldRedirect("/mybulletin", "bulletin", "/redirect1"));
        assertFalse(handler.shouldRedirect("/mybulletin", "bulletin", ""));

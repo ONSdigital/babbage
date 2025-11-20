@@ -70,6 +70,11 @@ public class DataRequestHandlerTest {
     }
 
     @Test
+    public void canHandleRequestShouldReturnFalseForTimeseriesLandingWithLatestData(){
+        assertFalse(handler.canHandleRequest("/economy/inflationandpriceindices/timeseries/a9et/latest/data", ""));
+    }
+
+    @Test
     public void getDataOfExistingContent() throws Exception {
         // Given Zebedee responds with a static_adhoc
         byte[] pageData = generateData("static_adhoc", "Adhoc title");
