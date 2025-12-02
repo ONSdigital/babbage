@@ -1,7 +1,6 @@
 package com.github.onsdigital.babbage.content.client;
 
 import com.github.onsdigital.babbage.error.ResourceNotFoundException;
-import com.github.onsdigital.babbage.publishing.PublishingManager;
 import com.github.onsdigital.babbage.util.RequestUtil;
 import com.github.onsdigital.babbage.util.ThreadContext;
 import com.github.onsdigital.babbage.util.http.ClientConfiguration;
@@ -40,13 +39,10 @@ public class ContentClient {
     private static final String PARENTS_ENDPOINT = "/parents";
     private static final String RESOURCE_ENDPOINT = "/resource";
     private static final String FILE_SIZE_ENDPOINT = "/filesize";
-    private static final String REINDEX_ENDPOINT = "/reindex";
     private static final String GENERATOR_ENDPOINT = "/generator";
     private static final String EXPORT_ENDPOINT = "/export";
     private static final String RESOLVE_DATASETS_ENDPOINT = "/resolveDatasets";
     private static final String URI_PARAM = "uri";
-
-    private PublishingManager publishingManager = PublishingManager.getInstance();
 
     //singleton
     private ContentClient() {
@@ -153,28 +149,6 @@ public class ContentClient {
         return sendPost(getPath(EXPORT_ENDPOINT), parameters);
     }
 
-    public ContentResponse reIndex(String key, String uri) throws ContentReadException {
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("key", key));
-        parameters.add(new BasicNameValuePair("uri", uri));
-        return sendPost(REINDEX_ENDPOINT, parameters);
-    }
-
-    public ContentResponse deleteIndex(String key, String uri, String contentType) throws ContentReadException {
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("key", key));
-        parameters.add(new BasicNameValuePair("uri", uri));
-        parameters.add(new BasicNameValuePair("pageType", contentType));
-        return sendDelete(REINDEX_ENDPOINT, parameters);
-    }
-
-    public ContentResponse reIndexAll(String key) throws ContentReadException {
-        List<NameValuePair> parameters = new ArrayList<>();
-        parameters.add(new BasicNameValuePair("key", key));
-        parameters.add(new BasicNameValuePair("all", "1"));
-        return sendPost(REINDEX_ENDPOINT, parameters);
-    }
-
     private ContentResponse sendGet(String path, List<NameValuePair> getParameters) throws ContentReadException {
         CloseableHttpResponse response = null;
         Optional<NameValuePair> uriPair = Optional.empty();
@@ -227,19 +201,6 @@ public class ContentClient {
         CloseableHttpResponse response = null;
         try {
             return new ContentResponse(client.sendPost(path, getHeaders(), postParameters));
-        } catch (HttpResponseException e) {
-            IOUtils.closeQuietly(response);
-            throw wrapException(path, e);
-        } catch (IOException e) {
-            IOUtils.closeQuietly(response);
-            throw wrapException(path, e);
-        }
-    }
-
-    private ContentResponse sendDelete(String path, List<NameValuePair> postParameters) throws ContentReadException {
-        CloseableHttpResponse response = null;
-        try {
-            return new ContentResponse(client.sendDelete(path, getHeaders(), postParameters));
         } catch (HttpResponseException e) {
             IOUtils.closeQuietly(response);
             throw wrapException(path, e);

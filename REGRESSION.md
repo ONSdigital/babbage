@@ -23,9 +23,6 @@
     1. [Calculating cache times and hashes](#calculating-cache-times-and-hashes)
         1. ~[Cache times](#cache-times)~ - DEPRECATED
         1. [Hashes](#hashes)
-    1. [Indexing search](#indexing-search) - SUNSET
-        1. [Publish pipeline](#publish-pipeline)
-        2. [Reindex all endpoint](#reindex-all-endpoint)
     1. [Proxying requests to Zebedee](#proxying-requests-to-zebedee)
     1. [Request filters](#request-filters)
         1. [CORS](#cors)
@@ -66,7 +63,6 @@ List of templates:
 - dataset (versions page)
 - equation
 - home_page_census[^1]
-- list (see [Search pages](#search-pages))
 - product_page
 - reference_tables
 - static_adhoc
@@ -94,7 +90,7 @@ Babbage also provides rendered error pages for better user experience:
 
 #### Navigation
 
-Currently, Babbage requests the navigation tree to render from Zebedee. 
+Currently, Babbage requests the navigation tree to render from Zebedee.
 
 ##### Topic API driven navigation
 
@@ -168,21 +164,6 @@ Babbage uses the next publish date to calculate a `Cache-Control` `max-age` head
 #### Hashes
 
 Babbage calculates a hash of the content response to serve as an eTag header.
-
-### Indexing search
-
-Babbage uses ElasticSearch for it's [Search Pages](#search-pages). This is updated by either:
-
-- publish pipeline
-- reindex endpoint
-
-#### Publish Pipeline
-
-When a collection is published in Zebedee, a notification is sent to Babbage. Babbage then uses the collection details held in the `publish_dates` index in Elasticsearch to reindex those items by querying Zebedee's new content.
-
-#### Reindex All Endpoint
-
-This is triggered manually by a developer (see Operations Guide) and causes Babbage to trigger the ReindexAll endpoint in Zebedee. All content is then reindexed.
 
 ### Proxying requests to Zebedee
 

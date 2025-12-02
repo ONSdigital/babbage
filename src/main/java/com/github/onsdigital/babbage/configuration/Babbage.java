@@ -21,7 +21,6 @@ public class Babbage implements AppConfig {
     private static final String MAX_CACHE_ENTRIES = "CACHE_ENTRIES";
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
     private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
-    private static final String REINDEX_SERVICE_KEY = "REINDEX_SERVER";
     private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
     private static Babbage INSTANCE;
 
@@ -38,7 +37,6 @@ public class Babbage implements AppConfig {
 
     private final String apiRouterURL;
     private final String exportSeverUrl;
-    private final String reindexSecret;
     private final String redirectSecret;
     private final String serviceAuthToken;
     private final boolean isDevEnv;
@@ -60,8 +58,6 @@ public class Babbage implements AppConfig {
         isDevEnv = getStringAsBool(DEV_ENVIRONMENT_KEY, "N");
         isNavigationEnabled = getStringAsBool(ENABLE_NAVIGATION_KEY, "N");
         isPublishing = getStringAsBool(IS_PUBLISHING_KEY, "N");
-        reindexSecret = getValueOrDefault(REINDEX_SERVICE_KEY,
-                "5NpB6/uAgk14nYwHzMbIQRnuI2W63MrBOS2279YlcUUY2kNOhrL+R5UFR3O066bQ");
         maxCacheEntries = defaultIfBlank(getNumberValue(MAX_OBJECT_SIZE), 3000);
         maxCacheObjectSize = defaultIfBlank(getNumberValue(MAX_CACHE_ENTRIES), 50000);
         maxHighchartsServerConnections = defaultIfBlank(getNumberValue("HIGHCHARTS_EXPORT_MAX_CONNECTION"), 50);
@@ -88,10 +84,6 @@ public class Babbage implements AppConfig {
 
     public String getServiceAuthToken() {
         return serviceAuthToken;
-    }
-
-    public String getReindexServiceKey() {
-        return reindexSecret;
     }
 
     public boolean isDevEnv() {
@@ -154,7 +146,6 @@ public class Babbage implements AppConfig {
         config.put("maxHighchartsServerConnections", maxHighchartsServerConnections);
         config.put("maxResultsPerPage", maxResultsPerPage);
         config.put("maxVisiblePaginatorLink", maxVisiblePaginatorLink);
-        config.put("reindexSecret", reindexSecret);
         config.put("resultsPerPage", resultsPerPage);
         config.put("searchResponseCacheTime", searchResponseCacheTime);
         config.put("deprecationConfig", deprecationConfig);
