@@ -20,7 +20,6 @@ public class Babbage implements AppConfig {
     private static final String IS_PUBLISHING_KEY = "IS_PUBLISHING";
     private static final String MAX_CACHE_ENTRIES = "CACHE_ENTRIES";
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
-    private static final String REDIRECT_SECRET_KEY = "REDIRECT_SECRET";
     private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
     private static Babbage INSTANCE;
 
@@ -37,7 +36,6 @@ public class Babbage implements AppConfig {
 
     private final String apiRouterURL;
     private final String exportSeverUrl;
-    private final String redirectSecret;
     private final String serviceAuthToken;
     private final boolean isDevEnv;
     private final boolean isNavigationEnabled;
@@ -63,7 +61,6 @@ public class Babbage implements AppConfig {
         maxHighchartsServerConnections = defaultIfBlank(getNumberValue("HIGHCHARTS_EXPORT_MAX_CONNECTION"), 50);
         maxResultsPerPage = 250;
         maxVisiblePaginatorLink = 5;
-        redirectSecret = getValueOrDefault(REDIRECT_SECRET_KEY, "secret");
         resultsPerPage = 10;
         searchResponseCacheTime = 5;
         serviceAuthToken = getValueOrDefault(SERVICE_AUTH_TOKEN,
@@ -76,10 +73,6 @@ public class Babbage implements AppConfig {
 
     public String getExportSeverUrl() {
         return exportSeverUrl;
-    }
-
-    public String getRedirectSecret() {
-        return redirectSecret;
     }
 
     public String getServiceAuthToken() {

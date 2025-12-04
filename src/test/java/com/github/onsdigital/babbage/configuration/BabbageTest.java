@@ -23,7 +23,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.getMaxHighchartsServerConnections(), 50);
         assertEquals(testInstance.getMaxResultsPerPage(), 250);
         assertEquals(testInstance.getMaxVisiblePaginatorLink(), 5);
-        assertEquals(testInstance.getRedirectSecret(), "secret");
         assertEquals(testInstance.getResultsPerPage(), 10);
         assertEquals(testInstance.getSearchResponseCacheTime(), 5);
         assertEquals(testInstance.isDevEnv(), false);
