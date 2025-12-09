@@ -67,8 +67,6 @@ can be used in `dp-compose`
 |--------------------------------|--------------------------|----------------------------------------------------------------------------------------|
 | CONTENT_SERVICE_MAX_CONNECTION | 50                       | The maximum number of connections Babbage can make to the content service              |
 | CONTENT_SERVICE_URL            | <http://localhost:8082>  | The URL to the content service (zebedee)                                               |
-| ELASTIC_SEARCH_SERVER          | localhost                | The elastic search host and port (The http:// scheme prefix is added programmatically) |
-| ELASTIC_SEARCH_CLUSTER         |                          | The elastic search cluster                                                             |
 | ENABLE_COVID19_FEATURE         |                          | Switch to use (or not) the covid feature                                               |
 | HIGHCHARTS_EXPORT_SERVER       | <http://localhost:9999/> | The URL to the highcharts export server                                                |
 | IS_PUBLISHING                  | N                        | Switch to use (or not) the publishing functionality                                    |
