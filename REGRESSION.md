@@ -20,9 +20,7 @@
         1. [Resources](#resources)
         1. [Files](#files)
         1. [PDF](#pdf)
-    1. [Calculating cache times and hashes](#calculating-cache-times-and-hashes)
-        1. ~[Cache times](#cache-times)~ - DEPRECATED
-        1. [Hashes](#hashes)
+    1. [Hashes](#hashes)
     1. [Proxying requests to Zebedee](#proxying-requests-to-zebedee)
     1. [Request filters](#request-filters)
         1. [CORS](#cors)
@@ -153,15 +151,7 @@ TODO.
 
 See [Rendering PDFs](#rendering-pdfs) - these are then served by adding the extension `/pdf` to the page to retrieve the pdf file stored in the content store.
 
-### Calculating cache times and hashes
-
-#### Cache times
-
-Calculating cache times in Bababge is deprecated and is actively being removed.
-
-Babbage uses the next publish date to calculate a `Cache-Control` `max-age` header. By default it is 15 minutes, but a differential is calculated to the next publish time of that content if something is schedueld to be published. This uses the `publish_dates` Elasticsearch Index.
-
-#### Hashes
+### Hashes
 
 Babbage calculates a hash of the content response to serve as an eTag header.
 
