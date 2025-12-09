@@ -13,7 +13,6 @@ public class ApplicationConfiguration {
 
     private static ApplicationConfiguration INSTANCE;
 
-    private final ElasticSearch elasticSearch;
     private final ContentAPI contentAPI;
     private final Babbage babbage;
     private final Handlebars handlebars;
@@ -42,22 +41,16 @@ public class ApplicationConfiguration {
     }
 
     private ApplicationConfiguration() {
-        elasticSearch = ElasticSearch.getInstance();
         contentAPI = ContentAPI.getInstance();
         babbage = Babbage.getInstance();
         handlebars = Handlebars.getInstance();
         tableRenderer = TableRenderer.getInstance();
 
-        info().data("elastic_search_config", elasticSearch.getConfig())
-                .data("content_api_config", contentAPI.getConfig())
+        info().data("content_api_config", contentAPI.getConfig())
                 .data("babbge_config", babbage.getConfig())
                 .data("handlebars_config", handlebars.getConfig())
                 .data("table_renderer_config", tableRenderer.getConfig())
                 .log("successfully loaded application configuration");
-    }
-
-    public ElasticSearch elasticSearch() {
-        return elasticSearch;
     }
 
     public ContentAPI contentAPI() {

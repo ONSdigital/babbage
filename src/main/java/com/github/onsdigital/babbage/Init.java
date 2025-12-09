@@ -2,7 +2,6 @@ package com.github.onsdigital.babbage;
 
 import com.github.davidcarboni.restolino.framework.Startup;
 import com.github.onsdigital.babbage.configuration.ApplicationConfiguration;
-import com.github.onsdigital.babbage.search.ElasticSearchClient;
 import com.github.onsdigital.logging.v2.DPLogger;
 import com.github.onsdigital.logging.v2.Logger;
 import com.github.onsdigital.logging.v2.LoggerImpl;
@@ -42,8 +41,6 @@ public class Init implements Startup {
         info().log("starting application babbage initialisation");
 
         ApplicationConfiguration.init();
-
-        ElasticSearchClient.init();
 
         info().log("application babbage initialisation completed successfully");
     }
