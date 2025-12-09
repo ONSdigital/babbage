@@ -118,33 +118,11 @@
             <version>2.6</version>
         </dependency>
 
-        <!-- Elastic Search -->
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>2.4.6</version>
-        </dependency>
-
-        <!-- Elastic search multicast, used for discovering elastic search  instances-->
-        <dependency>
-            <groupId>org.elasticsearch.plugin</groupId>
-            <artifactId>discovery-multicast</artifactId>
-            <version>2.4.6</version>
-        </dependency>
-
-
         <!-- Ical4j-->
         <dependency>
             <groupId>org.mnode.ical4j</groupId>
             <artifactId>ical4j</artifactId>
             <version>2.2.7</version>
-        </dependency>
-
-        <!-- RSS Feeds -->
-        <dependency>
-            <groupId>com.rometools</groupId>
-            <artifactId>rome</artifactId>
-            <version>2.1.0</version>
         </dependency>
 
         <dependency>
@@ -218,7 +196,7 @@
         </dependency>
 
         <!-- Fasterxml Jackson dependencies - overrides vulnerable transitive dependencies
-        and declared explicitly to resolve conflicts in handlebars and elasticsearch -->
+        and declared explicitly to resolve conflicts in handlebars -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -333,31 +311,6 @@
                     <fail>true</fail>
                     <cvssScoreThreshold>7.0</cvssScoreThreshold>
                     <excludeCoordinates>
-                        <!-- Jira epic to remove the following four exclusions: DIS-1050 -->
-                        <exclude>
-                            <groupId>org.elasticsearch</groupId>
-                            <artifactId>elasticsearch</artifactId>
-                            <version>2.4.6</version>
-                        </exclude>
-                        <exclude>
-                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
-                            <groupId>org.apache.lucene</groupId>
-                            <artifactId>lucene-queryparser</artifactId>
-                            <version>5.5.4</version>
-                        </exclude>
-                        <exclude>
-                            <!-- This is a transitive dependency of org.elasticsearch:elasticsearch:2.4.6 -->
-                            <groupId>io.netty</groupId>
-                            <artifactId>netty</artifactId>
-                            <version>3.10.6.Final</version>
-                        </exclude>
-                        <exclude>
-                            <groupId>org.yaml</groupId>
-                            <artifactId>snakeyaml</artifactId>
-                            <version>1.15</version>
-                        </exclude>
-                        <!-- End exclusions for DIS-1050 -->
-
                         <!--
                             Jira Ticket to resolve: DIS-3662
                             This is to exclude vulnerability CVE-2023-2976
