@@ -24,7 +24,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(testInstance.getMaxResultsPerPage(), 250);
         assertEquals(testInstance.getMaxVisiblePaginatorLink(), 5);
         assertEquals(testInstance.getResultsPerPage(), 10);
-        assertEquals(testInstance.getSearchResponseCacheTime(), 5);
         assertEquals(testInstance.isDevEnv(), false);
         assertEquals(testInstance.isDevEnvironment(), false);
         assertEquals(testInstance.isPublishing(), false);
@@ -38,7 +37,6 @@ public class BabbageTest extends junit.framework.TestCase {
         assertEquals(mockConfig.get("maxResultsPerPage"), testInstance.getMaxResultsPerPage());
         assertEquals(mockConfig.get("maxVisiblePaginatorLink"), testInstance.getMaxVisiblePaginatorLink());
         assertEquals(mockConfig.get("resultsPerPage"), testInstance.getResultsPerPage());
-        assertEquals(mockConfig.get("searchResponseCacheTime"), testInstance.getSearchResponseCacheTime());
     }
     @Test
     public void testGetApiRouterURL() {

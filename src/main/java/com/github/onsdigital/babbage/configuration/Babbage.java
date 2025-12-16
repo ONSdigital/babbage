@@ -46,7 +46,6 @@ public class Babbage implements AppConfig {
     private final int maxResultsPerPage;
     private final int maxVisiblePaginatorLink;
     private final int resultsPerPage;
-    private final long searchResponseCacheTime;
     private final DeprecationConfiguration deprecationConfig;
 
     private Babbage() {
@@ -62,7 +61,6 @@ public class Babbage implements AppConfig {
         maxResultsPerPage = 250;
         maxVisiblePaginatorLink = 5;
         resultsPerPage = 10;
-        searchResponseCacheTime = 5;
         serviceAuthToken = getValueOrDefault(SERVICE_AUTH_TOKEN,
                 "ahyofaem2ieVie6eipaX6ietigh1oeM0Aa1aiyaebiemiodaiJah0eenuchei1ai");
     }
@@ -119,10 +117,6 @@ public class Babbage implements AppConfig {
         return resultsPerPage;
     }
 
-    public long getSearchResponseCacheTime() {
-        return searchResponseCacheTime;
-    }
-
     public DeprecationConfiguration getDeprecationConfig() {
         return deprecationConfig;
     }
@@ -140,7 +134,6 @@ public class Babbage implements AppConfig {
         config.put("maxResultsPerPage", maxResultsPerPage);
         config.put("maxVisiblePaginatorLink", maxVisiblePaginatorLink);
         config.put("resultsPerPage", resultsPerPage);
-        config.put("searchResponseCacheTime", searchResponseCacheTime);
         config.put("deprecationConfig", deprecationConfig);
         return config;
     }
