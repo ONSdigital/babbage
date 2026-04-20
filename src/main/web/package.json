@@ -36,5 +36,8 @@
     },
     "devDependencies": {
         "chokidar-cli": "^2.1.0"
+    },
+    "overrides": {
+        "picomatch": "^2.3.2"
     }
 }
