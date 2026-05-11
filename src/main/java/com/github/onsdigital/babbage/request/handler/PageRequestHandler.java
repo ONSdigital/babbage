@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 import java.util.Arrays;
 
 import static com.github.onsdigital.babbage.configuration.ApplicationConfiguration.appConfig;
-import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
 import static javax.ws.rs.core.MediaType.TEXT_HTML;
 
 /**
@@ -43,7 +42,7 @@ public class PageRequestHandler extends BaseRequestHandler {
 
     private static final List<String> serialisedContentTypes = Arrays.asList("bulletin", "article", "compendium_landing_page");
 
-    private final static Pattern latestTimeseriesRequest = Pattern.compile(".*/timeseries/[^/]+/latest?/?");
+    private static final Pattern latestTimeseriesRequest = Pattern.compile(".*/timeseries/[^/]+/latest?/?");
 
     @Override
     public BabbageResponse get(String uri, HttpServletRequest request) throws IOException, ContentReadException {
@@ -60,7 +59,8 @@ public class PageRequestHandler extends BaseRequestHandler {
 
         JsonObject jsonResponse = JsonParser.parseString(contentResponse.getAsString()).getAsJsonObject();
 
-        JsonElement migrationLink = jsonResponse.getAsJsonObject("description").get("migrationLink");
+        JsonElement description = jsonResponse.get("description");
+        JsonElement migrationLink = description != null ? description.getAsJsonObject().get("migrationLink") : null;
         JsonElement contentType = jsonResponse.get("type");
 
         if (migrationLink != null && contentType != null && shouldRedirect(uri, contentType.getAsString(), migrationLink.getAsString())) {

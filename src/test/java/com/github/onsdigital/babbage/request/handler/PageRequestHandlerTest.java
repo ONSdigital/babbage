@@ -199,6 +199,27 @@ public class PageRequestHandlerTest {
     }
 
     @Test
+    public void getPageWithNoDescription() throws Exception {
+        JsonObject json = new JsonObject();
+        json.addProperty("type", "chart");
+
+        // Given Zebedee returns a taxonomy_landing_page with a migrationLink
+        byte[] pageData = json.toString().getBytes();
+
+        when(contentResponse.getAsString()).thenReturn(new String(pageData));
+        doReturn(contentResponse).when(handler).getContent(URI);
+
+        // When the page is requested from Babbage
+        BabbageResponse babbageResponse = handler.get(URI, request);
+
+        // Then a page is served
+        assertEquals(200, babbageResponse.getStatus());
+        assertEquals(MIME_TYPE, babbageResponse.getMimeType());
+        assertTrue(babbageResponse.getErrors().isEmpty());
+        assertEquals("UTF-8", babbageResponse.getCharEncoding());
+    }
+
+    @Test
     public void getPageOfNonEditorialContentWithoutRedirect() throws Exception {
         // Given Zebedee returns a taxonomy_landing_page without a migrationLink
         byte[] pageData = generateData("taxonomy_landing_page", "", "Topic title");
