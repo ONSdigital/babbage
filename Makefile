@@ -5,7 +5,7 @@ ifneq ("$(wildcard $(NVM_SOURCE_PATH))","")
 endif
 NPM = $(NVM_EXEC) npm
 
-OSSINDEX_ERRORS = "Unable to contact OSS Index|authentication failed|401 Unauthorized|403 Forbidden|429 Too Many Requests|Too many requests|Rate limit|Unknown host|Connection refused|timed out|unreachable"
+OSSINDEX_ERRORS = "Unable to contact OSS Index|authentication failed|401 Unauthorized|403 Forbidden|429 Too Many Requests|Too many requests|Rate limit|Unknown host|Connection refused|timed out|unreachable|402 Payment Required"
 
 .PHONY: all
 all: audit test build
