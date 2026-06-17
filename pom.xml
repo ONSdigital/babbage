@@ -13,12 +13,26 @@
         <handlebars-markdown-java-version>4.2.0</handlebars-markdown-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dp-logging.version>v2.0.0-beta.16</dp-logging.version>
-        <fasterxml.jackson.version>2.16.1</fasterxml.jackson.version>
+        <fasterxml.jackson.version>2.21.4</fasterxml.jackson.version>
         <flying-saucer.version>9.4.1</flying-saucer.version>
         <mockito.version>3.12.4</mockito.version>
         <restolino.version>v0.8.3</restolino.version>
         <httpcomponents.version>5.3.1</httpcomponents.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Import the Jackson BOM to manage versions of Jackson dependencies as they move
+              at different rates - e.g. jackson-annotations does not have a 2.21.4 -->
+            <dependency>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
+                <version>${fasterxml.jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -200,32 +214,26 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-smile</artifactId>
-            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-cbor</artifactId>
-            <version>${fasterxml.jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
