@@ -12,7 +12,7 @@
         <handlebars-java-version>4.2.1</handlebars-java-version>
         <handlebars-markdown-java-version>4.2.0</handlebars-markdown-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dp-logging.version>v2.0.0-beta.16</dp-logging.version>
+        <dp-logging.version>v2.0.0-beta.18</dp-logging.version>
         <fasterxml.jackson.version>2.21.4</fasterxml.jackson.version>
         <flying-saucer.version>9.4.1</flying-saucer.version>
         <mockito.version>3.12.4</mockito.version>
