@@ -57,25 +57,26 @@ Babbage runs independently. However, it requires other services to run in web an
 can be used in `dp-compose`
 
 * In order to run it locally, with the other required services;
-  * For web mode, use [legacy-core-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/legacy-core-web)
-  * For publishing mode run Babbage
+    * For web mode, use [legacy-core-web](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/legacy-core-web)
+    * For publishing mode run Babbage
       with [homepage publishing](https://github.com/ONSdigital/dp-compose/tree/main/v2/stacks/homepage-publishing)
 
 ### Configuration
 
-| Environment variable           | Default                  | Description                                                                            |
-|--------------------------------|--------------------------|----------------------------------------------------------------------------------------|
-| CONTENT_SERVICE_MAX_CONNECTION | 50                       | The maximum number of connections Babbage can make to the content service              |
-| CONTENT_SERVICE_URL            | <http://localhost:8082>  | The URL to the content service (zebedee)                                               |
-| ENABLE_COVID19_FEATURE         |                          | Switch to use (or not) the covid feature                                               |
-| HIGHCHARTS_EXPORT_SERVER       | <http://localhost:9999/> | The URL to the highcharts export server                                                |
-| IS_PUBLISHING                  | N                        | Switch to use (or not) the publishing functionality                                    |
-| TABLE_RENDERER_HOST            | <http://localhost:23300> | The URL to the table renderer                                                          |
-| POOLED_CONNECTION_TIMEOUT      | 5000                     | The number of milliseconds to wait before closing expired connections                  |
-| IDLE_CONNECTION_TIMEOUT        | 60                       | The number of seconds to wait before closing idle connections                          |
-| OTEL_EXPORTER_OTLP_ENDPOINT    | <http://localhost:4317>  | URL for OpenTelemetry endpoint                                                         |
-| OTEL_SERVICE_NAME              |                          | Service name to report to telemetry tools                                              |
-| DEPRECATION_CONFIG             | []                       | See below                                                                              |
+| Environment variable           | Default                  | Description                                                               |
+|--------------------------------|--------------------------|---------------------------------------------------------------------------|
+| CONTENT_SERVICE_MAX_CONNECTION | 50                       | The maximum number of connections Babbage can make to the content service |
+| CONTENT_SERVICE_URL            | <http://localhost:8082>  | The URL to the content service (zebedee)                                  |
+| ENABLE_COVID19_FEATURE         |                          | Switch to use (or not) the covid feature                                  |
+| HIGHCHARTS_EXPORT_SERVER       | <http://localhost:9999/> | The URL to the highcharts export server                                   |
+| IS_PUBLISHING                  | N                        | Switch to use (or not) the publishing functionality                       |
+| TABLE_RENDERER_HOST            | <http://localhost:23300> | The URL to the table renderer                                             |
+| POOLED_CONNECTION_TIMEOUT      | 5000                     | The number of milliseconds to wait before closing expired connections     |
+| IDLE_CONNECTION_TIMEOUT        | 60                       | The number of seconds to wait before closing idle connections             |
+| OTEL_EXPORTER_OTLP_ENDPOINT    | <http://localhost:4317>  | URL for OpenTelemetry endpoint                                            |
+| OTEL_SERVICE_NAME              |                          | Service name to report to telemetry tools                                 |
+| DEPRECATION_CONFIG             | []                       | See below                                                                 |
+| SERVICE_AUTH_TOKEN             |                          | The service auth token for non user scoped requests                       | 
 
 #### DEPRECATION_CONFIG
 

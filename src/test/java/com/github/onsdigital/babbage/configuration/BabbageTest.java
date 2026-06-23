@@ -1,4 +1,5 @@
 package com.github.onsdigital.babbage.configuration;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.Before;
 import java.util.Map;
@@ -47,9 +48,10 @@ public class BabbageTest extends junit.framework.TestCase {
 
     @Test
     public void testGetServiceAuthToken() {
+        String envSvcToken = StringUtils.defaultIfBlank(System.getenv("SERVICE_AUTH_TOKEN"),"");
         Babbage testInstance = Babbage.getInstance();
         assertNotNull(testInstance.getServiceAuthToken());
-        assertEquals(testInstance.getServiceAuthToken(),"ahyofaem2ieVie6eipaX6ietigh1oeM0Aa1aiyaebiemiodaiJah0eenuchei1ai");
+        assertEquals(envSvcToken, testInstance.getServiceAuthToken());
     }
 
     @Test

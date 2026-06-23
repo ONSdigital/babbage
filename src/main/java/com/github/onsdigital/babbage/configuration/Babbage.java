@@ -20,7 +20,7 @@ public class Babbage implements AppConfig {
     private static final String IS_PUBLISHING_KEY = "IS_PUBLISHING";
     private static final String MAX_CACHE_ENTRIES = "CACHE_ENTRIES";
     private static final String MAX_OBJECT_SIZE = "CACHE_OBJECT_SIZE";
-    private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH";
+    private static final String SERVICE_AUTH_TOKEN = "SERVICE_AUTH_TOKEN";
     private static Babbage INSTANCE;
 
     static Babbage getInstance() {
@@ -61,8 +61,7 @@ public class Babbage implements AppConfig {
         maxResultsPerPage = 250;
         maxVisiblePaginatorLink = 5;
         resultsPerPage = 10;
-        serviceAuthToken = getValueOrDefault(SERVICE_AUTH_TOKEN,
-                "ahyofaem2ieVie6eipaX6ietigh1oeM0Aa1aiyaebiemiodaiJah0eenuchei1ai");
+        serviceAuthToken = getValueOrDefault(SERVICE_AUTH_TOKEN, "");
     }
 
     public String getApiRouterURL() {

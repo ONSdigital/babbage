@@ -30,7 +30,8 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
  */
 public class ContentClientCache {
     private static final String BearerPrefix = "Bearer ";
-    private static final String TOKEN_HEADER = "X-Florence-Token";
+    private static final String X_FLORENCE_TOKEN = "X-Florence-Token";
+    public static final String AUTHORIZATION = "Authorization";
 
     private static CacheHttpClient client;
     private static ContentClientCache instance;
@@ -123,12 +124,10 @@ public class ContentClientCache {
 
     //Reads collection cookie saved in thread context
     private Map<String, String> getHeaders() {
-        Map<String, String> cookies = (Map<String, String>) ThreadContext.getData("cookies");
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Authorization", BearerPrefix+appConfig().babbage().getServiceAuthToken());
-        if (cookies != null) {
-            headers.put(TOKEN_HEADER, cookies.get("access_token"));
-        }
+        String serviceAuthToken = BearerPrefix + appConfig().babbage().getServiceAuthToken();
+        headers.put(AUTHORIZATION, serviceAuthToken);
+        headers.put(X_FLORENCE_TOKEN, serviceAuthToken);
         return headers;
 
     }
