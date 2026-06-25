@@ -28,7 +28,7 @@ audit-js:
 
 .PHONY: build
 build:
-	$(NPM) install --prefix src/main/web --unsafe-perm
+	$(NPM) install --prefix src/main/web
 	mvn -Dmaven.test.skip -Dossindex.skip=true clean package dependency:copy-dependencies
 
 .PHONY: debug-web
