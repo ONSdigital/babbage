@@ -10,8 +10,8 @@
     },
     "scripts": {
         "build-js": "node ./node_modules/uglify-js/bin/uglifyjs $npm_package_config_js -o js/app.js",
-        "build-pretty-js": "uglifyjs $npm_package_config_js --source-map base --beautify --verbose -o js/app.js",
-        "watch-js": "chokidar 'npm run build-pretty-js' js/app/",
+        "build-pretty-js": "uglifyjs $npm_package_config_js --beautify --verbose -o js/app.js",
+        "watch-js": "chokidar 'js/app/**' -c 'npm run build-pretty-js'",
         "postinstall": "npm run build-js"
     },
     "repository": {
@@ -32,10 +32,10 @@
         "npm": ">=10.9.2"
     },
     "dependencies": {
-        "uglify-js": "latest"
+        "uglify-js": "^3.19.3"
     },
     "devDependencies": {
-        "chokidar-cli": "^2.1.0"
+        "chokidar-cli": "^3.0.0"
     },
     "overrides": {
         "picomatch": "^2.3.2"
