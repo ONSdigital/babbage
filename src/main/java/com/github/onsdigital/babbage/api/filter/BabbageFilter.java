@@ -21,7 +21,6 @@ public class BabbageFilter implements com.github.davidcarboni.restolino.framewor
                     new RequestLogFilter(),
                     new RequestContextFilter(),
                     new CorsFilter(),
-                    new UrlRedirectFilter(),
                     new ShortUrlFilter(),
                     new DeprecationFilter(appConfig().babbage().getDeprecationConfig()),
                     new StaticFilesFilter())
