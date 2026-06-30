@@ -20,28 +20,9 @@ public class RedirectException extends Exception {
 		 */
 		PROPERTIES_LOAD_ERROR("Unexpected error while attempting to load the URL redirect properties file."),
 		/**
-		 * Unexpected error while attempting to search the URL redirect mapping file.
-		 */
-		MAPPING_IO_ERROR("Unexpected error while attempting to read URL redirect mapping file."),
-		/**
-		 * Unexpected error while attempting to construct a RedirectURL.
-		 */
-		REDIRECT_URL_EXCEPTION("Unexpected error while attempting to construct a RedirectURL. %s"),
-		/**
 		 * Error for null/missing required parameters.
 		 */
-		REQUIRED_PARAM_MISSING("Mandatory parameter '%s' was null."),
-		/**
-		 * Unexpected error while performing URL redirect.
-		 */
-		REDIRECT_IO_ERROR("Unexpected error while performing URL redirect to '%s'"),
-		/**
-		 * Failed to classify which {@link RedirectCategory} the request URI belongs to.
-		 */
-		UNKNOWN_REDIRECT_CATEGORY("Invalid redirect URL. Could not determined redirect category for request URI '%s'. " +
-				"A Redirect URL must start with '/ons'."),
-
-		INVALID_REDIRECT_CATEGORY("Unexpected error. Expected Redirect category '%s' but was actually '%s'");
+		REQUIRED_PARAM_MISSING("Mandatory parameter '%s' was null.");
 
 		private final String message;
 
