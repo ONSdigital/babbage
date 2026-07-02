@@ -24,9 +24,8 @@
     1. [Proxying requests to Zebedee](#proxying-requests-to-zebedee)
     1. [Request filters](#request-filters)
         1. [CORS](#cors)
-        1. [Rewriting URLs](#rewriting-urls)
-        1. [URL shortcuts](#url-shortcuts)
-        1. [URL redirects](#url-redirects)
+        1. [Rewriting URLs](#x-urls)
+           1. [URL shortcuts](#url-shortcuts)
     1. [Static Files](#static-files)
     1. [Cookies](#cookies)
     1. [Multi-lingual](#multi-lingual)
@@ -175,10 +174,6 @@ Adds CORS headers onto requests.
 #### Rewriting URLs
 
 ##### URL Shortcuts
-
-TODO
-
-##### URL redirects
 
 TODO
 
