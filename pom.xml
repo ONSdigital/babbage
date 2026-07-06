@@ -19,7 +19,7 @@
         <flying-saucer.version>9.4.1</flying-saucer.version>
         <mockito.version>3.12.4</mockito.version>
         <restolino.version>v0.8.3</restolino.version>
-        <httpcomponents.version>5.3.1</httpcomponents.version>
+        <httpcomponents.version>5.6.2</httpcomponents.version>
     </properties>
 
     <dependencyManagement>
@@ -182,7 +182,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents.core5</groupId>
             <artifactId>httpcore5</artifactId>
-            <version>5.2.5</version>
+            <version>5.4.3</version>
         </dependency>
 
         <dependency>
