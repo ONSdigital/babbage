@@ -71,13 +71,6 @@
             <version>1.2.2</version>
         </dependency>
 
-        <!-- Taxonomy generator -->
-        <dependency>
-            <groupId>net.sf.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>2.3</version>
-        </dependency>
-
         <!-- PDF Generation -->
         <dependency>
             <groupId>org.dom4j</groupId>

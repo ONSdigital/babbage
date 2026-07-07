@@ -171,12 +171,6 @@ Requests are passed through 'request filters' to manipulate them in different wa
 
 Adds CORS headers onto requests.
 
-#### Rewriting URLs
-
-##### URL Shortcuts
-
-TODO
-
 ### Static Files
 
 Allows static visualisation files to be served directly from Babbage. Will always start with `/visualisations/`
