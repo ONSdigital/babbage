@@ -19,7 +19,7 @@
         <flying-saucer.version>9.4.1</flying-saucer.version>
         <mockito.version>3.12.4</mockito.version>
         <restolino.version>v0.8.3</restolino.version>
-        <httpcomponents.version>5.6.2</httpcomponents.version>
+        <httpcomponents.version>5.6.3</httpcomponents.version>
     </properties>
 
     <dependencyManagement>
