@@ -24,7 +24,7 @@ audit-java:
 
 .PHONY: audit-js
 audit-js:
-	$(NPM) audit --prefix src/main/web --audit-level=high
+	cd src/main/web; $(NPM) run audit
 
 .PHONY: build
 build:
