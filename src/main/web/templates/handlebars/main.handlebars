@@ -12,8 +12,7 @@
         {{#if_any (eq type "bulletin") (eq type "article") (eq type "compendium_landing_page") (eq type "compendium_chapter")}}
             <link rel="canonical" href="{{uri}}" />
         {{/if_any}}
-        <link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/7aebff0
- {{/if}}/css/main.css">
+        <link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/7aebff0{{/if}}/css/main.css">
 		{{#if pdf_style}}<link rel="stylesheet" type="text/css" href="{{#if is_dev}}http://localhost:9000/dist{{else}}//cdn.ons.gov.uk/sixteens/7aebff0
  {{/if}}/css/pdf.css">{{/if}}
 
