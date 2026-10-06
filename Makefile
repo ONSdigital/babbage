@@ -23,12 +23,18 @@ audit-java:
 	exit $$status
 
 .PHONY: audit-js
-audit-js:
+audit-js: build-js
 	cd src/main/web; $(NPM) run audit
 
 .PHONY: build
-build:
+build: build-js build-java
+
+.PHONY: build-js
+build-js:
 	$(NPM) install --prefix src/main/web
+
+.PHONY: build-java
+build-java:
 	mvn -Dmaven.test.skip -Dossindex.skip=true clean package dependency:copy-dependencies
 
 .PHONY: debug-web
