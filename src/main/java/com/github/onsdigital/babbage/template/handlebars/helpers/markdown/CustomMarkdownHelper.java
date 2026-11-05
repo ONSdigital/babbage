@@ -1,7 +1,6 @@
 package com.github.onsdigital.babbage.template.handlebars.helpers.markdown;
 
 import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.MarkdownHelper;
 import com.github.jknack.handlebars.Options;
 import com.github.onsdigital.babbage.template.handlebars.helpers.base.BabbageHandlebarsHelper;
 import com.github.onsdigital.babbage.template.handlebars.helpers.markdown.util.*;
@@ -18,7 +17,7 @@ import java.util.LinkedHashMap;
  * <p/>
  * Extending functionality of Handlebars java markdown helper
  */
-public class CustomMarkdownHelper extends MarkdownHelper implements BabbageHandlebarsHelper<Object> {
+public class CustomMarkdownHelper implements BabbageHandlebarsHelper<Object> {
 
     private final String HELPER_NAME = "md";
 
