@@ -2,9 +2,9 @@ package com.github.onsdigital.babbage.template.handlebars;
 
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.HumanizeHelper;
 import com.github.jknack.handlebars.Jackson2Helper;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.ValueResolver;
 import com.github.jknack.handlebars.cache.HighConcurrencyTemplateCache;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
@@ -18,6 +18,7 @@ import org.reflections.util.ConfigurationBuilder;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +33,30 @@ import static com.github.onsdigital.logging.v2.event.SimpleEvent.info;
  */
 public class HandlebarsRenderer {
 
+    private static final ValueResolver TEMPLATE_VALUE_RESOLVER = new ValueResolver() {
+        @Override
+        public Object resolve(Object context, String name) {
+            // JDK container fields are not accessible in Handlebars 4.3.1.
+            if (context instanceof Map) {
+                return "size".equals(name) ? ((Map<?, ?>) context).size() : UNRESOLVED;
+            }
+            if (context instanceof Collection) {
+                return "size".equals(name) ? ((Collection<?>) context).size() : UNRESOLVED;
+            }
+            return FieldValueResolver.INSTANCE.resolve(context, name);
+        }
+
+        @Override
+        public Object resolve(Object context) {
+            return FieldValueResolver.INSTANCE.resolve(context);
+        }
+
+        @Override
+        public Set<Map.Entry<String, Object>> propertySet(Object context) {
+            return FieldValueResolver.INSTANCE.propertySet(context);
+        }
+    };
+
     private Handlebars handlebars;
 
     public HandlebarsRenderer(String templatesDirectory, String templatesSuffix, boolean reload) {
@@ -42,8 +67,6 @@ public class HandlebarsRenderer {
     private void initializeHelpers() {
         // String helpers
         StringHelpers.register(handlebars);
-        // Humanize helpers
-        HumanizeHelper.register(handlebars);
         //Assign helper
         handlebars.registerHelper(AssignHelper.NAME, AssignHelper.INSTANCE);
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
@@ -64,7 +87,7 @@ public class HandlebarsRenderer {
 
         Context.Builder builder = Context
                 .newBuilder(data)
-                .resolver(MapValueResolver.INSTANCE, FieldValueResolver.INSTANCE);
+                .resolver(MapValueResolver.INSTANCE, TEMPLATE_VALUE_RESOLVER);
 
         if (additionalData != null) {
             for (Map.Entry<String, Object> entry : additionalData.entrySet()) {

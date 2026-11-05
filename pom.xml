@@ -9,10 +9,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <!-- If moving beyond version 4.2.1 there is a dependency on handlebars-humanize that 
-         must be resolved -->
-        <handlebars-java-version>4.2.1</handlebars-java-version>
-        <handlebars-markdown-java-version>4.2.0</handlebars-markdown-java-version>
+        <handlebars-java-version>4.3.1</handlebars-java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <dp-logging.version>v2.1.0</dp-logging.version>
         <fasterxml.jackson.version>2.22.4</fasterxml.jackson.version>
@@ -164,6 +161,7 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- The test MockMaker resource enables inline mocking for final HTTP response classes. -->
 
         <dependency>
             <groupId>org.apache.httpcomponents.core5</groupId>
@@ -306,18 +304,6 @@
                     <!-- if CVSS >= 7.0 (critical) then ERROR else WARN -->
                     <fail>true</fail>
                     <cvssScoreThreshold>7.0</cvssScoreThreshold>
-                    <excludeCoordinates>
-                        <!--
-                            Jira Ticket to resolve: DIS-3662
-                            This is to exclude vulnerability CVE-2023-2976
-                        -->
-                        <exclude>
-                            <groupId>com.google.guava</groupId>
-                            <artifactId>guava</artifactId>
-                            <version>23.0</version>
-                        </exclude>
-                        <!-- End exclusion for DIS-3662 -->
-                    </excludeCoordinates>
                     <excludeVulnerabilityIds>
                         <!-- Note - OSS Index suppressions are global, not per dependency -->
                         <!--
