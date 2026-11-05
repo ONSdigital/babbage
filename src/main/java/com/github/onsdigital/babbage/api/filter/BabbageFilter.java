@@ -1,6 +1,7 @@
 package com.github.onsdigital.babbage.api.filter;
 
-import com.google.common.collect.ImmutableList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,14 +17,13 @@ import static com.github.onsdigital.babbage.configuration.ApplicationConfigurati
  */
 public class BabbageFilter implements com.github.davidcarboni.restolino.framework.PreFilter {
 
-    private static final List<Filter> filters = new ImmutableList.Builder<Filter>()
-            .add(
-                    new RequestLogFilter(),
-                    new RequestContextFilter(),
-                    new CorsFilter(),
-                    new DeprecationFilter(appConfig().babbage().getDeprecationConfig()),
-                    new StaticFilesFilter())
-            .build();
+    private static final List<Filter> filters = Collections.unmodifiableList(Arrays.asList(
+            new RequestLogFilter(),
+            new RequestContextFilter(),
+            new CorsFilter(),
+            new DeprecationFilter(appConfig().babbage().getDeprecationConfig()),
+            new StaticFilesFilter()
+    ));
 
     @Override
     public boolean filter(HttpServletRequest request, HttpServletResponse response) {
