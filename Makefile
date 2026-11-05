@@ -11,7 +11,7 @@ OSSINDEX_ERRORS = "Unable to contact OSS Index|authentication failed|401 Unautho
 all: audit test build
 
 .PHONY: audit
-audit : audit-java audit-js
+audit: audit-java audit-js
 
 .PHONY: audit-java
 audit-java:
