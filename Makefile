@@ -10,6 +10,10 @@ OSSINDEX_ERRORS = "Unable to contact OSS Index|authentication failed|401 Unautho
 .PHONY: all
 all: audit test build
 
+.PHONY: analyze-dependencies
+analyze-dependencies:
+	mvn -Dossindex.skip=true -DfailOnWarning=true dependency:analyze 
+
 .PHONY: audit
 audit: audit-java audit-js
 
